@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>FooterText</key>
+			<string>DiDa Memos
+
+Version 1.1.2
+✯ Specified an Application&apos;s settings.
+
+Version 1.1.1
+✯ UI optimized
+︎✦ Corrected an error for location information
+︎✦ Fixed issue with passcode-lock stops recording
+
+Version 1.1.0
+✯ passcode and Touch ID used for user authentication
+
+Version 1.0.4
+✯ optimized for iPhone 6 and iPhone 6 Plus
+
+Version 1.0.3
+︎✦ adjust UI layout for iOS 6.x
+
+Version 1.0.2
+︎✦ Fixed issue with time labels are not aligned
+✯ optimized for iphone 5s arm64
+
+Version 1.0.1
+︎✦ Fixed time labels not be displayed correctly on horizontal slider
+︎✦ Fixed bug: record blocking after playing a voice memo
+
+Version 1.0.0
+✯ Initial release</string>
+		</dict>
+	</array>
+</dict>
+</plist>

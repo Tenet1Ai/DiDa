@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>FooterText</key>
+			<string>POVoiceHUD
+
+(https://github.com/polatolu/POVoiceHUD)
+POVoiceHUD is a HUD for voice recording on iOS devices. Its interface designed like Google Translate's Voice Input interface on mobile applications. It currently records 20 seconds of voice input and stores in a local file on the device. If user stops talking before 20 seconds, it stops recording.
+
+Contribution
+
+Anyone is free to use this project in both open source and commercial projects.
+			</string>
+		</dict>
+	</array>
+</dict>
+</plist>

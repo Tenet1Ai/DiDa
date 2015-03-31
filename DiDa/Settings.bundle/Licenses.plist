@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>FooterText</key>
+			<string>Open source projects in the DiDa app</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>MMDrawerController</string>
+			<key>File</key>
+			<string>MMDrawerController</string>
+		</dict>
+		<dict>
+			<key>New item</key>
+			<dict>
+				<key>Type</key>
+				<string>PSChildPaneSpecifier</string>
+				<key>Title</key>
+				<string>DMPasscode</string>
+				<key>File</key>
+				<string>DMPasscode</string>
+			</dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>POVoiceHUD</string>
+			<key>File</key>
+			<string>POVoiceHUD</string>
+		</dict>
+		<dict>
+			<key>New item</key>
+			<dict>
+				<key>Type</key>
+				<string>PSChildPaneSpecifier</string>
+				<key>Title</key>
+				<string>DMPasscode</string>
+				<key>File</key>
+				<string>DMPasscode</string>
+			</dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>DMPasscode</string>
+			<key>File</key>
+			<string>DMPasscode</string>
+		</dict>
+		<dict>
+			<key>New item</key>
+			<dict>
+				<key>Type</key>
+				<string>PSChildPaneSpecifier</string>
+				<key>Title</key>
+				<string>DMPasscode</string>
+				<key>File</key>
+				<string>DMPasscode</string>
+			</dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>FDWaveformView</string>
+			<key>File</key>
+			<string>FDWaveformView</string>
+		</dict>
+	</array>
+</dict>
+</plist>
