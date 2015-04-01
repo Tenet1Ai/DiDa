@@ -18,3 +18,16 @@ https://itunes.apple.com/us/app/dida/id735264364?mt=8
 <b>DMPasscode</b> [D-32/DMPasscode](https://github.com/D-32/DMPasscode)
 
 <b>POVoiceHUD</b> [polatolu/POVoiceHUD](https://github.com/polatolu/POVoiceHUD)
+
+## Requirements
+
+- iOS 7.x, iOS 8.x
+- Automatic Reference Counting (ARC)
+
+## Author
+
+- [Bruce Yee / 易斌](https://github.com/bruceyibin) ([@YiiBin](https://twitter.com/YiiBin))
+
+## License
+
+DiDa is released under the MIT license. See the LICENSE file for more info.
