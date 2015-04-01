@@ -70,7 +70,7 @@
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     switch (section) {
         case 0:
-            return NSLocalizedString(@"Voice Output", nil);
+            return NSLocalizedString(@"Output", nil);
         case 1:
             return NSLocalizedString(@"View", nil);
         case 2:

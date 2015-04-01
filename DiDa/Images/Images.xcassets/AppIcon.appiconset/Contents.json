@@ -117,14 +117,14 @@
     {
       "size" : "120x120",
       "idiom" : "car",
-      "filename" : "icon_60x60@2x-1.png",
+      "filename" : "icon_120x120@1x.png",
       "scale" : "1x"
     },
     {
       "size" : "24x24",
       "idiom" : "watch",
       "scale" : "2x",
-      "filename" : "icon_48x48.png",
+      "filename" : "icon_48x48@1x.png",
       "role" : "notificationCenter",
       "subtype" : "38mm"
     },
@@ -132,7 +132,7 @@
       "size" : "27.5x27.5",
       "idiom" : "watch",
       "scale" : "2x",
-      "filename" : "icon_55x55.png",
+      "filename" : "icon_55x55@1x.png",
       "role" : "notificationCenter",
       "subtype" : "42mm"
     },
