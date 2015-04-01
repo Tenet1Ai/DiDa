@@ -25,7 +25,7 @@
         self.inputKeyboardAppearance = UIKeyboardAppearanceDefault;
         self.errorFont = [UIFont systemFontOfSize:14];
         self.instructionsFont = [UIFont systemFontOfSize:16];
-        self.navigationBarTitle = @"Enter Passcode";
+        self.navigationBarTitle = NSLocalizedString(@"Enter Passcode", nil);
         self.navigationBarFont = [UIFont systemFontOfSize:16];
         self.navigationBarTitleColor = [UIColor darkTextColor];
     }

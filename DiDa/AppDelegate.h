@@ -3,7 +3,7 @@
 //  DiDa
 //
 //  Created by Bruce Yee on 10/16/13.
-//  Copyright (c) 2013 Bruce Yee. All rights reserved.
+//  Copyright (c) 2013-2015 Bruce Yee. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

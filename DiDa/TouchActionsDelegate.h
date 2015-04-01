@@ -12,8 +12,8 @@
 @protocol TouchActionsDelegate <NSObject>
 
 @optional
+
 - (void)touchedPlayButton:(NSInteger)tag path:(NSString *)pathString sender:(id)sender;
-//- (void)change
 - (void)touchedDeleteButton:(NSInteger)tag title:(NSString *)title isInView:(BOOL)flag;
 - (void)touchedShareButton:(NSInteger)tag title:(NSString *)title;
 - (void)touchedDetailButton:(NSInteger)tag title:(NSString *)title;

@@ -163,7 +163,6 @@
         if ([audioPlayer isPlaying]) {
             if (appDelegate.outputDevice == 0) {
                 if (![session.category isEqualToString:AVAudioSessionCategoryPlayback]) {
-                    DLog(@"");
                     [session setCategory:AVAudioSessionCategoryPlayback error:nil];
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
                     UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
@@ -174,7 +173,6 @@
                 }
             } else {
                 if (![session.category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
-                    DLog(@"");
                     [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
                     UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
@@ -357,12 +355,12 @@
 - (IBAction)touchDeleteButton:(id)sender {
     NSString *titleString = nil;
     if (memoTextField.text && memoTextField.text.length > 0) {
-        titleString = [NSString stringWithFormat:@"Delete “%@”", memoTextField.text];
+        titleString = [NSString stringWithFormat:NSLocalizedString(@"Delete “%@”", nil), memoTextField.text];
     } else {
-        titleString = [NSString stringWithFormat:@"Delete"];
+        titleString = [NSString stringWithFormat:NSLocalizedString(@"Delete", nil)];
     }
     UIActionSheet *myActionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self
-                                                     cancelButtonTitle:@"Cancel"
+                                                     cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                                                 destructiveButtonTitle:titleString otherButtonTitles:nil, nil];
     [myActionSheet showInView:self.view];
 }

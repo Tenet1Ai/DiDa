@@ -26,10 +26,10 @@
     [super viewWillAppear:animated];
     BOOL passcodeSet = [DMPasscode isPasscodeSet];
     if (passcodeSet == YES) {
-        [passcodeButton setTitle:@"Change Passcode" forState:UIControlStateNormal];
+        [passcodeButton setTitle:NSLocalizedString(@"Change Passcode", nil) forState:UIControlStateNormal];
         offButton.hidden = NO;
     } else {
-        [passcodeButton setTitle:@"Setup Passcode" forState:UIControlStateNormal];
+        [passcodeButton setTitle:NSLocalizedString(@"Setup Passcode", nil) forState:UIControlStateNormal];
         offButton.hidden = YES;
     }
 }
@@ -45,7 +45,6 @@
 
 - (IBAction)tapSetupButton:(id)sender {
     [DMPasscode setupPasscodeInViewController:self completion:^(BOOL success, NSError *error) {
-        DLog(@"");
     }];
 }
 

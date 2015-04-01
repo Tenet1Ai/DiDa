@@ -1,3 +1,72 @@
 
-/* Class = "IBUINavigationItem"; title = "DiDa Memos"; ObjectID = "DLx-SA-ygI"; */
-"DLx-SA-ygI.title" = "DiDa Memos";
+/* Class = "UILabel"; text = "0:00"; ObjectID = "0RA-KX-0tQ"; */
+"0RA-KX-0tQ.text" = "0:00";
+
+/* Class = "UIButton"; normalTitle = "Setup Passcode"; ObjectID = "7YR-NL-GuS"; */
+"7YR-NL-GuS.normalTitle" = "设置密码";
+
+/* Class = "UINavigationItem"; title = "Options"; ObjectID = "7yy-oX-hJN"; */
+"7yy-oX-hJN.title" = "选项";
+
+/* Class = "UIButton"; normalTitle = "Turn Passcode Off"; ObjectID = "9V3-QJ-7w1"; */
+"9V3-QJ-7w1.normalTitle" = "关闭密码保护";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "CHG-yw-QQ0"; */
+"CHG-yw-QQ0.normalTitle" = "Button";
+
+/* Class = "UINavigationItem"; title = "DiDa Memos"; ObjectID = "DLx-SA-ygI"; */
+"DLx-SA-ygI.title" = "嘀嗒";
+
+/* Class = "UILabel"; text = "Memo Title"; ObjectID = "GWM-ew-YOB"; */
+"GWM-ew-YOB.text" = "Memo Title";
+
+/* Class = "UILabel"; text = "Date"; ObjectID = "Jrr-eV-hdD"; */
+"Jrr-eV-hdD.text" = "日期";
+
+/* Class = "UILabel"; text = "\""; ObjectID = "OGU-cp-mqC"; */
+"OGU-cp-mqC.text" = "\"";
+
+/* Class = "UINavigationItem"; title = "Memo Detail"; ObjectID = "Q6W-Ui-KGH"; */
+"Q6W-Ui-KGH.title" = "详情";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "QOk-ii-NbK"; */
+"QOk-ii-NbK.normalTitle" = "完成";
+
+/* Class = "UINavigationItem"; title = "Recorder"; ObjectID = "QiB-4J-Jhi"; */
+"QiB-4J-Jhi.title" = "录音机";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "V9s-2p-lQa"; */
+"V9s-2p-lQa.normalTitle" = "完成";
+
+/* Class = "UILabel"; text = "Location"; ObjectID = "ax3-UL-PJf"; */
+"ax3-UL-PJf.text" = "位置";
+
+/* Class = "UILabel"; text = "\""; ObjectID = "buw-ED-DxR"; */
+"buw-ED-DxR.text" = "\"";
+
+/* Class = "UILabel"; text = "Date"; ObjectID = "fSN-Y8-u7i"; */
+"fSN-Y8-u7i.text" = "日期";
+
+/* Class = "UILabel"; text = "-0:00"; ObjectID = "g2y-FV-dCx"; */
+"g2y-FV-dCx.text" = "-0:00";
+
+/* Class = "UIButton"; normalTitle = "Detail"; ObjectID = "g9t-CB-BUe"; */
+"g9t-CB-BUe.normalTitle" = "详情";
+
+/* Class = "UINavigationItem"; title = "Passcode"; ObjectID = "hbC-D1-mYz"; */
+"hbC-D1-mYz.title" = "密码";
+
+/* Class = "UILabel"; text = "Memo Title"; ObjectID = "iKB-xs-c9p"; */
+"iKB-xs-c9p.text" = "Memo Title";
+
+/* Class = "UINavigationItem"; title = "About"; ObjectID = "lDn-kW-v0P"; */
+"lDn-kW-v0P.title" = "关于";
+
+/* Class = "UILabel"; text = "Location"; ObjectID = "oq0-Am-YZF"; */
+"oq0-Am-YZF.text" = "位置";
+
+/* Class = "UILabel"; text = "0:00"; ObjectID = "prg-4J-MiI"; */
+"prg-4J-MiI.text" = "0:00";
+
+/* Class = "UILabel"; text = "-0:00"; ObjectID = "sOj-AL-oHb"; */
+"sOj-AL-oHb.text" = "-0:00";

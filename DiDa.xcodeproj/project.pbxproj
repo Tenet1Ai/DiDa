@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		230587051AB81D6C006A74A2 /* DMPasscode.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 230587041AB81D6C006A74A2 /* DMPasscode.bundle */; };
 		230AB2E4182256C9009220AC /* UIDevice+Resolutions.m in Sources */ = {isa = PBXBuildFile; fileRef = 230AB2E3182256C9009220AC /* UIDevice+Resolutions.m */; };
 		230BC7871811592A005FAC71 /* VisualStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 230BC7861811592A005FAC71 /* VisualStateManager.m */; };
 		231A77F2180EB95900658141 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 231A77F1180EB95900658141 /* Foundation.framework */; };
@@ -46,6 +45,7 @@
 		238A294F18114F0D00CAA7AB /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 238A294E18114F0D00CAA7AB /* RightViewController.m */; };
 		238A29521811518E00CAA7AB /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 238A29511811518E00CAA7AB /* NavigationController.m */; };
 		238C1E68181315EA0090AA6E /* FileSHA1Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = 238C1E66181315EA0090AA6E /* FileSHA1Hash.c */; };
+		2397AA391ACB8F4E004F066B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2397AA3B1ACB8F4E004F066B /* Localizable.strings */; };
 		23B7C73A1AB801D700FC74EB /* PasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B7C7391AB801D700FC74EB /* PasscodeViewController.m */; };
 		23B7C7481AB81A3800FC74EB /* DMKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B7C73D1AB81A3800FC74EB /* DMKeychain.m */; };
 		23B7C7491AB81A3800FC74EB /* DMPasscode.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B7C73F1AB81A3800FC74EB /* DMPasscode.m */; };
@@ -67,7 +67,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		230587041AB81D6C006A74A2 /* DMPasscode.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DMPasscode.bundle; sourceTree = "<group>"; };
 		230AB2E2182256C9009220AC /* UIDevice+Resolutions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Resolutions.h"; sourceTree = "<group>"; };
 		230AB2E3182256C9009220AC /* UIDevice+Resolutions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Resolutions.m"; sourceTree = "<group>"; };
 		230BC7851811592A005FAC71 /* VisualStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualStateManager.h; sourceTree = "<group>"; };
@@ -92,10 +91,7 @@
 		231A781C180EB95900658141 /* DiDaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiDaTests.m; sourceTree = "<group>"; };
 		231A7826180EB9C000658141 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		231A7828180EB9CD00658141 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		231A784E180EFD1700658141 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
-		231A784F180EFD1700658141 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		231A7850180EFD1700658141 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		231A7852180EFE1B00658141 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		232C8E2C181CC7EF0019C1F5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		232C8E40181F82BF0019C1F5 /* PlayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayTableViewCell.h; sourceTree = "<group>"; };
 		232C8E41181F82BF0019C1F5 /* PlayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayTableViewCell.m; sourceTree = "<group>"; };
@@ -131,6 +127,11 @@
 		238A29511811518E00CAA7AB /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		238C1E66181315EA0090AA6E /* FileSHA1Hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FileSHA1Hash.c; sourceTree = "<group>"; };
 		238C1E67181315EA0090AA6E /* FileSHA1Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSHA1Hash.h; sourceTree = "<group>"; };
+		2397AA361ACB8E40004F066B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		2397AA3C1ACB8F66004F066B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2397AA3D1ACB8F68004F066B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		2397AA3F1ACB8FFE004F066B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		2397AA411ACB9011004F066B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		23A8B03C182CB9A8005CE658 /* Records 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Records 2.xcdatamodel"; sourceTree = "<group>"; };
 		23B7C7381AB801D700FC74EB /* PasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasscodeViewController.h; sourceTree = "<group>"; };
 		23B7C7391AB801D700FC74EB /* PasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasscodeViewController.m; sourceTree = "<group>"; };
@@ -244,6 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				231A77F9180EB95900658141 /* DiDa-Info.plist */,
+				2397AA3B1ACB8F4E004F066B /* Localizable.strings */,
 				231A77FA180EB95900658141 /* InfoPlist.strings */,
 				231A77FD180EB95900658141 /* main.m */,
 				231A77FF180EB95900658141 /* DiDa-Prefix.pch */,
@@ -337,7 +339,6 @@
 		23B7C73B1AB81A3800FC74EB /* DMPasscode */ = {
 			isa = PBXGroup;
 			children = (
-				230587041AB81D6C006A74A2 /* DMPasscode.bundle */,
 				23B7C73C1AB81A3800FC74EB /* DMKeychain.h */,
 				23B7C73D1AB81A3800FC74EB /* DMKeychain.m */,
 				23B7C73E1AB81A3800FC74EB /* DMPasscode.h */,
@@ -447,9 +448,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				230587051AB81D6C006A74A2 /* DMPasscode.bundle in Resources */,
 				231A780A180EB95900658141 /* Images.xcassets in Resources */,
 				23322ECB18216D8B00102E9C /* about.html in Resources */,
+				2397AA391ACB8F4E004F066B /* Localizable.strings in Resources */,
 				231A77FC180EB95900658141 /* InfoPlist.strings in Resources */,
 				2371F2041AC521170097E4A2 /* Settings.bundle in Resources */,
 				231A7805180EB95900658141 /* Main.storyboard in Resources */,
@@ -469,14 +470,14 @@
 /* Begin PBXShellScriptBuildPhase section */
 		23E6ECFE19A5D60A004112AA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/bash;
 			shellScript = "#!/bin/bash\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\nSETTINGSPLIST_FILE=\"${SRCROOT}/DiDa/Settings.bundle/Root.plist\"\nversionNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INFOPLIST_FILE\")\nversionString=\"${versionNumber} (${buildNumber})\"\n/usr/libexec/PlistBuddy -c \"Set ::PreferenceSpecifiers:1:DefaultValue $versionString\" \"$SETTINGSPLIST_FILE\"";
 		};
@@ -567,7 +568,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				231A77FB180EB95900658141 /* en */,
-				231A784F180EFD1700658141 /* zh-Hans */,
+				2397AA361ACB8E40004F066B /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -576,8 +577,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				231A7804180EB95900658141 /* Base */,
-				231A784E180EFD1700658141 /* zh-Hans */,
-				231A7852180EFE1B00658141 /* en */,
+				2397AA3F1ACB8FFE004F066B /* en */,
+				2397AA411ACB9011004F066B /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -589,6 +590,15 @@
 				231A7850180EFD1700658141 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2397AA3B1ACB8F4E004F066B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2397AA3C1ACB8F66004F066B /* en */,
+				2397AA3D1ACB8F68004F066B /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

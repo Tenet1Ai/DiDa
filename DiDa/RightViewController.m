@@ -92,10 +92,7 @@ static double ee = 0.00669342162296594323;
             topLayoutConstraint.constant = 88;
         }
     }
-    
-//    [self.navigationController.navigationBar setHidden:YES];
-//    [self setTitle:@"Recorder"];
-//    [self.navigationItem setBackBarButtonItem:];
+
     playPauseButton.layer.cornerRadius = 20.0f;
     playPauseButton.layer.borderWidth = 2;
     playPauseButton.layer.borderColor = [[UIColor colorWithRed:219.f/255.0
@@ -118,7 +115,7 @@ static double ee = 0.00669342162296594323;
 
 //    UIImage *img = [UIImage imageNamed:@"back.png"];
 //    [self.view setBackgroundColor:[UIColor colorWithPatternImage:img]];
-    // 判断定位操作是否被允许
+
     if ([CLLocationManager locationServicesEnabled]) {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
@@ -230,9 +227,6 @@ static double ee = 0.00669342162296594323;
         self.longitude = coordinate2D.longitude;
     }
 
-//    CLLocation *current = [[CLLocation alloc] initWithLatitude:32.178722 longitude:119.508619];
-//    CLLocation *before = [[CLLocation alloc] initWithLatitude:32.206340 longitude:119.425600];
-//    CLLocationDistance meters = [current distanceFromLocation:before];
     [self.localGeocoder reverseGeocodeLocation:currentLocation
                              completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error == nil &&[placemarks count] > 0){
@@ -354,7 +348,7 @@ static double ee = 0.00669342162296594323;
             DLog(@"sha1 string: %@ length: %lu", hashString, (unsigned long)hashString.length);
             if (hashString.length > 0) {
                 NSString *destFilePath = [NSString stringWithFormat:@"%@/Documents/%@.m4a", NSHomeDirectory(), hashString];
-                NSLog(@"new file path: %@", destFilePath);
+                DLog(@"new file path: %@", destFilePath);
                 NSFileManager *fm = [NSFileManager defaultManager];
                 NSError *error = nil;
                 if ([fm moveItemAtPath:filePath toPath:destFilePath error:&error] == YES) {
@@ -366,13 +360,13 @@ static double ee = 0.00669342162296594323;
                     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                     [formatter setDateFormat:@"YYYY-MM-d HH:mm:ss"];
                     [formatter setTimeZone:timezone];
-//                    NSString *correctDate = [formatter stringFromDate:creationDate];
-//                    DLog(@"%@ %.5f", correctDate, self.voiceWaveView.recordTime);
                     self.creationDate = creationDate;
                     self.hashString = hashString;
                     
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Save Voice Memo" message:nil
-                                                                       delegate:self cancelButtonTitle:@"Delete" otherButtonTitles:@"Save", nil];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Save Memo", nil)
+                                                                                                  message:nil delegate:self
+                                                              cancelButtonTitle:NSLocalizedString(@"Delete", nil)
+                                                              otherButtonTitles:NSLocalizedString(@"Save", nil), nil];
 
                     alertView.tag = TagAlertSave;
                     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
@@ -431,9 +425,10 @@ static double ee = 0.00669342162296594323;
         promptString = textField.text;
         DLog(@"prompt: %@", promptString);
         if (buttonIndex == 0) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Delete Recording"
-                                                                message:@"Are you sure you want to delete this voice memo?"
-                                                               delegate:self cancelButtonTitle:@"Delete" otherButtonTitles:@"Cancel", nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Memo", nil)
+                                                                message:NSLocalizedString(@"Are you sure you want to delete this memo?", nil)
+                                                               delegate:self cancelButtonTitle:NSLocalizedString(@"Delete", nil)
+                                                      otherButtonTitles:NSLocalizedString(@"Cancel", nil), nil];
             alertView.tag = TagAlertDelete;
             [alertView show];
         } else if (buttonIndex == 1) {

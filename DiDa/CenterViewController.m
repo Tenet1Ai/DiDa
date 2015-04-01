@@ -3,7 +3,7 @@
 //  DiDa
 //
 //  Created by Bruce Yee on 10/18/13.
-//  Copyright (c) 2013 Bruce Yee. All rights reserved.
+//  Copyright (c) 2013-2015 Bruce Yee. All rights reserved.
 //
 
 #import "CenterViewController.h"
@@ -73,11 +73,9 @@
     currentTime = 0.0;
     filePathString = nil;
     audioPlayer = nil;
-    DLog(@"");
 }
 
 - (void)refreshTableData {
-    DLog(@"");
     _fetchedResultsController = nil;
     [self.tableView reloadData];
 }
@@ -105,7 +103,6 @@
     } else {
         selectedRow = -1;
         tagSelected = -1;
-        DLog(@"");
         [self.tableView reloadData];
         return YES;
     }
@@ -178,7 +175,6 @@
         }
     } else {
         if (![audioSession.category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
-            DLog(@"");
             [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
             UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
@@ -203,7 +199,6 @@
         NSURL *pathURL = [NSURL fileURLWithPath:filePath];
         NSError *error = nil;
         audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:pathURL error:&error];
-        DLog(@"new alloc");
         audioPlayer.delegate = self;
         [audioPlayer prepareToPlay];
         filePathString = pathString;
@@ -275,7 +270,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-//    DLog(@"");
     return [[self.fetchedResultsController sections] count];
 }
 
@@ -298,7 +292,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == selectedRow) {
-        DLog(@"");
         static NSString *kPlayCellID = @"PlayCellID";
         PlayTableViewCell *cell = (PlayTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kPlayCellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -511,7 +504,6 @@ const int numberOfSharedItems = 5;
         NSURL *fileURL = [NSURL fileURLWithPath:newFilePath];
         if (fileURL) {
             activityItems = @[title, fileURL];
-            DLog(@"");
         } else {
             activityItems = @[title];
         }
@@ -543,7 +535,6 @@ const int numberOfSharedItems = 5;
 }
 
 - (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController {
-    //    DLog(@"");
     static UIActivityViewController *shareController;
     static int itemNo;
     if (shareController == activityViewController && itemNo < numberOfSharedItems - 1) {
@@ -650,7 +641,6 @@ const int numberOfSharedItems = 5;
         id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
         numberOfRows = [sectionInfo numberOfObjects];
         if (numberOfRows > originalRows) {
-//            DLog(@"");
             flag = 1;
         }
     }
@@ -701,7 +691,7 @@ const int numberOfSharedItems = 5;
             // during development. If it is not possible to recover from the error, display an alert
             // panel that instructs the user to quit the application by pressing the Home button.
             //
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            DLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
     }
@@ -772,7 +762,7 @@ const int numberOfSharedItems = 5;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
         // Handle error
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();
     }
     return _persistentStoreCoordinator;

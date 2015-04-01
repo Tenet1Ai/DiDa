@@ -3,7 +3,7 @@
 //  DiDa
 //
 //  Created by Bruce Yee on 10/18/13.
-//  Copyright (c) 2013 Bruce Yee. All rights reserved.
+//  Copyright (c) 2013-2015 Bruce Yee. All rights reserved.
 //
 
 #import "LeftViewController.h"
@@ -70,11 +70,11 @@
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     switch (section) {
         case 0:
-            return @"Voice Output";
+            return NSLocalizedString(@"Voice Output", nil);
         case 1:
-            return @"Data Sort";
+            return NSLocalizedString(@"View", nil);
         case 2:
-            return @"Settings";
+            return NSLocalizedString(@"Settings", nil);
         default:
             return nil;
     }
@@ -104,10 +104,10 @@
         case 0:
             switch (indexPath.row) {
                 case 0:
-                    [cell.textLabel setText:@"Speaker"];
+                    [cell.textLabel setText:NSLocalizedString(@"Speaker", nil)];
                     break;
                 case 1:
-                    [cell.textLabel setText:@"Headset"];
+                    [cell.textLabel setText:NSLocalizedString(@"Headset", nil)];
                     break;
                 default:
                     break;
@@ -123,10 +123,10 @@
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    [cell.textLabel setText:@"Descending"];
+                    [cell.textLabel setText:NSLocalizedString(@"Descending", nil)];
                     break;
                 case 1:
-                    [cell.textLabel setText:@"Ascending"];
+                    [cell.textLabel setText:NSLocalizedString(@"Ascending", nil)];
                     break;
                 default:
                     break;
@@ -142,13 +142,13 @@
         case 2:
             switch (indexPath.row) {
                 case 0:
-                    [cell.textLabel setText:@"Passcode"];
+                    [cell.textLabel setText:NSLocalizedString(@"Passcode", nil)];
                     break;
                 case 1: {
                     if (&UIApplicationOpenSettingsURLString != nil) {
-                        [cell.textLabel setText:@"System"];
+                        [cell.textLabel setText:NSLocalizedString(@"System", nil)];
                     } else {
-                        [cell.textLabel setText:@"About"];
+                        [cell.textLabel setText:NSLocalizedString(@"About", nil)];
                     }
                     break;
                 }

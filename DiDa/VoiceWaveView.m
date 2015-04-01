@@ -180,7 +180,6 @@
     DLog(@"%@", audioSession.category);
     if (appDelegate.outputDevice == 0) {
         if (![audioSession.category isEqualToString:AVAudioSessionCategoryPlayback]) {
-            DLog(@"");
             [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
             UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
@@ -191,7 +190,6 @@
         }
     } else {
         if (![audioSession.category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
-            DLog(@"");
             [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
             UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;

@@ -90,7 +90,6 @@ static BOOL OSVersionIsAtLeastiOS6() {
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     if (outputDevice == 0) {
         if (![audioSession.category isEqualToString:AVAudioSessionCategoryPlayback]) {
-            DLog(@"");
             [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
             UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
@@ -101,7 +100,6 @@ static BOOL OSVersionIsAtLeastiOS6() {
         }
     } else {
         if (![audioSession.category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
-            DLog(@"");
             [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
             UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
@@ -162,7 +160,6 @@ static BOOL OSVersionIsAtLeastiOS6() {
         _showingPasscode = YES;
         [DMPasscode showPasscodeInViewController:self.drawerController completion:^(BOOL success, NSError *error) {
             if (success) {
-                DLog(@"");
             } else {
                 if (error) {
                     DLog(@"Failed authentication");
