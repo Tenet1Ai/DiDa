@@ -1,4 +1,4 @@
-# DiDa
+# DiDa 嘀嗒
 With DiDa Memos, you will never miss any important meeting or events.
 
 ## Screenshots
@@ -26,7 +26,7 @@ https://itunes.apple.com/us/app/dida/id735264364?mt=8
 
 ## Author
 
-- [Bruce Yee / 易斌](https://github.com/bruceyibin) ([@YiiBin](https://twitter.com/YiiBin))
+- [Bruce Yee / Yi Bin / 易斌](https://github.com/bruceyibin) ([@YiiBin](https://twitter.com/YiiBin))
 
 ## License
 
