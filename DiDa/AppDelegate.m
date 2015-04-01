@@ -14,6 +14,7 @@
 #import <MMDrawerController.h>
 #import "VisualStateManager.h"
 #import "DMPasscode.h"
+#import "CalendarViewController.h"
 
 @interface AppDelegate ()
 @property (nonatomic,strong) MMDrawerController *drawerController;
@@ -26,16 +27,16 @@ static BOOL OSVersionIsAtLeastiOS6() {
     return (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_0);
 }
 
--(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     voiceIndex = 0;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     LeftViewController *leftUIViewController = [storyboard instantiateViewControllerWithIdentifier:@"LeftViewController"];
     CenterViewController *centerUIViewController = [storyboard instantiateViewControllerWithIdentifier:@"CenterViewController"];
+    CalendarViewController *calendarViewController = [storyboard instantiateViewControllerWithIdentifier:@"CalendarViewController"];
     RightViewController *rightUIViewController = [storyboard instantiateViewControllerWithIdentifier:@"RightViewController"];
     rightUIViewController.sharedPSC = centerUIViewController.persistentStoreCoordinator;
 
-    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:centerUIViewController];
+    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:calendarViewController];
     
     [navigationController setRestorationIdentifier:@"CenterNavigationControllerRestorationKey"];
     if(OSVersionIsAtLeastiOS6()){
