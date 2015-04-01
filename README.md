@@ -2,10 +2,14 @@
 With DiDa Memos, you will never miss any important meeting or events.
 
 ## Screenshots
-
-![Example](http://iclass.cc/dida/1.png "Example View")
+![Example](http://iclass.cc/dida/00.png "Example View")
+![Example](http://iclass.cc/dida/11.png "Example View")
+![Example](http://iclass.cc/dida/22.png "Example View")
+![Example](http://iclass.cc/dida/33.png "Example View")
 
 # Download on App Store
+![Download](http://iclass.cc/dida/d.png "Download View")
+
 https://itunes.apple.com/us/app/dida/id735264364?mt=8
 
 # Open source projects in the DiDa app
