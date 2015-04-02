@@ -6,96 +6,59 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Options-->
-        <scene sceneID="XqS-Fm-MqZ">
+        <!--DiDa Calendar-->
+        <scene sceneID="VAb-ya-kPt">
             <objects>
-                <tableViewController storyboardIdentifier="LeftViewController" id="o39-Ym-3NQ" customClass="LeftViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="vPO-Vq-U2d">
+                <tableViewController storyboardIdentifier="INOYearTableController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PWg-bd-vCW" customClass="INOYearTableController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="l3T-5k-qXz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MenuCellID" id="dbR-TO-dwj">
-                                <rect key="frame" x="0.0" y="55" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dbR-TO-dwj" id="sTk-sn-hC6">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableViewCell>
-                        </prototypes>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
-                            <outlet property="dataSource" destination="o39-Ym-3NQ" id="HcY-ks-L53"/>
-                            <outlet property="delegate" destination="o39-Ym-3NQ" id="OEZ-VV-E9f"/>
+                            <outlet property="dataSource" destination="PWg-bd-vCW" id="dbr-4s-jV8"/>
+                            <outlet property="delegate" destination="PWg-bd-vCW" id="uJ6-rR-Sqc"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Options" id="7yy-oX-hJN"/>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="J7h-fg-lVs" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1357" y="-532"/>
-        </scene>
-        <!--DiDa Calendar-->
-        <scene sceneID="qbL-eL-3lF">
-            <objects>
-                <viewController storyboardIdentifier="CalendarViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BIU-1X-YP8" customClass="CalendarViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Cuw-0S-h3M"/>
-                        <viewControllerLayoutGuide type="bottom" id="TKg-4O-3eY"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="vzG-Lb-Oz6">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" restorationIdentifier="JTCalendarMenuView" translatesAutoresizingMaskIntoConstraints="NO" id="Qvi-CL-USh" customClass="JTCalendarMenuView">
-                                <rect key="frame" x="0.0" y="64" width="320" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="fZD-eo-M7C"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" restorationIdentifier="JTCalendarContentView" translatesAutoresizingMaskIntoConstraints="NO" id="1bj-at-y78" customClass="JTCalendarContentView">
-                                <rect key="frame" x="0.0" y="114" width="320" height="300"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="q7T-lR-SXp"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="1bj-at-y78" firstAttribute="top" secondItem="Cuw-0S-h3M" secondAttribute="bottom" constant="50" id="N5R-BH-Qnl"/>
-                            <constraint firstAttribute="trailing" secondItem="1bj-at-y78" secondAttribute="trailing" id="UeZ-bX-8cm"/>
-                            <constraint firstItem="1bj-at-y78" firstAttribute="leading" secondItem="vzG-Lb-Oz6" secondAttribute="leading" id="Ykz-J4-Btq"/>
-                            <constraint firstAttribute="trailing" secondItem="Qvi-CL-USh" secondAttribute="trailing" id="djp-LJ-YtA"/>
-                            <constraint firstItem="Qvi-CL-USh" firstAttribute="top" secondItem="Cuw-0S-h3M" secondAttribute="bottom" id="o9j-yQ-EPH"/>
-                            <constraint firstItem="Qvi-CL-USh" firstAttribute="leading" secondItem="vzG-Lb-Oz6" secondAttribute="leading" id="xbr-bE-vS9"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="DiDa Calendar" id="FZk-az-xdF">
-                        <barButtonItem key="leftBarButtonItem" image="burger" id="d7u-sx-poT">
-                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <navigationItem key="navigationItem" title="DiDa Calendar" id="wAF-Es-ppo">
+                        <barButtonItem key="leftBarButtonItem" image="burger" id="bYT-2g-VaP">
                             <connections>
-                                <action selector="tapMenuButton:" destination="BIU-1X-YP8" id="ftd-oF-p28"/>
+                                <action selector="tapListButton:" destination="PWg-bd-vCW" id="fB1-Se-vbR"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="add" id="JPd-Jj-jc8">
-                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <barButtonItem key="rightBarButtonItem" image="add" id="B84-mC-mUy">
+                            <connections>
+                                <action selector="tapAddButton:" destination="PWg-bd-vCW" id="hBE-7a-Ogn"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="menuView" destination="Qvi-CL-USh" id="aDC-TG-EKa"/>
-                        <segue destination="fJr-CV-jfX" kind="push" identifier="pushToTable" id="COg-ih-sVL"/>
+                        <segue destination="fJr-CV-jfX" kind="push" identifier="pushToList" id="xwg-ax-aQf"/>
+                        <segue destination="fIZ-b8-bAo" kind="push" identifier="pushToCalendar" id="Hks-OR-CUF"/>
+                        <segue destination="lw3-ef-Rr9" kind="push" identifier="pushToRec" id="Dg7-n4-sxb"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fwB-5T-2Dq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vMy-6G-gHx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1073" y="-1548"/>
+            <point key="canvasLocation" x="-1108" y="-1960"/>
+        </scene>
+        <!--Calendar View Controller-->
+        <scene sceneID="enu-au-DmD">
+            <objects>
+                <viewController storyboardIdentifier="CalendarViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fIZ-b8-bAo" customClass="CalendarViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="C7b-aH-mfv"/>
+                        <viewControllerLayoutGuide type="bottom" id="bJ4-n5-WFZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hmH-HX-UEO" customClass="Cal">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Tn2-Po-gdS"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dol-BW-oZK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-401" y="-2186"/>
         </scene>
         <!--DiDa Memos-->
         <scene sceneID="VrD-Xl-eME">
@@ -275,18 +238,10 @@
                         </prototypes>
                     </tableView>
                     <navigationItem key="navigationItem" title="DiDa Memos" id="DLx-SA-ygI">
-                        <barButtonItem key="leftBarButtonItem" id="gmU-XX-QFN">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Krz-O6-jd9">
-                                <rect key="frame" x="16" y="13" width="19" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" image="burger">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="touchMenuButton:" destination="fJr-CV-jfX" eventType="touchUpInside" id="Hep-cv-YkQ"/>
-                                </connections>
-                            </button>
+                        <barButtonItem key="leftBarButtonItem" image="arrow" id="qJt-uy-oJs">
+                            <connections>
+                                <action selector="tapBackButton:" destination="fJr-CV-jfX" id="cHp-8H-cvH"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="GLG-AF-SQS">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6nU-lp-dAo">
@@ -305,14 +260,13 @@
                     <connections>
                         <segue destination="ZWl-kP-kyn" kind="push" identifier="pushToDetail" id="yXc-kE-gx3"/>
                         <segue destination="lw3-ef-Rr9" kind="push" identifier="pushToRight" id="rgx-Su-z6V"/>
-                        <segue destination="o39-Ym-3NQ" kind="push" identifier="pushToLeft" id="yIO-SO-Va6"/>
                         <segue destination="2Nc-bD-jwc" kind="push" identifier="pushToAbout" id="JS0-fc-cpi"/>
                         <segue destination="3Ty-0U-Ghb" kind="push" identifier="pushToPasscode" id="9B3-Ka-qko"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eJT-L1-xlE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-559" y="-1462"/>
+            <point key="canvasLocation" x="-557" y="-1539"/>
         </scene>
         <!--Memo Detail-->
         <scene sceneID="Dum-aE-1kP">
@@ -456,7 +410,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7en-lO-OsI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-200" y="-1397"/>
+            <point key="canvasLocation" x="-10" y="-1539"/>
         </scene>
         <!--Recorder-->
         <scene sceneID="GgS-hv-Sff">
@@ -563,7 +517,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NQ6-gL-4sV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-836" y="-545"/>
+            <point key="canvasLocation" x="-1356" y="-599"/>
         </scene>
         <!--About-->
         <scene sceneID="kpo-gf-UN0">
@@ -611,7 +565,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BkQ-0u-MSK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-185" y="-543"/>
+            <point key="canvasLocation" x="-877" y="-543"/>
         </scene>
         <!--Passcode-->
         <scene sceneID="71r-YP-tel">
@@ -670,7 +624,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MSK-HR-sKe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="251" y="-543"/>
+            <point key="canvasLocation" x="-243" y="-643"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jcR-1a-cWA">
@@ -680,12 +634,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="BIU-1X-YP8" kind="relationship" relationship="rootViewController" id="im8-rF-hyP"/>
+                        <segue destination="PWg-bd-vCW" kind="relationship" relationship="rootViewController" id="Szz-g9-dqO"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UU3-6n-ixQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1513" y="-1830"/>
+            <point key="canvasLocation" x="-1503" y="-1548"/>
         </scene>
     </scenes>
     <resources>
@@ -707,4 +661,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="Dg7-n4-sxb"/>
+    </inferredMetricsTieBreakers>
 </document>

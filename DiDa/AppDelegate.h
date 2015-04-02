@@ -20,4 +20,8 @@
 @property (nonatomic, assign) NSInteger outputDevice;
 @property (nonatomic, assign) NSInteger dataSort;
 
+@property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
 @end

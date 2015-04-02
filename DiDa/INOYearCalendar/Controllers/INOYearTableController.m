@@ -32,22 +32,18 @@ static NSUInteger const kHalfCellsCount = kCellsCount >> 1;
 
 @implementation INOYearTableController
 
-- (id)init {
-    self = [super init];
-    
-    if (self) {
-        
-        _model = [[INOYearModel alloc] init];
-        
-    }
-    
-    return self;
+- (IBAction)tapListButton:(id)sender {
+    [self performSegueWithIdentifier:@"pushToList" sender:@"tapCell"];
+}
+
+- (IBAction)tapAddButton:(id)sender {
+    [self performSegueWithIdentifier:@"pushToRec" sender:@"tapCell"];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Year Calendar";
+    _model = [[INOYearModel alloc] init];
     
     _integerCellHeight = ceilf([INOYearTableCell cellHeight]);
     
@@ -60,15 +56,13 @@ static NSUInteger const kHalfCellsCount = kCellsCount >> 1;
 #pragma mark - UITableViewDatasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    DLog(@"%ld", kCellsCount);
     return kCellsCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *yearTableCellId = @"YearTableCellId";
-    
+    static NSString *yearTableCellId = @"yearTableCellId";
     INOYearTableCell *cell = [tableView dequeueReusableCellWithIdentifier:yearTableCellId];
-    
     if (!cell) {
         cell = [[INOYearTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:yearTableCellId];
         [cell setTag:indexPath.row];
@@ -76,17 +70,14 @@ static NSUInteger const kHalfCellsCount = kCellsCount >> 1;
     
     NSDate *yearDate = [_model yearWithOffsetFromCurrentDate:indexPath.row + kHalfCellsCount * (_offset -  1)];
     [cell setupWithYearDate:yearDate];
-    
-    [_model makeMonthsImagesWithDate:yearDate ofSize:[INOYearTableCell monthViewSize]
-                           cancelTag:[cell tag]
+
+    [_model makeMonthsImagesWithDate:yearDate
+                              ofSize:[INOYearTableCell monthViewSize] cancelTag:[cell tag]
                           completion: ^(BOOL success, NSArray *monthsImages) {
-                              
                               if (success && [monthsImages count] > 0) {
                                   [cell setupWithMonthsImages:monthsImages];
                               }
-                              
                           }];
-    
     return cell;
 }
 

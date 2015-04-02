@@ -7,7 +7,6 @@
 //
 
 #import "RightViewController.h"
-#import <UIViewController+MMDrawerController.h>
 #import "FileSHA1Hash.h"
 #import "Record.h"
 #import "AppDelegate.h"
@@ -332,7 +331,7 @@ static double ee = 0.00669342162296594323;
 }
 
 - (IBAction)touchBackButton:(id)sender {
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)touchDoneButton:(id)sender {
@@ -490,7 +489,6 @@ static double ee = 0.00669342162296594323;
                 abort();
             }
         }
-        [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
     }
 }
 

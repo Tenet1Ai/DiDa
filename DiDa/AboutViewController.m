@@ -7,7 +7,6 @@
 //
 
 #import "AboutViewController.h"
-#import <UIViewController+MMDrawerController.h>
 
 @interface AboutViewController () <UIWebViewDelegate>
 
@@ -46,7 +45,7 @@
 }
 
 - (IBAction)touchBackButton:(id)sender {
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

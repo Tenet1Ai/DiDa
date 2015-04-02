@@ -7,7 +7,6 @@
 //
 
 #import "CalendarViewController.h"
-#import <UIViewController+MMDrawerController.h>
 #import "NavigationController.h"
 #import "AboutViewController.h"
 #import "PasscodeViewController.h"
@@ -53,13 +52,6 @@
     [calendar setContentView:calendarView];
     [calendar setDataSource:self];
     [calendar reloadData];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAbout)
-                                                 name:@"showAboutViewController" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPasscode)
-                                                 name:@"showPasscodeViewController" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCenter)
-                                                 name:@"showCenterViewController" object:nil];
 }
 
 - (void)showCenter {
@@ -80,20 +72,7 @@
                                            userInfo:@"PasscodeViewController" repeats:NO];
 }
 
-- (void)showViewController:(NSTimer *)timer {
-    NSString *identifierString = (NSString *)[timer userInfo];
-    if (aTimer) {
-        [aTimer invalidate];
-    }
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    AboutViewController *aboutViewController = [storyboard instantiateViewControllerWithIdentifier:identifierString];
-    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:aboutViewController];
-    [self.mm_drawerController setRightDrawerViewController:navigationController];
-    [self.mm_drawerController openDrawerSide:MMDrawerSideRight animated:YES completion:nil];
-}
-
 - (IBAction)tapMenuButton:(id)sender {
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 
 #pragma mark - JTCalendarDataSource

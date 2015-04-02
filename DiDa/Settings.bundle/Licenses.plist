@@ -15,14 +15,6 @@
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
-			<key>Title</key>
-			<string>MMDrawerController</string>
-			<key>File</key>
-			<string>MMDrawerController</string>
-		</dict>
-		<dict>
 			<key>New item</key>
 			<dict>
 				<key>Type</key>

@@ -138,7 +138,6 @@ static CGFloat const kDefaultMargin   = 5.0f;
 }
 
 + (CGSize)monthViewSize {
-   
     CGSize monthsHolderSize = [INOYearTableCell monthsHolderSize];
     return CGSizeMake((monthsHolderSize.width - (kNumberOfMonthsInSingleRow - 1) * kDefaultMargin) / kNumberOfMonthsInSingleRow,
                       (monthsHolderSize.height - (kNumberOfMonthsInSingleColumn - 1) * kDefaultMargin) / kNumberOfMonthsInSingleColumn);

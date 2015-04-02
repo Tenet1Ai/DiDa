@@ -9,8 +9,6 @@
 #import "CenterViewController.h"
 #import "RecordTableViewCell.h"
 #import "PlayTableViewCell.h"
-#import "VisualStateManager.h"
-#import <UIViewController+MMDrawerController.h>
 #import "AboutViewController.h"
 #import "PasscodeViewController.h"
 #import "NavigationController.h"
@@ -34,6 +32,10 @@
 
 @implementation CenterViewController
 @synthesize audioPlayer;
+
+- (IBAction)tapBackButton:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
@@ -67,51 +69,6 @@
     currentTime = 0.0;
     filePathString = nil;
     audioPlayer = nil;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableData)
-                                                 name:@"refreshTableData" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAbout)
-                                                 name:@"showAboutViewController" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPasscode)
-                                                 name:@"showPasscodeViewController" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCalendar)
-                                                 name:@"showCalendarViewController" object:nil];
-}
-
-- (void)showCalendar {
-    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
-                                              target:self selector:@selector(showViewController:)
-                                            userInfo:@"CalendarViewController" repeats:NO];
-}
-
-- (void)refreshTableData {
-    _fetchedResultsController = nil;
-    [self.tableView reloadData];
-}
-
-- (void)showAbout {
-    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
-                                             target:self selector:@selector(showViewController:)
-                                           userInfo:@"AboutViewController" repeats:NO];
-}
-
-- (void)showViewController:(NSTimer *)timer {
-    NSString *identifierString = (NSString *)[timer userInfo];
-    if (aTimer) {
-        [aTimer invalidate];
-        aTimer = nil;
-    }
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    AboutViewController *aboutViewController = [storyboard instantiateViewControllerWithIdentifier:identifierString];
-    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:aboutViewController];
-    [self.mm_drawerController setRightDrawerViewController:navigationController];
-    [self.mm_drawerController openDrawerSide:MMDrawerSideRight animated:YES completion:nil];
-}
-
-- (void)showPasscode {
-    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
-                                             target:self selector:@selector(showViewController:)
-                                           userInfo:@"PasscodeViewController" repeats:NO];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -138,7 +95,6 @@
 }
 
 - (IBAction)touchMenuButton:(id)sender {
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 
 - (IBAction)touchAddButton:(id)sender {
@@ -149,12 +105,6 @@
         [audioPlayer stop];
         [audioPlayer prepareToPlay];
     }
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    RightViewController *rightUIViewController = [storyboard instantiateViewControllerWithIdentifier:@"RightViewController"];
-    rightUIViewController.sharedPSC = self.persistentStoreCoordinator;
-    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:rightUIViewController];
-    [self.mm_drawerController setRightDrawerViewController:navigationController];
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 #pragma mark - Player Control
@@ -368,21 +318,18 @@
 }
 
 - (void)touchedDetailButton:(NSInteger)tag title:(NSString *)title {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    DetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag inSection:0];
-    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-    if (record) {
-        detailViewController.record = record;
-    }
-    [self loadAudioFile:record.path];
-    detailViewController.delegate = self;
-    detailViewController.tag = tag;
-    detailViewController.sharedPSC = self.persistentStoreCoordinator;
-    detailViewController.audioPlayer = self.audioPlayer;
-    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:detailViewController];
-    [self.mm_drawerController setRightDrawerViewController:navigationController];
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+//    DetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag inSection:0];
+//    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+//    if (record) {
+//        detailViewController.record = record;
+//    }
+//    [self loadAudioFile:record.path];
+//    detailViewController.delegate = self;
+//    detailViewController.tag = tag;
+//    detailViewController.sharedPSC = self.persistentStoreCoordinator;
+//    detailViewController.audioPlayer = self.audioPlayer;
 }
 
 //@property (nonatomic, retain) NSDate * date;
@@ -474,12 +421,6 @@
         [myActionSheet showInView:self.view];
     } else {
         [self deleteAnRecord];
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-        RightViewController *rightUIViewController = [storyboard instantiateViewControllerWithIdentifier:@"RightViewController"];
-        rightUIViewController.sharedPSC = self.persistentStoreCoordinator;
-        NavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:rightUIViewController];
-        [self.mm_drawerController setRightDrawerViewController:navigationController];
-        [self.mm_drawerController closeDrawerAnimated:NO completion:nil];
     }
 }
 

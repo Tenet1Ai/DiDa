@@ -7,7 +7,6 @@
 //
 
 #import "PasscodeViewController.h"
-#import <UIViewController+MMDrawerController.h>
 #import "DMPasscode.h"
 
 @interface PasscodeViewController () <UIAlertViewDelegate>
@@ -40,7 +39,7 @@
 }
 
 - (IBAction)tapBackButton:(id)sender {
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)tapSetupButton:(id)sender {

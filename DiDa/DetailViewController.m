@@ -8,7 +8,6 @@
 
 #import "UIDevice+Resolutions.h"
 #import "DetailViewController.h"
-#import <UIViewController+MMDrawerController.h>
 #import "MapAnnotation.h"
 #import "AppDelegate.h"
 
@@ -324,7 +323,7 @@
 }
 
 - (IBAction)touchBackButton:(id)sender {
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)touchDoneButton:(id)sender {
@@ -339,7 +338,7 @@
     NSString *endTimeString = [self stringFromTimeInterval:audioPlayer.duration];
     endLabel.text = [NSString stringWithFormat:@"-%@", endTimeString];
     startLabel.text = @"0:00";
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)touchShareButton:(id)sender {
@@ -375,7 +374,7 @@
         }
         willUpdateRecord = NO;
         [self.delegate touchedDeleteButton:self.tag title:record.memo isInView:NO];
-        [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

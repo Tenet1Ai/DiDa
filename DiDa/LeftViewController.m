@@ -8,7 +8,6 @@
 
 #import "LeftViewController.h"
 #import "AppDelegate.h"
-#import <UIViewController+MMDrawerController.h>
 
 @interface LeftViewController ()
 
@@ -203,7 +202,6 @@
             return;
         }
         case 2: {
-            [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
             if (indexPath.row == 0) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"showPasscodeViewController" object:self userInfo:nil];
             } else if (indexPath.row == 1) {

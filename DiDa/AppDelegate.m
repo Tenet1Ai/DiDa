@@ -11,68 +11,93 @@
 #import "CenterViewController.h"
 #import "RightViewController.h"
 #import "NavigationController.h"
-#import <MMDrawerController.h>
-#import "VisualStateManager.h"
 #import "DMPasscode.h"
 #import "CalendarViewController.h"
+#import "Event.h"
 
 @interface AppDelegate ()
-@property (nonatomic,strong) MMDrawerController *drawerController;
 @end
 
 @implementation AppDelegate
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize managedObjectModel = _managedObjectModel;
+@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize voiceIndex, outputDevice, dataSort;
 
-static BOOL OSVersionIsAtLeastiOS6() {
-    return (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_0);
+#pragma mark - CoreData Helpers
+
+- (NSManagedObjectContext *)managedObjectContext {
+    
+    if (_managedObjectContext) {
+        return _managedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil) {
+        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+    return _managedObjectContext;
+}
+
+- (NSManagedObjectModel *)managedObjectModel {
+    
+    if (_managedObjectModel != nil) {
+        return _managedObjectModel;
+    }
+    
+    _managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    
+    return _managedObjectModel;
+}
+
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+    
+    if (_persistentStoreCoordinator != nil) {
+        return _persistentStoreCoordinator;
+    }
+    
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"YearCalendarModel.sqlite"];
+    
+    NSError *error = nil;
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    NSAssert([_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error],
+             @"NSPersistentStoreCoordinator error: %@", [error userInfo]);
+    return _persistentStoreCoordinator;
+}
+
+- (NSURL *)applicationDocumentsDirectory {
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+#pragma mark - Sample Helpers
+
+- (void)createTestEvents {
+    
+    const NSUInteger secondsInSingleYear = 31556926;
+    const NSUInteger yearsToPopulate     = 50;
+    const NSUInteger eventsCount         = 1000;
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+    NSInteger count = [self.managedObjectContext countForFetchRequest:request error:nil];
+    
+    if (count < eventsCount) {
+        for (NSUInteger i = count; i < eventsCount; i++) {
+            
+            Event *event = [NSEntityDescription insertNewObjectForEntityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
+            
+            [event setEventCategory:@(arc4random() % 4)];
+            [event setEventDate:[NSDate dateWithTimeIntervalSinceNow:arc4random() % (secondsInSingleYear * yearsToPopulate)]];
+            
+            NSError *error = nil;
+            [event.managedObjectContext save:&error];
+            NSAssert(!error, @"Error while saving event: %@", [error userInfo]);
+        }
+    }
 }
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     voiceIndex = 0;
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    LeftViewController *leftUIViewController = [storyboard instantiateViewControllerWithIdentifier:@"LeftViewController"];
-    CenterViewController *centerUIViewController = [storyboard instantiateViewControllerWithIdentifier:@"CenterViewController"];
-    CalendarViewController *calendarViewController = [storyboard instantiateViewControllerWithIdentifier:@"CalendarViewController"];
-    RightViewController *rightUIViewController = [storyboard instantiateViewControllerWithIdentifier:@"RightViewController"];
-    rightUIViewController.sharedPSC = centerUIViewController.persistentStoreCoordinator;
-
-    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:calendarViewController];
-    
-    [navigationController setRestorationIdentifier:@"CenterNavigationControllerRestorationKey"];
-    if(OSVersionIsAtLeastiOS6()){
-        UINavigationController * rightSideNavController = [[NavigationController alloc] initWithRootViewController:rightUIViewController];
-		[rightSideNavController setRestorationIdentifier:@"RightNavigationControllerRestorationKey"];
-        UINavigationController * leftSideNavController = [[NavigationController alloc] initWithRootViewController:leftUIViewController];
-		[leftSideNavController setRestorationIdentifier:@"LeftNavigationControllerRestorationKey"];
-        self.drawerController = [[MMDrawerController alloc]
-                                 initWithCenterViewController:navigationController
-                                 leftDrawerViewController:leftSideNavController
-                                 rightDrawerViewController:rightSideNavController];
-        [self.drawerController setShowsShadow:NO];
-    } else {
-        self.drawerController = [[MMDrawerController alloc]
-                                 initWithCenterViewController:navigationController
-                                 leftDrawerViewController:leftUIViewController
-                                 rightDrawerViewController:rightUIViewController];
-    }
-    [self.drawerController setRestorationIdentifier:@"MMDrawer"];
-    [self.drawerController setMaximumLeftDrawerWidth:150.0];
-    [self.drawerController setMaximumRightDrawerWidth:320.0];
-    [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModePanningNavigationBar];
-    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
-
-    [self.drawerController setDrawerVisualStateBlock:[MMDrawerVisualState parallaxVisualStateBlockWithParallaxFactor:5.0]];
-    [self.drawerController setShowsShadow:YES];
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    if(OSVersionIsAtLeastiOS6()) {
-        UIColor *tintColor = [UIColor colorWithRed:29.0/255.0
-                                              green:173.0/255.0
-                                               blue:234.0/255.0
-                                              alpha:1.0];
-        [self.window setTintColor:tintColor];
-    }
-    [self.window setRootViewController:self.drawerController];
-    
     outputDevice = 0;
     dataSort = 0;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -114,6 +139,10 @@ static BOOL OSVersionIsAtLeastiOS6() {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    DLog(@"%@", NSHomeDirectory());
+    [self managedObjectContext];
+//    [self createTestEvents];
+
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     [self switchAudioSessionCategory];
@@ -159,7 +188,7 @@ static BOOL OSVersionIsAtLeastiOS6() {
     DLog(@"applicationDidBecomeActive: %d", passcodeSet);
     if (passcodeSet == YES && _showingPasscode == NO) {
         _showingPasscode = YES;
-        [DMPasscode showPasscodeInViewController:self.drawerController completion:^(BOOL success, NSError *error) {
+        [DMPasscode showPasscodeInViewController:self completion:^(BOOL success, NSError *error) {
             if (success) {
             } else {
                 if (error) {
@@ -173,39 +202,8 @@ static BOOL OSVersionIsAtLeastiOS6() {
     }
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
-{
+- (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
-{
-    NSString * key = [identifierComponents lastObject];
-    if([key isEqualToString:@"MMDrawer"]){
-        return self.window.rootViewController;
-    } else if ([key isEqualToString:@"NavigationControllerRestorationKey"]) {
-        return ((MMDrawerController *)self.window.rootViewController).centerViewController;
-    } else if ([key isEqualToString:@"RightNavigationControllerRestorationKey"]) {
-        return ((MMDrawerController *)self.window.rootViewController).rightDrawerViewController;
-    } else if ([key isEqualToString:@"LeftNavigationControllerRestorationKey"]) {
-        return ((MMDrawerController *)self.window.rootViewController).leftDrawerViewController;
-    } else if ([key isEqualToString:@"LeftSideDrawerController"]){
-        UIViewController * leftVC = ((MMDrawerController *)self.window.rootViewController).leftDrawerViewController;
-        if([leftVC isKindOfClass:[UINavigationController class]]){
-            return [(UINavigationController*)leftVC topViewController];
-        } else {
-            return leftVC;
-        }
-        
-    } else if ([key isEqualToString:@"RightSideDrawerController"]){
-        UIViewController * rightVC = ((MMDrawerController *)self.window.rootViewController).rightDrawerViewController;
-        if([rightVC isKindOfClass:[UINavigationController class]]) {
-            return [(UINavigationController*)rightVC topViewController];
-        } else {
-            return rightVC;
-        }
-    }
-    return nil;
 }
 
 @end

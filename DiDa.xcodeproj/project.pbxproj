@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		230AB2E4182256C9009220AC /* UIDevice+Resolutions.m in Sources */ = {isa = PBXBuildFile; fileRef = 230AB2E3182256C9009220AC /* UIDevice+Resolutions.m */; };
-		230BC7871811592A005FAC71 /* VisualStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 230BC7861811592A005FAC71 /* VisualStateManager.m */; };
 		231A77F2180EB95900658141 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 231A77F1180EB95900658141 /* Foundation.framework */; };
 		231A77F4180EB95900658141 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 231A77F3180EB95900658141 /* CoreGraphics.framework */; };
 		231A77F6180EB95900658141 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 231A77F5180EB95900658141 /* UIKit.framework */; };
@@ -65,7 +64,6 @@
 		238C1E68181315EA0090AA6E /* FileSHA1Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = 238C1E66181315EA0090AA6E /* FileSHA1Hash.c */; };
 		2397AA391ACB8F4E004F066B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2397AA3B1ACB8F4E004F066B /* Localizable.strings */; };
 		23A96AE61ACCED4C00FC076C /* INOYearTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96AC31ACCED4C00FC076C /* INOYearTableController.m */; };
-		23A96AE71ACCED4C00FC076C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 23A96AC41ACCED4C00FC076C /* InfoPlist.strings */; };
 		23A96AE81ACCED4C00FC076C /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96AC81ACCED4C00FC076C /* Event.m */; };
 		23A96AE91ACCED4C00FC076C /* INOOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96ACC1ACCED4C00FC076C /* INOOperation.m */; };
 		23A96AEA1ACCED4C00FC076C /* INOOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96ACE1ACCED4C00FC076C /* INOOperationQueue.m */; };
@@ -101,8 +99,6 @@
 /* Begin PBXFileReference section */
 		230AB2E2182256C9009220AC /* UIDevice+Resolutions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Resolutions.h"; sourceTree = "<group>"; };
 		230AB2E3182256C9009220AC /* UIDevice+Resolutions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Resolutions.m"; sourceTree = "<group>"; };
-		230BC7851811592A005FAC71 /* VisualStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualStateManager.h; sourceTree = "<group>"; };
-		230BC7861811592A005FAC71 /* VisualStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisualStateManager.m; sourceTree = "<group>"; };
 		2314EDF61ABBF8F600AC9313 /* Records 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Records 3.xcdatamodel"; sourceTree = "<group>"; };
 		231A77EE180EB95900658141 /* DiDa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiDa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		231A77F1180EB95900658141 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -204,7 +200,6 @@
 		23A8B03C182CB9A8005CE658 /* Records 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Records 2.xcdatamodel"; sourceTree = "<group>"; };
 		23A96AC21ACCED4C00FC076C /* INOYearTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOYearTableController.h; sourceTree = "<group>"; };
 		23A96AC31ACCED4C00FC076C /* INOYearTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INOYearTableController.m; sourceTree = "<group>"; };
-		23A96AC51ACCED4C00FC076C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		23A96AC71ACCED4C00FC076C /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		23A96AC81ACCED4C00FC076C /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		23A96ACB1ACCED4C00FC076C /* INOOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOOperation.h; sourceTree = "<group>"; };
@@ -392,8 +387,6 @@
 				233104E018212102007323A6 /* AboutViewController.m */,
 				23B7C7381AB801D700FC74EB /* PasscodeViewController.h */,
 				23B7C7391AB801D700FC74EB /* PasscodeViewController.m */,
-				230BC7851811592A005FAC71 /* VisualStateManager.h */,
-				230BC7861811592A005FAC71 /* VisualStateManager.m */,
 				238A29501811518E00CAA7AB /* NavigationController.h */,
 				238A29511811518E00CAA7AB /* NavigationController.m */,
 				233104DA1820A070007323A6 /* TouchActionsDelegate.h */,
@@ -492,7 +485,6 @@
 				23A96AFB1ACCEF4B00FC076C /* INOAppDelegate.h */,
 				23A96AFC1ACCEF4B00FC076C /* INOAppDelegate.m */,
 				23A96AC11ACCED4C00FC076C /* Controllers */,
-				23A96AC41ACCED4C00FC076C /* InfoPlist.strings */,
 				23A96AC61ACCED4C00FC076C /* Entities */,
 				23A96AC91ACCED4C00FC076C /* Helpers */,
 				23A96AD91ACCED4C00FC076C /* Model */,
@@ -686,7 +678,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				231A780A180EB95900658141 /* Images.xcassets in Resources */,
-				23A96AE71ACCED4C00FC076C /* InfoPlist.strings in Resources */,
 				23322ECB18216D8B00102E9C /* about.html in Resources */,
 				2397AA391ACB8F4E004F066B /* Localizable.strings in Resources */,
 				231A77FC180EB95900658141 /* InfoPlist.strings in Resources */,
@@ -774,7 +765,6 @@
 				2335091D1818C82F00B72C8C /* Records.xcdatamodeld in Sources */,
 				23A96AE91ACCED4C00FC076C /* INOOperation.m in Sources */,
 				23B7C73A1AB801D700FC74EB /* PasscodeViewController.m in Sources */,
-				230BC7871811592A005FAC71 /* VisualStateManager.m in Sources */,
 				238A294C18114EE600CAA7AB /* LeftViewController.m in Sources */,
 				238A294F18114F0D00CAA7AB /* RightViewController.m in Sources */,
 				23A96AF31ACCED4C00FC076C /* YearCalendarModel.xcdatamodeld in Sources */,
@@ -867,14 +857,6 @@
 				2397AA3D1ACB8F68004F066B /* zh-Hans */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		23A96AC41ACCED4C00FC076C /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				23A96AC51ACCED4C00FC076C /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
