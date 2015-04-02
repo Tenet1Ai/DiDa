@@ -42,6 +42,12 @@
 		233387DD1ACBE80A00ECF514 /* JTCalendarMonthWeekDaysView.m in Sources */ = {isa = PBXBuildFile; fileRef = 233387CF1ACBE80A00ECF514 /* JTCalendarMonthWeekDaysView.m */; };
 		233387DE1ACBE80A00ECF514 /* JTCalendarWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = 233387D21ACBE80A00ECF514 /* JTCalendarWeekView.m */; };
 		233387DF1ACBE80A00ECF514 /* JTCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 233387D41ACBE80A00ECF514 /* JTCircleView.m */; };
+		233388001ACC02AF00ECF514 /* FSCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 233387F51ACC02AF00ECF514 /* FSCalendar.m */; };
+		233388011ACC02AF00ECF514 /* FSCalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 233387F71ACC02AF00ECF514 /* FSCalendarCell.m */; };
+		233388021ACC02AF00ECF514 /* FSCalendarHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 233387F91ACC02AF00ECF514 /* FSCalendarHeader.m */; };
+		233388031ACC02AF00ECF514 /* NSCalendar+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 233387FB1ACC02AF00ECF514 /* NSCalendar+FSExtension.m */; };
+		233388041ACC02AF00ECF514 /* NSDate+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 233387FD1ACC02AF00ECF514 /* NSDate+FSExtension.m */; };
+		233388051ACC02AF00ECF514 /* UIView+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 233387FF1ACC02AF00ECF514 /* UIView+FSExtension.m */; };
 		2335091D1818C82F00B72C8C /* Records.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2335091B1818C82E00B72C8C /* Records.xcdatamodeld */; };
 		233509261819974700B72C8C /* RecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 233509251819974700B72C8C /* RecordTableViewCell.m */; };
 		236E273C1830AD5200D9A4FE /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 236E273B1830AD5200D9A4FE /* Record.m */; };
@@ -58,6 +64,20 @@
 		238A29521811518E00CAA7AB /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 238A29511811518E00CAA7AB /* NavigationController.m */; };
 		238C1E68181315EA0090AA6E /* FileSHA1Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = 238C1E66181315EA0090AA6E /* FileSHA1Hash.c */; };
 		2397AA391ACB8F4E004F066B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2397AA3B1ACB8F4E004F066B /* Localizable.strings */; };
+		23A96AE61ACCED4C00FC076C /* INOYearTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96AC31ACCED4C00FC076C /* INOYearTableController.m */; };
+		23A96AE71ACCED4C00FC076C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 23A96AC41ACCED4C00FC076C /* InfoPlist.strings */; };
+		23A96AE81ACCED4C00FC076C /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96AC81ACCED4C00FC076C /* Event.m */; };
+		23A96AE91ACCED4C00FC076C /* INOOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96ACC1ACCED4C00FC076C /* INOOperation.m */; };
+		23A96AEA1ACCED4C00FC076C /* INOOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96ACE1ACCED4C00FC076C /* INOOperationQueue.m */; };
+		23A96AEB1ACCED4C00FC076C /* INOMonthGlyphsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96AD01ACCED4C00FC076C /* INOMonthGlyphsHelper.m */; };
+		23A96AEC1ACCED4C00FC076C /* NSDate+INOHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96AD21ACCED4C00FC076C /* NSDate+INOHelpers.m */; };
+		23A96AF11ACCED4C00FC076C /* INOMonthImageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96ADB1ACCED4C00FC076C /* INOMonthImageFactory.m */; };
+		23A96AF21ACCED4C00FC076C /* INOYearModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96ADD1ACCED4C00FC076C /* INOYearModel.m */; };
+		23A96AF31ACCED4C00FC076C /* YearCalendarModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23A96ADF1ACCED4C00FC076C /* YearCalendarModel.xcdatamodeld */; };
+		23A96AF41ACCED4C00FC076C /* INOMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96AE31ACCED4C00FC076C /* INOMonthView.m */; };
+		23A96AF51ACCED4C00FC076C /* INOYearTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96AE51ACCED4C00FC076C /* INOYearTableCell.m */; };
+		23A96AF71ACCED9800FC076C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A96AF61ACCED9800FC076C /* CoreText.framework */; };
+		23A96AFD1ACCEF4B00FC076C /* INOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A96AFC1ACCEF4B00FC076C /* INOAppDelegate.m */; };
 		23B7C73A1AB801D700FC74EB /* PasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B7C7391AB801D700FC74EB /* PasscodeViewController.m */; };
 		23B7C7481AB81A3800FC74EB /* DMKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B7C73D1AB81A3800FC74EB /* DMKeychain.m */; };
 		23B7C7491AB81A3800FC74EB /* DMPasscode.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B7C73F1AB81A3800FC74EB /* DMPasscode.m */; };
@@ -139,6 +159,18 @@
 		233387D21ACBE80A00ECF514 /* JTCalendarWeekView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTCalendarWeekView.m; sourceTree = "<group>"; };
 		233387D31ACBE80A00ECF514 /* JTCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTCircleView.h; sourceTree = "<group>"; };
 		233387D41ACBE80A00ECF514 /* JTCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTCircleView.m; sourceTree = "<group>"; };
+		233387F41ACC02AF00ECF514 /* FSCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendar.h; sourceTree = "<group>"; };
+		233387F51ACC02AF00ECF514 /* FSCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendar.m; sourceTree = "<group>"; };
+		233387F61ACC02AF00ECF514 /* FSCalendarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarCell.h; sourceTree = "<group>"; };
+		233387F71ACC02AF00ECF514 /* FSCalendarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarCell.m; sourceTree = "<group>"; };
+		233387F81ACC02AF00ECF514 /* FSCalendarHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarHeader.h; sourceTree = "<group>"; };
+		233387F91ACC02AF00ECF514 /* FSCalendarHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarHeader.m; sourceTree = "<group>"; };
+		233387FA1ACC02AF00ECF514 /* NSCalendar+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCalendar+FSExtension.h"; sourceTree = "<group>"; };
+		233387FB1ACC02AF00ECF514 /* NSCalendar+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCalendar+FSExtension.m"; sourceTree = "<group>"; };
+		233387FC1ACC02AF00ECF514 /* NSDate+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+FSExtension.h"; sourceTree = "<group>"; };
+		233387FD1ACC02AF00ECF514 /* NSDate+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+FSExtension.m"; sourceTree = "<group>"; };
+		233387FE1ACC02AF00ECF514 /* UIView+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FSExtension.h"; sourceTree = "<group>"; };
+		233387FF1ACC02AF00ECF514 /* UIView+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FSExtension.m"; sourceTree = "<group>"; };
 		2335091C1818C82E00B72C8C /* Records.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Records.xcdatamodel; sourceTree = "<group>"; };
 		233509241819974700B72C8C /* RecordTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordTableViewCell.h; sourceTree = "<group>"; };
 		233509251819974700B72C8C /* RecordTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordTableViewCell.m; sourceTree = "<group>"; };
@@ -170,6 +202,31 @@
 		2397AA3F1ACB8FFE004F066B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		2397AA411ACB9011004F066B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		23A8B03C182CB9A8005CE658 /* Records 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Records 2.xcdatamodel"; sourceTree = "<group>"; };
+		23A96AC21ACCED4C00FC076C /* INOYearTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOYearTableController.h; sourceTree = "<group>"; };
+		23A96AC31ACCED4C00FC076C /* INOYearTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INOYearTableController.m; sourceTree = "<group>"; };
+		23A96AC51ACCED4C00FC076C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		23A96AC71ACCED4C00FC076C /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		23A96AC81ACCED4C00FC076C /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		23A96ACB1ACCED4C00FC076C /* INOOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOOperation.h; sourceTree = "<group>"; };
+		23A96ACC1ACCED4C00FC076C /* INOOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INOOperation.m; sourceTree = "<group>"; };
+		23A96ACD1ACCED4C00FC076C /* INOOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOOperationQueue.h; sourceTree = "<group>"; };
+		23A96ACE1ACCED4C00FC076C /* INOOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INOOperationQueue.m; sourceTree = "<group>"; };
+		23A96ACF1ACCED4C00FC076C /* INOMonthGlyphsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOMonthGlyphsHelper.h; sourceTree = "<group>"; };
+		23A96AD01ACCED4C00FC076C /* INOMonthGlyphsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INOMonthGlyphsHelper.m; sourceTree = "<group>"; };
+		23A96AD11ACCED4C00FC076C /* NSDate+INOHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+INOHelpers.h"; sourceTree = "<group>"; };
+		23A96AD21ACCED4C00FC076C /* NSDate+INOHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+INOHelpers.m"; sourceTree = "<group>"; };
+		23A96ADA1ACCED4C00FC076C /* INOMonthImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOMonthImageFactory.h; sourceTree = "<group>"; };
+		23A96ADB1ACCED4C00FC076C /* INOMonthImageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INOMonthImageFactory.m; sourceTree = "<group>"; };
+		23A96ADC1ACCED4C00FC076C /* INOYearModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOYearModel.h; sourceTree = "<group>"; };
+		23A96ADD1ACCED4C00FC076C /* INOYearModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INOYearModel.m; sourceTree = "<group>"; };
+		23A96AE01ACCED4C00FC076C /* YearCalendarModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = YearCalendarModel.xcdatamodel; sourceTree = "<group>"; };
+		23A96AE21ACCED4C00FC076C /* INOMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOMonthView.h; sourceTree = "<group>"; };
+		23A96AE31ACCED4C00FC076C /* INOMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INOMonthView.m; sourceTree = "<group>"; };
+		23A96AE41ACCED4C00FC076C /* INOYearTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOYearTableCell.h; sourceTree = "<group>"; };
+		23A96AE51ACCED4C00FC076C /* INOYearTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INOYearTableCell.m; sourceTree = "<group>"; };
+		23A96AF61ACCED9800FC076C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		23A96AFB1ACCEF4B00FC076C /* INOAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INOAppDelegate.h; sourceTree = "<group>"; };
+		23A96AFC1ACCEF4B00FC076C /* INOAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INOAppDelegate.m; sourceTree = "<group>"; };
 		23B7C7381AB801D700FC74EB /* PasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasscodeViewController.h; sourceTree = "<group>"; };
 		23B7C7391AB801D700FC74EB /* PasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasscodeViewController.m; sourceTree = "<group>"; };
 		23B7C73C1AB81A3800FC74EB /* DMKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMKeychain.h; sourceTree = "<group>"; };
@@ -195,6 +252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A96AF71ACCED9800FC076C /* CoreText.framework in Frameworks */,
 				233104D6182083B5007323A6 /* MapKit.framework in Frameworks */,
 				232C8E2D181CC7EF0019C1F5 /* CoreLocation.framework in Frameworks */,
 				2372FED31816B44500222034 /* CoreData.framework in Frameworks */,
@@ -246,6 +304,7 @@
 		231A77F0180EB95900658141 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				23A96AF61ACCED9800FC076C /* CoreText.framework */,
 				233104D5182083B5007323A6 /* MapKit.framework */,
 				232C8E2C181CC7EF0019C1F5 /* CoreLocation.framework */,
 				2372FED21816B44500222034 /* CoreData.framework */,
@@ -268,6 +327,8 @@
 			children = (
 				235863F91822651A00D3E16F /* DiDa.entitlements */,
 				23B7C73B1AB81A3800FC74EB /* DMPasscode */,
+				23A96AC01ACCED4C00FC076C /* INOYearCalendar */,
+				233387F31ACC02AF00ECF514 /* FSCalendar */,
 				233387BD1ACBE80A00ECF514 /* JTCalendar */,
 				238C1E65181315EA0090AA6E /* Common */,
 				231A784B180EFB2500658141 /* Model */,
@@ -397,6 +458,25 @@
 			path = JTCalendar;
 			sourceTree = "<group>";
 		};
+		233387F31ACC02AF00ECF514 /* FSCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				233387F41ACC02AF00ECF514 /* FSCalendar.h */,
+				233387F51ACC02AF00ECF514 /* FSCalendar.m */,
+				233387F61ACC02AF00ECF514 /* FSCalendarCell.h */,
+				233387F71ACC02AF00ECF514 /* FSCalendarCell.m */,
+				233387F81ACC02AF00ECF514 /* FSCalendarHeader.h */,
+				233387F91ACC02AF00ECF514 /* FSCalendarHeader.m */,
+				233387FA1ACC02AF00ECF514 /* NSCalendar+FSExtension.h */,
+				233387FB1ACC02AF00ECF514 /* NSCalendar+FSExtension.m */,
+				233387FC1ACC02AF00ECF514 /* NSDate+FSExtension.h */,
+				233387FD1ACC02AF00ECF514 /* NSDate+FSExtension.m */,
+				233387FE1ACC02AF00ECF514 /* UIView+FSExtension.h */,
+				233387FF1ACC02AF00ECF514 /* UIView+FSExtension.m */,
+			);
+			path = FSCalendar;
+			sourceTree = "<group>";
+		};
 		238C1E65181315EA0090AA6E /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,6 +484,93 @@
 				238C1E67181315EA0090AA6E /* FileSHA1Hash.h */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		23A96AC01ACCED4C00FC076C /* INOYearCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				23A96AFB1ACCEF4B00FC076C /* INOAppDelegate.h */,
+				23A96AFC1ACCEF4B00FC076C /* INOAppDelegate.m */,
+				23A96AC11ACCED4C00FC076C /* Controllers */,
+				23A96AC41ACCED4C00FC076C /* InfoPlist.strings */,
+				23A96AC61ACCED4C00FC076C /* Entities */,
+				23A96AC91ACCED4C00FC076C /* Helpers */,
+				23A96AD91ACCED4C00FC076C /* Model */,
+				23A96ADE1ACCED4C00FC076C /* Resources */,
+				23A96AE11ACCED4C00FC076C /* Views */,
+			);
+			path = INOYearCalendar;
+			sourceTree = "<group>";
+		};
+		23A96AC11ACCED4C00FC076C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				23A96AC21ACCED4C00FC076C /* INOYearTableController.h */,
+				23A96AC31ACCED4C00FC076C /* INOYearTableController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		23A96AC61ACCED4C00FC076C /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				23A96AC71ACCED4C00FC076C /* Event.h */,
+				23A96AC81ACCED4C00FC076C /* Event.m */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		23A96AC91ACCED4C00FC076C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				23A96ACA1ACCED4C00FC076C /* CoreDataHelpers */,
+				23A96ACF1ACCED4C00FC076C /* INOMonthGlyphsHelper.h */,
+				23A96AD01ACCED4C00FC076C /* INOMonthGlyphsHelper.m */,
+				23A96AD11ACCED4C00FC076C /* NSDate+INOHelpers.h */,
+				23A96AD21ACCED4C00FC076C /* NSDate+INOHelpers.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		23A96ACA1ACCED4C00FC076C /* CoreDataHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				23A96ACB1ACCED4C00FC076C /* INOOperation.h */,
+				23A96ACC1ACCED4C00FC076C /* INOOperation.m */,
+				23A96ACD1ACCED4C00FC076C /* INOOperationQueue.h */,
+				23A96ACE1ACCED4C00FC076C /* INOOperationQueue.m */,
+			);
+			path = CoreDataHelpers;
+			sourceTree = "<group>";
+		};
+		23A96AD91ACCED4C00FC076C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				23A96ADA1ACCED4C00FC076C /* INOMonthImageFactory.h */,
+				23A96ADB1ACCED4C00FC076C /* INOMonthImageFactory.m */,
+				23A96ADC1ACCED4C00FC076C /* INOYearModel.h */,
+				23A96ADD1ACCED4C00FC076C /* INOYearModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		23A96ADE1ACCED4C00FC076C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				23A96ADF1ACCED4C00FC076C /* YearCalendarModel.xcdatamodeld */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		23A96AE11ACCED4C00FC076C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				23A96AE21ACCED4C00FC076C /* INOMonthView.h */,
+				23A96AE31ACCED4C00FC076C /* INOMonthView.m */,
+				23A96AE41ACCED4C00FC076C /* INOYearTableCell.h */,
+				23A96AE51ACCED4C00FC076C /* INOYearTableCell.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		23B7C73B1AB81A3800FC74EB /* DMPasscode */ = {
@@ -519,6 +686,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				231A780A180EB95900658141 /* Images.xcassets in Resources */,
+				23A96AE71ACCED4C00FC076C /* InfoPlist.strings in Resources */,
 				23322ECB18216D8B00102E9C /* about.html in Resources */,
 				2397AA391ACB8F4E004F066B /* Localizable.strings in Resources */,
 				231A77FC180EB95900658141 /* InfoPlist.strings in Resources */,
@@ -588,38 +756,56 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A96AE81ACCED4C00FC076C /* Event.m in Sources */,
 				23B7C74C1AB81A3800FC74EB /* DMPasscodeInternalNavigationController.m in Sources */,
 				233387DC1ACBE80A00ECF514 /* JTCalendarMonthView.m in Sources */,
+				23A96AFD1ACCEF4B00FC076C /* INOAppDelegate.m in Sources */,
 				233387D51ACBE80A00ECF514 /* JTCalendar.m in Sources */,
 				23B7C7481AB81A3800FC74EB /* DMKeychain.m in Sources */,
 				231A7802180EB95900658141 /* AppDelegate.m in Sources */,
+				23A96AE61ACCED4C00FC076C /* INOYearTableController.m in Sources */,
 				2374E36F18117DA4009A19A9 /* VoiceWaveView.m in Sources */,
+				233388011ACC02AF00ECF514 /* FSCalendarCell.m in Sources */,
+				233388031ACC02AF00ECF514 /* NSCalendar+FSExtension.m in Sources */,
 				233387DD1ACBE80A00ECF514 /* JTCalendarMonthWeekDaysView.m in Sources */,
 				233387D81ACBE80A00ECF514 /* JTCalendarDataCache.m in Sources */,
 				23B7C74A1AB81A3800FC74EB /* DMPasscodeConfig.m in Sources */,
 				232C8E42181F82BF0019C1F5 /* PlayTableViewCell.m in Sources */,
 				2335091D1818C82F00B72C8C /* Records.xcdatamodeld in Sources */,
+				23A96AE91ACCED4C00FC076C /* INOOperation.m in Sources */,
 				23B7C73A1AB801D700FC74EB /* PasscodeViewController.m in Sources */,
 				230BC7871811592A005FAC71 /* VisualStateManager.m in Sources */,
 				238A294C18114EE600CAA7AB /* LeftViewController.m in Sources */,
 				238A294F18114F0D00CAA7AB /* RightViewController.m in Sources */,
+				23A96AF31ACCED4C00FC076C /* YearCalendarModel.xcdatamodeld in Sources */,
 				23B7C74B1AB81A3800FC74EB /* DMPasscodeInternalField.m in Sources */,
 				233387DF1ACBE80A00ECF514 /* JTCircleView.m in Sources */,
 				238A29521811518E00CAA7AB /* NavigationController.m in Sources */,
+				23A96AF41ACCED4C00FC076C /* INOMonthView.m in Sources */,
 				233387D91ACBE80A00ECF514 /* JTCalendarDayView.m in Sources */,
 				233387D61ACBE80A00ECF514 /* JTCalendarAppearance.m in Sources */,
+				23A96AF51ACCED4C00FC076C /* INOYearTableCell.m in Sources */,
+				233388001ACC02AF00ECF514 /* FSCalendar.m in Sources */,
+				233388051ACC02AF00ECF514 /* UIView+FSExtension.m in Sources */,
 				23B7C7491AB81A3800FC74EB /* DMPasscode.m in Sources */,
 				233387DE1ACBE80A00ECF514 /* JTCalendarWeekView.m in Sources */,
+				23A96AF21ACCED4C00FC076C /* INOYearModel.m in Sources */,
 				231A77FE180EB95900658141 /* main.m in Sources */,
 				233509261819974700B72C8C /* RecordTableViewCell.m in Sources */,
 				236E273C1830AD5200D9A4FE /* Record.m in Sources */,
 				233104E118212102007323A6 /* AboutViewController.m in Sources */,
+				23A96AEC1ACCED4C00FC076C /* NSDate+INOHelpers.m in Sources */,
 				233387D71ACBE80A00ECF514 /* JTCalendarContentView.m in Sources */,
 				233387DB1ACBE80A00ECF514 /* JTCalendarMenuView.m in Sources */,
+				23A96AEB1ACCED4C00FC076C /* INOMonthGlyphsHelper.m in Sources */,
+				23A96AF11ACCED4C00FC076C /* INOMonthImageFactory.m in Sources */,
 				233387BC1ACBDEC000ECF514 /* CalendarViewController.m in Sources */,
+				233388041ACC02AF00ECF514 /* NSDate+FSExtension.m in Sources */,
 				233387DA1ACBE80A00ECF514 /* JTCalendarMenuMonthView.m in Sources */,
+				23A96AEA1ACCED4C00FC076C /* INOOperationQueue.m in Sources */,
 				238A294518114E9E00CAA7AB /* CenterViewController.m in Sources */,
 				238C1E68181315EA0090AA6E /* FileSHA1Hash.c in Sources */,
+				233388021ACC02AF00ECF514 /* FSCalendarHeader.m in Sources */,
 				23B7C74D1AB81A3800FC74EB /* DMPasscodeInternalViewController.m in Sources */,
 				236F25011820354500F04515 /* DetailViewController.m in Sources */,
 				230AB2E4182256C9009220AC /* UIDevice+Resolutions.m in Sources */,
@@ -681,6 +867,14 @@
 				2397AA3D1ACB8F68004F066B /* zh-Hans */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		23A96AC41ACCED4C00FC076C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				23A96AC51ACCED4C00FC076C /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -893,6 +1087,16 @@
 			);
 			currentVersion = 23C01EB51ACA38F3005363DD /* Records 4.xcdatamodel */;
 			path = Records.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		23A96ADF1ACCED4C00FC076C /* YearCalendarModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				23A96AE01ACCED4C00FC076C /* YearCalendarModel.xcdatamodel */,
+			);
+			currentVersion = 23A96AE01ACCED4C00FC076C /* YearCalendarModel.xcdatamodel */;
+			path = YearCalendarModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

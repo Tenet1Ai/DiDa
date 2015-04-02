@@ -13,7 +13,7 @@
     NSInteger selectedRow;
     NSInteger tagSelected;
     NSInteger originalRows;
-    NSTimer *timer;
+    NSTimer *aTimer;
     AVAudioPlayer *audioPlayer;
     NSTimeInterval currentTime;
     AVAudioSession *session;

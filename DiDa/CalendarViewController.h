@@ -13,6 +13,7 @@
     __weak IBOutlet JTCalendarMenuView *menuView;
     __weak IBOutlet JTCalendarContentView *calendarView;
     JTCalendar *calendar;
+    NSTimer *aTimer;
 }
 
 @end

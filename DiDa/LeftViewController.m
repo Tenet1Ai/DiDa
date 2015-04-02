@@ -59,7 +59,7 @@
         case 0:
             return 2;
         case 1:
-            return 2;
+            return 3;
         case 2:
             return 2;
         default:
@@ -123,10 +123,13 @@
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    [cell.textLabel setText:NSLocalizedString(@"Descending", nil)];
+                    [cell.textLabel setText:NSLocalizedString(@"Table ⬇︎", nil)];
                     break;
                 case 1:
-                    [cell.textLabel setText:NSLocalizedString(@"Ascending", nil)];
+                    [cell.textLabel setText:NSLocalizedString(@"Table ⬆︎", nil)];
+                    break;
+                case 2:
+                    [cell.textLabel setText:NSLocalizedString(@"Calendar", nil)];
                     break;
                 default:
                     break;
@@ -152,9 +155,6 @@
                     }
                     break;
                 }
-//                case 2:
-//                    [cell.textLabel setText:@"About"];
-//                    break;
                 default:
                     break;
             }
@@ -182,14 +182,24 @@
             return;
         }
         case 1: {
+            if (appDelegate.dataSort != indexPath.row) {
+                if (indexPath.row < 2 && appDelegate.dataSort == 2) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"showCenterViewController"
+                                                                        object:self userInfo:nil];
+                } else if (indexPath.row > 1 && appDelegate.dataSort < 2) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"showCalendarViewController"
+                                                                        object:self userInfo:nil];
+                } else if (indexPath.row < 2 && appDelegate.dataSort < 2) {
+                    NSIndexPath *indexPath1 = [NSIndexPath indexPathForRow:0 inSection:1];
+                    NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:1 inSection:1];
+                    NSArray *indexPaths = [NSArray arrayWithObjects:indexPath1, indexPath2, nil];
+                    [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTableData" object:self userInfo:nil];
+                }
+            }
             appDelegate.dataSort = indexPath.row;
             [userDefaults setObject:[NSNumber numberWithLong:indexPath.row] forKey:@"AppDataSort"];
             [userDefaults synchronize];
-            NSIndexPath *indexPath1 = [NSIndexPath indexPathForRow:0 inSection:1];
-            NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:1 inSection:1];
-            NSArray *indexPaths = [NSArray arrayWithObjects:indexPath1, indexPath2, nil];
-            [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTableData" object:self userInfo:nil];
             return;
         }
         case 2: {

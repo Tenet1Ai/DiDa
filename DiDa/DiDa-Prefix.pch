@@ -13,8 +13,12 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+    #import <QuartzCore/QuartzCore.h>
+    #import <CoreText/CoreText.h>
     #import "UIDevice+Resolutions.h"
     #import "DMPasscode.h"
+    #import "NSDate+INOHelpers.h"
 #endif
 
 #ifdef DEBUG

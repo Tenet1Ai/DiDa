@@ -7,6 +7,10 @@
 //
 
 #import "CalendarViewController.h"
+#import <UIViewController+MMDrawerController.h>
+#import "NavigationController.h"
+#import "AboutViewController.h"
+#import "PasscodeViewController.h"
 
 @interface CalendarViewController () <JTCalendarDataSource>
 
@@ -17,14 +21,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     calendar = [JTCalendar new];
-    
-    
     calendar.calendarAppearance.calendar.firstWeekday = 2; // Sunday == 1, Saturday == 7
     calendar.calendarAppearance.dayCircleRatio = 9. / 10.;
     calendar.calendarAppearance.ratioContentMenu = 3.;
     calendar.calendarAppearance.focusSelectedDayChangeMode = YES;
+    calendar.calendarAppearance.dayCircleColorToday = [UIColor blueColor];
     
     // Customize the text for each month
     calendar.calendarAppearance.monthBlock = ^NSString *(NSDate *date, JTCalendar *jt_calendar) {
@@ -50,8 +52,48 @@
     [calendar setMenuMonthsView:menuView];
     [calendar setContentView:calendarView];
     [calendar setDataSource:self];
-
     [calendar reloadData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAbout)
+                                                 name:@"showAboutViewController" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPasscode)
+                                                 name:@"showPasscodeViewController" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCenter)
+                                                 name:@"showCenterViewController" object:nil];
+}
+
+- (void)showCenter {
+    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
+                                              target:self selector:@selector(showViewController:)
+                                            userInfo:@"CenterViewController" repeats:NO];
+}
+
+- (void)showAbout {
+    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
+                                             target:self selector:@selector(showViewController:)
+                                           userInfo:@"AboutViewController" repeats:NO];
+}
+
+- (void)showPasscode {
+    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
+                                             target:self selector:@selector(showViewController:)
+                                           userInfo:@"PasscodeViewController" repeats:NO];
+}
+
+- (void)showViewController:(NSTimer *)timer {
+    NSString *identifierString = (NSString *)[timer userInfo];
+    if (aTimer) {
+        [aTimer invalidate];
+    }
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    AboutViewController *aboutViewController = [storyboard instantiateViewControllerWithIdentifier:identifierString];
+    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:aboutViewController];
+    [self.mm_drawerController setRightDrawerViewController:navigationController];
+    [self.mm_drawerController openDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+}
+
+- (IBAction)tapMenuButton:(id)sender {
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 
 #pragma mark - JTCalendarDataSource

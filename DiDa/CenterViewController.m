@@ -63,16 +63,25 @@
     UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:nil];
     [self.tableView addGestureRecognizer:tapRec];
     tapRec.delegate = self;
+
+    currentTime = 0.0;
+    filePathString = nil;
+    audioPlayer = nil;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableData)
+                                                 name:@"refreshTableData" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAbout)
                                                  name:@"showAboutViewController" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPasscode)
                                                  name:@"showPasscodeViewController" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableData)
-                                                 name:@"refreshTableData" object:nil];
-    currentTime = 0.0;
-    filePathString = nil;
-    audioPlayer = nil;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCalendar)
+                                                 name:@"showCalendarViewController" object:nil];
+}
+
+- (void)showCalendar {
+    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
+                                              target:self selector:@selector(showViewController:)
+                                            userInfo:@"CalendarViewController" repeats:NO];
 }
 
 - (void)refreshTableData {
@@ -81,13 +90,28 @@
 }
 
 - (void)showAbout {
-    timer = [NSTimer scheduledTimerWithTimeInterval:0.5f
-                                             target:self selector:@selector(showAboutViewController) userInfo:nil repeats:NO];
+    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
+                                             target:self selector:@selector(showViewController:)
+                                           userInfo:@"AboutViewController" repeats:NO];
+}
+
+- (void)showViewController:(NSTimer *)timer {
+    NSString *identifierString = (NSString *)[timer userInfo];
+    if (aTimer) {
+        [aTimer invalidate];
+        aTimer = nil;
+    }
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    AboutViewController *aboutViewController = [storyboard instantiateViewControllerWithIdentifier:identifierString];
+    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:aboutViewController];
+    [self.mm_drawerController setRightDrawerViewController:navigationController];
+    [self.mm_drawerController openDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 - (void)showPasscode {
-    timer = [NSTimer scheduledTimerWithTimeInterval:0.5f
-                                             target:self selector:@selector(showPasscodeViewController) userInfo:nil repeats:NO];
+    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
+                                             target:self selector:@selector(showViewController:)
+                                           userInfo:@"PasscodeViewController" repeats:NO];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -111,30 +135,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)showAboutViewController {
-    if (timer) {
-        [timer invalidate];
-        timer = nil;
-    }
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    AboutViewController *aboutViewController = [storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
-    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:aboutViewController];
-    [self.mm_drawerController setRightDrawerViewController:navigationController];
-    [self.mm_drawerController openDrawerSide:MMDrawerSideRight animated:YES completion:nil];
-}
-
-- (void)showPasscodeViewController {
-    if (timer) {
-        [timer invalidate];
-        timer = nil;
-    }
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    PasscodeViewController *aboutViewController = [storyboard instantiateViewControllerWithIdentifier:@"PasscodeViewController"];
-    UINavigationController *navigationController = [[NavigationController alloc] initWithRootViewController:aboutViewController];
-    [self.mm_drawerController setRightDrawerViewController:navigationController];
-    [self.mm_drawerController openDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 - (IBAction)touchMenuButton:(id)sender {

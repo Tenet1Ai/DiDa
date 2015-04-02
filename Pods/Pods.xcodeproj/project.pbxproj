@@ -23,7 +23,6 @@
 		84B2975844CDC71EDFB5465A /* FDWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AD7E2A3F87A32E47893874 /* FDWaveformView.m */; };
 		8684D50238A852D988407EF1 /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E819CC712BC480BDEC1D5E7C /* MMDrawerController.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		89446CA483CD1FEF77111D3C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA2BBB16C6A01B572ED3471 /* Foundation.framework */; };
-		8B9488FF630F743F32A8064B /* MMDrawerController+Subclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EA54165251AE34962560422 /* MMDrawerController+Subclass.h */; };
 		8C0F438A2EACE7A3F59B7B97 /* Pods-MMDrawerController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D488CD2FE17081A4FC246362 /* Pods-MMDrawerController-dummy.m */; };
 		8DC5190067D1880AFFF557F3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A42452ACD32CFC21D4FCED45 /* QuartzCore.framework */; };
 		A2314B30E3C9AAE8D4712925 /* UIViewController+MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907793602EF6C9A608843DC7 /* UIViewController+MMDrawerController.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
@@ -307,7 +306,6 @@
 			files = (
 				3EF03FC0E9EC8673348760C7 /* MMDrawerBarButtonItem.h in Headers */,
 				4B3AEB8BE467B5EB231742FA /* MMDrawerController+Subclass.h in Headers */,
-				8B9488FF630F743F32A8064B /* MMDrawerController+Subclass.h in Headers */,
 				C1EC6C0913ED7B34AA95ED45 /* MMDrawerController.h in Headers */,
 				31DC5194E9B1C7346E34F92E /* MMDrawerVisualState.h in Headers */,
 				65F3D78A22819EEF67B45D61 /* UIViewController+MMDrawerController.h in Headers */,
@@ -393,7 +391,7 @@
 		D093E043C2E551C67DFC63B1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0620;
 			};
 			buildConfigurationList = 9D5AB3B0C34B3498FC9DED2D /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";

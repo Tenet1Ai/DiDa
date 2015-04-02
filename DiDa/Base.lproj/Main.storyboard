@@ -40,7 +40,7 @@
             </objects>
             <point key="canvasLocation" x="-1357" y="-532"/>
         </scene>
-        <!--DiDa-->
+        <!--DiDa Calendar-->
         <scene sceneID="qbL-eL-3lF">
             <objects>
                 <viewController storyboardIdentifier="CalendarViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BIU-1X-YP8" customClass="CalendarViewController" sceneMemberID="viewController">
@@ -77,16 +77,18 @@
                             <constraint firstItem="Qvi-CL-USh" firstAttribute="leading" secondItem="vzG-Lb-Oz6" secondAttribute="leading" id="xbr-bE-vS9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="DiDa" id="FZk-az-xdF">
+                    <navigationItem key="navigationItem" title="DiDa Calendar" id="FZk-az-xdF">
                         <barButtonItem key="leftBarButtonItem" image="burger" id="d7u-sx-poT">
                             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="tapMenuButton:" destination="BIU-1X-YP8" id="ftd-oF-p28"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="add" id="JPd-Jj-jc8">
                             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="calendarView" destination="1bj-at-y78" id="OFz-bb-kR9"/>
                         <outlet property="menuView" destination="Qvi-CL-USh" id="aDC-TG-EKa"/>
                         <segue destination="fJr-CV-jfX" kind="push" identifier="pushToTable" id="COg-ih-sVL"/>
                     </connections>
@@ -95,7 +97,7 @@
             </objects>
             <point key="canvasLocation" x="-1073" y="-1548"/>
         </scene>
-        <!--DiDa-->
+        <!--DiDa Memos-->
         <scene sceneID="VrD-Xl-eME">
             <objects>
                 <tableViewController storyboardIdentifier="CenterViewController" id="fJr-CV-jfX" customClass="CenterViewController" sceneMemberID="viewController">
@@ -272,7 +274,7 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="DiDa" id="DLx-SA-ygI">
+                    <navigationItem key="navigationItem" title="DiDa Memos" id="DLx-SA-ygI">
                         <barButtonItem key="leftBarButtonItem" id="gmU-XX-QFN">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Krz-O6-jd9">
                                 <rect key="frame" x="16" y="13" width="19" height="18"/>
