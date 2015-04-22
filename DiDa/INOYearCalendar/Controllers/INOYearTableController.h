@@ -16,6 +16,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface INOYearTableController : UITableViewController
+@interface INOYearTableController : UIViewController {
+    __weak IBOutlet UITableView *yearTableView;
+    __weak IBOutlet UIView *bottomView;
+    NSInteger tagSelected;
+    NSIndexPath *nowIndexPath;
+}
 
 @end

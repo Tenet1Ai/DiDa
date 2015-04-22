@@ -17,9 +17,8 @@
 #import "INOYearModel.h"
 #import "INOMonthImageFactory.h"
 #import "INOOperationQueue.h"
-#import "INOAppDelegate.h"
-
-#import "Event.h"
+#import "AppDelegate.h"
+#import "Record.h"
 
 static NSUInteger const kMonthsInSingleYear = 12;
 
@@ -37,19 +36,17 @@ static NSUInteger const kMonthsInSingleYear = 12;
     self = [super init];
     
     if (self) {
-        
         _currentDate = [NSDate date];
     
         _queue = [[INOOperationQueue alloc] init];
         [_queue setMaxConcurrentOperationCount:1];
         
-        [[INOMonthImageFactory sharedFactory] setColorsForEventCategories:@{@(0) : [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.4f],
-                                                                            @(1) : [UIColor colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.4f],
-                                                                            @(2) : [UIColor colorWithRed:0.0f green:0.0f blue:1.0f alpha:0.4f],
-                                                                            @(3) : [UIColor colorWithRed:1.0f green:1.0f blue:0.0f alpha:0.4f]}];
-        
+        [[INOMonthImageFactory sharedFactory]
+         setColorsForEventCategories:@{@(0) : [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.4f],
+                                       @(1) : [UIColor colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.4f],
+                                       @(2) : [UIColor colorWithRed:0.0f green:0.0f blue:1.0f alpha:0.4f],
+                                       @(3) : [UIColor colorWithRed:1.0f green:1.0f blue:0.0f alpha:0.4f]}];
     }
-    
     return self;
 }
 
@@ -60,9 +57,9 @@ static NSUInteger const kMonthsInSingleYear = 12;
                                 forDateKey:@"year"];
 }
 
-- (void)makeMonthsImagesWithDate:(NSDate *)yearDate ofSize:(CGSize)size cancelTag:(NSUInteger)cancelTag completion:(Completion)completion {
-    
-    INOAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+- (void)makeMonthsImagesWithDate:(NSDate *)yearDate
+                          ofSize:(CGSize)size cancelTag:(NSUInteger)cancelTag completion:(Completion)completion {
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     INOOperation *operation = [[INOOperation alloc] initWithMainManagedObjectContext:[appDelegate managedObjectContext]];
     
     BlockOperation block = ^id(NSManagedObjectContext *privateContext, CancelObservingBlock isCancelled) {
@@ -70,33 +67,30 @@ static NSUInteger const kMonthsInSingleYear = 12;
         NSDate *beginningOfYear = [yearDate beginningOfYear];
         NSDate *endOfYear = [yearDate endOfYear];
         
-        NSArray *events = [Event eventsFromDate:beginningOfYear toDate:endOfYear inContext:privateContext];
+        NSArray *records = [Record eventsFromDate:beginningOfYear toDate:endOfYear inContext:privateContext];
         
         NSMutableDictionary *eventsForDates = [NSMutableDictionary dictionary];
-        for (Event *event in events) {
-            
-            NSDate *searchKey = [event.eventDate beginningOfDay];
-            
+        for (Record *record in records) {
+            NSDate *searchKey = [record.date beginningOfDay];
             NSMutableArray *eventsForDay = [eventsForDates objectForKey:searchKey];
             
             if (!eventsForDay) {
                 eventsForDay = [NSMutableArray array];
             }
             
-            [eventsForDay addObject:event];
-            
+            [eventsForDay addObject:record];
             [eventsForDates setObject:eventsForDay forKey:searchKey];
             
             if (isCancelled()) {
                 return nil;
             }
-            
         }
         
         NSMutableArray *monthsImages = [NSMutableArray array];
         for (NSUInteger i = 0; i < kMonthsInSingleYear; i++) {
             NSDate *monthDate = [beginningOfYear dateByAddingValue:i forDateKey:@"month"];
-            UIImage *monthImage = [[INOMonthImageFactory sharedFactory] monthImageWithDate:monthDate ofSize:size eventsForDates:eventsForDates];
+            UIImage *monthImage = [[INOMonthImageFactory sharedFactory]
+                                   monthImageWithDate:monthDate ofSize:size eventsForDates:eventsForDates];
             if (monthImage) {
                 [monthsImages addObject:monthImage];
             }

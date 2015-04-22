@@ -2,11 +2,11 @@
 /* Class = "UILabel"; text = "0:00"; ObjectID = "0RA-KX-0tQ"; */
 "0RA-KX-0tQ.text" = "0:00";
 
-/* Class = "UIButton"; normalTitle = "Setup Passcode"; ObjectID = "7YR-NL-GuS"; */
-"7YR-NL-GuS.normalTitle" = "设置密码";
+/* Class = "UIButton"; normalTitle = "About DiDa"; ObjectID = "6bd-qL-QMe"; */
+"6bd-qL-QMe.normalTitle" = "关于嘀嗒";
 
-/* Class = "UINavigationItem"; title = "Options"; ObjectID = "7yy-oX-hJN"; */
-"7yy-oX-hJN.title" = "选项";
+/* Class = "UIButton"; normalTitle = "Setup Passcode"; ObjectID = "7YR-NL-GuS"; */
+"7YR-NL-GuS.normalTitle" = "设置密码保护";
 
 /* Class = "UIButton"; normalTitle = "Turn Passcode Off"; ObjectID = "9V3-QJ-7w1"; */
 "9V3-QJ-7w1.normalTitle" = "关闭密码保护";
@@ -15,13 +15,16 @@
 "CHG-yw-QQ0.normalTitle" = "Button";
 
 /* Class = "UINavigationItem"; title = "DiDa Memos"; ObjectID = "DLx-SA-ygI"; */
-"DLx-SA-ygI.title" = "嘀嗒";
+"DLx-SA-ygI.title" = "嘀嗒记事本";
 
 /* Class = "UILabel"; text = "Memo Title"; ObjectID = "GWM-ew-YOB"; */
 "GWM-ew-YOB.text" = "Memo Title";
 
 /* Class = "UILabel"; text = "Date"; ObjectID = "Jrr-eV-hdD"; */
 "Jrr-eV-hdD.text" = "日期";
+
+/* Class = "UIButton"; normalTitle = "Today"; ObjectID = "MjI-2u-wqV"; */
+"MjI-2u-wqV.normalTitle" = "今天";
 
 /* Class = "UILabel"; text = "\""; ObjectID = "OGU-cp-mqC"; */
 "OGU-cp-mqC.text" = "\"";
@@ -34,6 +37,9 @@
 
 /* Class = "UINavigationItem"; title = "Recorder"; ObjectID = "QiB-4J-Jhi"; */
 "QiB-4J-Jhi.title" = "录音机";
+
+/* Class = "UIButton"; normalTitle = "Settings"; ObjectID = "TUF-DP-Pnb"; */
+"TUF-DP-Pnb.normalTitle" = "设置";
 
 /* Class = "UIButton"; normalTitle = "Done"; ObjectID = "V9s-2p-lQa"; */
 "V9s-2p-lQa.normalTitle" = "完成";
@@ -53,14 +59,17 @@
 /* Class = "UIButton"; normalTitle = "Detail"; ObjectID = "g9t-CB-BUe"; */
 "g9t-CB-BUe.normalTitle" = "详情";
 
-/* Class = "UINavigationItem"; title = "Passcode"; ObjectID = "hbC-D1-mYz"; */
-"hbC-D1-mYz.title" = "密码";
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "hbC-D1-mYz"; */
+"hbC-D1-mYz.title" = "设置";
 
 /* Class = "UILabel"; text = "Memo Title"; ObjectID = "iKB-xs-c9p"; */
 "iKB-xs-c9p.text" = "Memo Title";
 
 /* Class = "UINavigationItem"; title = "About"; ObjectID = "lDn-kW-v0P"; */
 "lDn-kW-v0P.title" = "关于";
+
+/* Class = "UINavigationItem"; title = "DiDa Calendar"; ObjectID = "lu4-Uz-hBV"; */
+"lu4-Uz-hBV.title" = "嘀嗒日历";
 
 /* Class = "UILabel"; text = "Location"; ObjectID = "oq0-Am-YZF"; */
 "oq0-Am-YZF.text" = "位置";
@@ -70,3 +79,6 @@
 
 /* Class = "UILabel"; text = "-0:00"; ObjectID = "sOj-AL-oHb"; */
 "sOj-AL-oHb.text" = "-0:00";
+
+/* Class = "UIButton"; normalTitle = "Memos"; ObjectID = "ygJ-b4-zyY"; */
+"ygJ-b4-zyY.normalTitle" = "记事本";

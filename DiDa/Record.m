@@ -20,5 +20,25 @@
 @dynamic note;
 @dynamic path;
 @dynamic unit;
+@dynamic category;
+
++ (NSArray *)eventsFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate inContext:(NSManagedObjectContext *)context {
+    
+    NSEntityDescription *eventEntity = [NSEntityDescription entityForName:NSStringFromClass([Record class]) inManagedObjectContext:context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:eventEntity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date <= %@", fromDate, toDate];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *events = [context executeFetchRequest:request error:&error];
+    
+    if (error) {
+        DLog(@"Error during %@ objects fetch: %@", [Record class], [error userInfo]);
+    }
+    
+    return events;
+}
 
 @end

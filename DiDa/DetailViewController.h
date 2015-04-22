@@ -29,12 +29,12 @@
     AVAudioSession *session;
     AppDelegate *appDelegate;
     BOOL willUpdateRecord;
+    __unsafe_unretained id<TouchActionsDelegate> delegate;
 }
 
 @property (nonatomic, strong) Record *record;
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic, assign) id<TouchActionsDelegate> delegate;
 @property (nonatomic, assign) NSInteger tag;
-@property (strong) NSPersistentStoreCoordinator *sharedPSC;
 
 @end

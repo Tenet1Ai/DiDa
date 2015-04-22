@@ -106,13 +106,9 @@
 }
 
 - (NSManagedObjectContext *)privateContext {
-    
-	if( !_privateContext ){
-		
+	if (!_privateContext) {
 		NSAssert([self mainContext], @"No Main context set in %@, cannot create private context!", self);
-        
 		_privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        
         [_privateContext performBlockAndWait: ^{
             [_privateContext setPersistentStoreCoordinator:[[self mainContext] persistentStoreCoordinator]];
         }];

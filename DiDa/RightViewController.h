@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "VoiceWaveView.h"
 #import <FDWaveformView.h>
+#import "AppDelegate.h"
 
 @interface RightViewController : UIViewController <VoiceWaveViewDelegate, CLLocationManagerDelegate, UIAlertViewDelegate> {
     __weak IBOutlet UIImageView *micImageView;
@@ -26,6 +27,7 @@
     NSString *recordFilePath;
     NSURL *audioURL;
     AVAudioPlayer *audioPlayer;
+    AppDelegate *appDelegate;
 }
 
 @property (nonatomic, retain) VoiceWaveView *voiceWaveView;
@@ -35,6 +37,5 @@
 @property (nonatomic, assign) double longitude;
 @property (nonatomic, retain) NSString *location;
 @property (nonatomic, retain) NSString *unit;
-@property (strong) NSPersistentStoreCoordinator *sharedPSC;
 
 @end

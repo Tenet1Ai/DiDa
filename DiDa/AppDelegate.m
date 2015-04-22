@@ -7,13 +7,12 @@
 //
 
 #import "AppDelegate.h"
-#import "LeftViewController.h"
 #import "CenterViewController.h"
 #import "RightViewController.h"
 #import "NavigationController.h"
 #import "DMPasscode.h"
 #import "CalendarViewController.h"
-#import "Event.h"
+#import "Record.h"
 
 @interface AppDelegate ()
 @end
@@ -24,77 +23,165 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize voiceIndex, outputDevice, dataSort;
 
-#pragma mark - CoreData Helpers
-
-- (NSManagedObjectContext *)managedObjectContext {
-    
-    if (_managedObjectContext) {
-        return _managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-    }
-    return _managedObjectContext;
-}
-
-- (NSManagedObjectModel *)managedObjectModel {
-    
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    
-    _managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
-    
-    return _managedObjectModel;
-}
-
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    
-    if (_persistentStoreCoordinator != nil) {
-        return _persistentStoreCoordinator;
-    }
-    
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"YearCalendarModel.sqlite"];
-    
-    NSError *error = nil;
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    NSAssert([_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error],
-             @"NSPersistentStoreCoordinator error: %@", [error userInfo]);
-    return _persistentStoreCoordinator;
-}
+#pragma mark -
 
 - (NSURL *)applicationDocumentsDirectory {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-#pragma mark - Sample Helpers
+// Returns the path to the application's documents directory.
+- (NSString *)applicationDocumentsDirectoryString {
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
 
-- (void)createTestEvents {
-    
-    const NSUInteger secondsInSingleYear = 31556926;
-    const NSUInteger yearsToPopulate     = 50;
-    const NSUInteger eventsCount         = 1000;
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
-    NSInteger count = [self.managedObjectContext countForFetchRequest:request error:nil];
-    
-    if (count < eventsCount) {
-        for (NSUInteger i = count; i < eventsCount; i++) {
-            
-            Event *event = [NSEntityDescription insertNewObjectForEntityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
-            
-            [event setEventCategory:@(arc4random() % 4)];
-            [event setEventDate:[NSDate dateWithTimeIntervalSinceNow:arc4random() % (secondsInSingleYear * yearsToPopulate)]];
-            
-            NSError *error = nil;
-            [event.managedObjectContext save:&error];
-            NSAssert(!error, @"Error while saving event: %@", [error userInfo]);
-        }
+# pragma mark - memo core data
+
+// merge changes to main context,fetchedRequestController will automatically monitor the changes and update tableview.
+- (void)updateMainContext:(NSNotification *)notification {
+    assert([NSThread isMainThread]);
+    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+}
+
+// this is called via observing "NSManagedObjectContextDidSaveNotification" from our APLParseOperation
+- (void)mergeChanges:(NSNotification *)notification {
+    if (notification.object != self.managedObjectContext) {
+        [self performSelectorOnMainThread:@selector(updateMainContext:) withObject:notification waitUntilDone:NO];
     }
 }
+
+- (NSManagedObjectContext *)managedObjectContext {
+    if (_managedObjectContext != nil) {
+        return _managedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil) {
+        _managedObjectContext = [NSManagedObjectContext new];
+        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+    
+    // observe the ParseOperation's save operation with its managed object context
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mergeChanges:)
+                                                 name:NSManagedObjectContextDidSaveNotification
+                                               object:nil];
+    
+    return _managedObjectContext;
+}
+
+// Returns the managed object model for the application.
+// If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
+//
+- (NSManagedObjectModel *)managedObjectModel {
+    
+    if (_managedObjectModel != nil) {
+        return _managedObjectModel;
+    }
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Records" withExtension:@"momd"];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
+    return _managedObjectModel;
+}
+
+// Returns the persistent store coordinator for the application.
+// If the coordinator doesn't already exist, it is created and the application's store added to it
+//
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+    if (_persistentStoreCoordinator != nil) {
+        return _persistentStoreCoordinator;
+    }
+    
+    // find the Record data in our Documents folder
+    NSString *storePath = [[self applicationDocumentsDirectoryString] stringByAppendingPathComponent:@"Records.sqlite"];
+    NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
+    
+    NSError *error = nil;
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
+        // Handle error
+        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    return _persistentStoreCoordinator;
+}
+
+#pragma mark - Sample Helpers
+
+//- (void)createTestEvents {
+//    const NSUInteger secondsInSingleYear = 31556926;
+//    const NSUInteger yearsToPopulate     = 50;
+//    const NSUInteger eventsCount         = 100;
+//    
+//    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
+//    NSInteger count = [self.managedObjectContext countForFetchRequest:request error:nil];
+//    
+//    if (count < eventsCount) {
+//        for (NSUInteger i = count; i < eventsCount; i++) {
+//            Event *event = [NSEntityDescription insertNewObjectForEntityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
+//            
+//            NSNumber *randomNumber =@(arc4random() % 4);
+//            NSDecimalNumber *newNumber = [[NSDecimalNumber alloc] initWithInt:[randomNumber intValue]];
+//            [event setEventCategory:newNumber];
+//            [event setEventDate:[NSDate dateWithTimeIntervalSinceNow:arc4random() % (secondsInSingleYear * yearsToPopulate)]];
+//            
+//            NSError *error = nil;
+//            [event.managedObjectContext save:&error];
+//            NSAssert(!error, @"Error while saving event: %@", [error userInfo]);
+//        }
+//    }
+//}
+
+//- (void)createMemoEvents {
+//    NSArray *memoArray = self.memoFetchedResultsController.fetchedObjects;
+//    for (Record *record in memoArray) {
+//        NSDate *date = record.date;
+//        NSArray *eventArray = self.fetchedResultsController.fetchedObjects;
+//        BOOL hasEvent = NO;
+//        for (Event *event in eventArray) {
+//            if ([date isEqualToDate:event.eventDate]) {
+//                hasEvent = YES;
+//                break;
+//            }
+//        }
+//        if (hasEvent == NO) {
+//            Event *event = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+//                                                         inManagedObjectContext:self.managedObjectContext];
+//            NSDecimalNumber *newNumber = [[NSDecimalNumber alloc] initWithInt:1];
+//            [event setEventCategory:newNumber];
+//            [event setEventDate:date];
+//            NSError *error = nil;
+//            [event.managedObjectContext save:&error];
+//            NSAssert(!error, @"Error while saving event: %@", [error userInfo]);
+//        }
+//        DLog(@"%@ %@ %d", [record class], record.memo, hasEvent);
+//    }
+//}
+
+//- (void)createMemoEvents {
+//    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Record"];
+//    NSArray *memoArray = [self.managedObjectContext executeFetchRequest:request error:nil];
+//    NSMutableArray *dateArray = [[NSMutableArray alloc] init];
+//    for (Record *record in memoArray) {
+//        [dateArray addObject:record.date];
+//    }
+//
+//    
+//        for (NSUInteger i = 0; i < [dateArray count]; i++) {
+//            NSDate *date = [NSDate date];
+//            Event *event = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+//                                                         inManagedObjectContext:self.managedObjectContext];
+//            NSDecimalNumber *newNumber = [[NSDecimalNumber alloc] initWithInt:1];
+//            [event setEventCategory:newNumber];
+//            [event setEventDate:date];
+//            NSError *error = nil;
+//            [event.managedObjectContext save:&error];
+//        }
+////        DLog(@"Error while saving event: %@", [error userInfo]);
+////        DLog(@"%@ %@", [record class], record.memo);
+//}
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     voiceIndex = 0;
@@ -142,6 +229,7 @@
     DLog(@"%@", NSHomeDirectory());
     [self managedObjectContext];
 //    [self createTestEvents];
+//    [self createMemoEvents];
 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
@@ -188,7 +276,7 @@
     DLog(@"applicationDidBecomeActive: %d", passcodeSet);
     if (passcodeSet == YES && _showingPasscode == NO) {
         _showingPasscode = YES;
-        [DMPasscode showPasscodeInViewController:self completion:^(BOOL success, NSError *error) {
+        [DMPasscode showPasscodeInViewController:self.window.rootViewController completion:^(BOOL success, NSError *error) {
             if (success) {
             } else {
                 if (error) {

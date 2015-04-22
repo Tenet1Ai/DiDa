@@ -54,7 +54,7 @@
 "g9t-CB-BUe.normalTitle" = "Detail";
 
 /* Class = "UINavigationItem"; title = "Passcode"; ObjectID = "hbC-D1-mYz"; */
-"hbC-D1-mYz.title" = "Passcode";
+"hbC-D1-mYz.title" = "Settings";
 
 /* Class = "UILabel"; text = "Memo Title"; ObjectID = "iKB-xs-c9p"; */
 "iKB-xs-c9p.text" = "Memo Title";

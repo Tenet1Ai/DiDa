@@ -17,23 +17,25 @@
 #import "INOYearTableCell.h"
 #import "INOMonthView.h"
 
-static NSUInteger const kMonthsInSingleYear           = 12;
-static NSUInteger const kNumberOfMonthsInSingleRow    = 3;
+static NSUInteger const kMonthsInSingleYear = 12;
+static NSUInteger const kNumberOfMonthsInSingleRow = 3;
 static NSUInteger const kNumberOfMonthsInSingleColumn = kMonthsInSingleYear / kNumberOfMonthsInSingleRow;
 
 static NSDateFormatter *yearFormatter = nil;
 
 static CGFloat const kYearTitleHeight = 30.0f;
-static CGFloat const kDefaultMargin   = 5.0f;
+static CGFloat const kDefaultMargin = 5.0f;
 
 @interface INOYearTableCell ()
 
-// Data
-@property (nonatomic, strong) NSDate  *yearDate;
+- (void)setupWithYearDate:(NSDate *)yearDate;
+
+// Date
+@property (nonatomic, strong) NSDate *yearDate;
 
 // View
 @property (nonatomic, strong) UILabel *yearLabel;
-@property (nonatomic, strong) UIView  *monthsHolder;
+@property (nonatomic, strong) UIView *monthsHolder;
 @property (nonatomic, strong) NSArray *monthsViews;
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
@@ -72,10 +74,14 @@ static CGFloat const kDefaultMargin   = 5.0f;
         [_activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [_activityIndicator setColor:[UIColor orangeColor]];
         [_monthsHolder addSubview:_activityIndicator];
-        
     }
     
     return self;
+}
+
+- (void)tapMonthView:(UITapGestureRecognizer *)recognizer {
+    DLog(@"%ld", recognizer.view.tag);
+    [self.delegate tapMonthView:recognizer.view.tag];
 }
 
 - (void)layoutSubviews {
@@ -119,9 +125,15 @@ static CGFloat const kDefaultMargin   = 5.0f;
 
 - (void)setupWithYearDate:(NSDate *)yearDate {
     _yearDate = [yearDate beginningOfYear];
-    [_yearLabel setText:[yearFormatter stringFromDate:_yearDate]];
+    NSString *yearString = [yearFormatter stringFromDate:_yearDate];
+    [_yearLabel setText:yearString];
     [_monthsViews enumerateObjectsUsingBlock: ^(INOMonthView *monthView, NSUInteger idx, BOOL *stop) {
         [monthView setupWithMonthDate:[_yearDate dateByAddingValue:idx forDateKey:@"month"]];
+        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                     action:@selector(tapMonthView:)];
+        [monthView addGestureRecognizer:recognizer];
+        NSInteger yearInteger = [yearString integerValue];
+        monthView.tag = yearInteger * 1000 + idx + 1;
     }];
 }
 

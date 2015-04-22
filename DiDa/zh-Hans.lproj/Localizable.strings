@@ -16,6 +16,7 @@
 "Delete" = "删除";
 "Delete Memo" = "删除录音";
 "Delete “%@”" = "删除 “%@”";
+"DiDa Calendar" = "嘀嗒日历";
 "Enter code to unlock" = "输入密码解锁";
 "Enter new code" = "输入新密码";
 "Enter Passcode" = "输入密码";
@@ -29,6 +30,7 @@
 "Setup Passcode" = "设置密码";
 "Speaker" = "扬声器";
 "System" = "系统";
-"Table ⬇︎" = "表格 ⬇︎";
-"Table ⬆︎" = "表格 ⬆︎";
 "View" = "显示";
+"Turn Off Passcode Lock?" = "关闭密码保护吗？";
+"Your saved memo can be listened and viewed by anyone who has access to your iPhone if your turn off passcode lock." = "如果您取消密码保护，您保存的语音记事可能会被他人查看和收听。";
+"Turn Off" = "关闭";

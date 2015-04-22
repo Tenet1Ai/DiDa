@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="meA-lc-HeA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="meA-lc-HeA">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
@@ -7,39 +7,82 @@
     </dependencies>
     <scenes>
         <!--DiDa Calendar-->
-        <scene sceneID="VAb-ya-kPt">
+        <scene sceneID="PDk-pK-pfE">
             <objects>
-                <tableViewController storyboardIdentifier="INOYearTableController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PWg-bd-vCW" customClass="INOYearTableController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="l3T-5k-qXz">
+                <viewController storyboardIdentifier="INOYearTableController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="uKg-k4-xsz" customClass="INOYearTableController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6Ja-yD-TaL"/>
+                        <viewControllerLayoutGuide type="bottom" id="rYE-TA-SaU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6J3-qz-eh5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3Gk-hH-jx3">
+                                <rect key="frame" x="0.0" y="6" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="uKg-k4-xsz" id="fyf-ch-b5w"/>
+                                    <outlet property="delegate" destination="uKg-k4-xsz" id="tp9-2E-cgR"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wiu-Tx-MQJ">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TUF-DP-Pnb">
+                                        <rect key="frame" x="243" y="6" width="77" height="30"/>
+                                        <state key="normal" title="Settings"/>
+                                        <connections>
+                                            <action selector="tapSettingsButton:" destination="uKg-k4-xsz" eventType="touchUpInside" id="r3K-Tq-aoo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MjI-2u-wqV">
+                                        <rect key="frame" x="0.0" y="6" width="65" height="30"/>
+                                        <state key="normal" title="Today"/>
+                                        <connections>
+                                            <action selector="tapTodayButton:" destination="uKg-k4-xsz" eventType="touchUpInside" id="x0k-0t-0er"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ygJ-b4-zyY">
+                                        <rect key="frame" x="117" y="6" width="87" height="30"/>
+                                        <state key="normal" title="Memos"/>
+                                        <connections>
+                                            <action selector="tapMemosButton:" destination="uKg-k4-xsz" eventType="touchUpInside" id="S1A-ad-V15"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="ksx-D3-aVF"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="PWg-bd-vCW" id="dbr-4s-jV8"/>
-                            <outlet property="delegate" destination="PWg-bd-vCW" id="uJ6-rR-Sqc"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="DiDa Calendar" id="wAF-Es-ppo">
-                        <barButtonItem key="leftBarButtonItem" image="burger" id="bYT-2g-VaP">
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Wiu-Tx-MQJ" secondAttribute="trailing" id="7J9-Bn-I5j"/>
+                            <constraint firstItem="Wiu-Tx-MQJ" firstAttribute="leading" secondItem="6J3-qz-eh5" secondAttribute="leading" id="YNR-Qe-G2U"/>
+                            <constraint firstItem="rYE-TA-SaU" firstAttribute="top" secondItem="Wiu-Tx-MQJ" secondAttribute="bottom" id="nA2-59-kLS"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="DiDa Calendar" id="lu4-Uz-hBV">
+                        <barButtonItem key="rightBarButtonItem" image="add" id="zjN-kb-Chy">
                             <connections>
-                                <action selector="tapListButton:" destination="PWg-bd-vCW" id="fB1-Se-vbR"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="add" id="B84-mC-mUy">
-                            <connections>
-                                <action selector="tapAddButton:" destination="PWg-bd-vCW" id="hBE-7a-Ogn"/>
+                                <action selector="tapAddButton:" destination="uKg-k4-xsz" id="Hsk-VC-cgK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="fJr-CV-jfX" kind="push" identifier="pushToList" id="xwg-ax-aQf"/>
-                        <segue destination="fIZ-b8-bAo" kind="push" identifier="pushToCalendar" id="Hks-OR-CUF"/>
-                        <segue destination="lw3-ef-Rr9" kind="push" identifier="pushToRec" id="Dg7-n4-sxb"/>
+                        <outlet property="bottomView" destination="Wiu-Tx-MQJ" id="v75-yQ-hTj"/>
+                        <outlet property="yearTableView" destination="3Gk-hH-jx3" id="oC1-9Q-BNA"/>
+                        <segue destination="fJr-CV-jfX" kind="push" identifier="pushToList" id="DWc-TF-TRv"/>
+                        <segue destination="fIZ-b8-bAo" kind="push" identifier="pushToMonth" id="37P-X9-DmE"/>
+                        <segue destination="lw3-ef-Rr9" kind="push" identifier="pushToAdd" id="6uW-W9-vov"/>
+                        <segue destination="3Ty-0U-Ghb" kind="push" identifier="pushToSettings" id="S8B-2B-HBr"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vMy-6G-gHx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fna-fU-hcX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1108" y="-1960"/>
+            <point key="canvasLocation" x="-1085" y="-2436"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="enu-au-DmD">
@@ -49,16 +92,57 @@
                         <viewControllerLayoutGuide type="top" id="C7b-aH-mfv"/>
                         <viewControllerLayoutGuide type="bottom" id="bJ4-n5-WFZ"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="hmH-HX-UEO" customClass="Cal">
+                    <view key="view" contentMode="scaleToFill" id="hmH-HX-UEO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="liW-EL-shs" customClass="JTCalendarContentView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="77"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="77" id="XFO-zM-JQ9"/>
+                                    <constraint firstAttribute="width" constant="320" id="wcb-Ma-3PV"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="DAb-1C-XXj">
+                                <rect key="frame" x="0.0" y="141" width="320" height="427"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="hourCell" id="JP6-0B-0jk" customClass="HourTableViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JP6-0B-0jk" id="dSH-5f-zcx">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="fIZ-b8-bAo" id="axf-hn-OZo"/>
+                                    <outlet property="delegate" destination="fIZ-b8-bAo" id="wLd-Xr-INA"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="DAb-1C-XXj" secondAttribute="trailing" id="5t0-ZE-UDo"/>
+                            <constraint firstItem="DAb-1C-XXj" firstAttribute="top" secondItem="liW-EL-shs" secondAttribute="bottom" id="Gs2-0X-Q8w"/>
+                            <constraint firstItem="liW-EL-shs" firstAttribute="top" secondItem="C7b-aH-mfv" secondAttribute="bottom" id="Kf5-8y-E6k"/>
+                            <constraint firstAttribute="trailing" secondItem="liW-EL-shs" secondAttribute="trailing" id="TaA-bW-gvj"/>
+                            <constraint firstItem="liW-EL-shs" firstAttribute="leading" secondItem="hmH-HX-UEO" secondAttribute="leading" id="l8x-vz-tO8"/>
+                            <constraint firstItem="DAb-1C-XXj" firstAttribute="leading" secondItem="hmH-HX-UEO" secondAttribute="leading" id="sBm-36-lNg"/>
+                            <constraint firstItem="bJ4-n5-WFZ" firstAttribute="top" secondItem="DAb-1C-XXj" secondAttribute="bottom" id="zlb-to-vDn"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Tn2-Po-gdS"/>
+                    <navigationItem key="navigationItem" id="Tn2-Po-gdS">
+                        <barButtonItem key="rightBarButtonItem" image="add" id="Xg0-0l-uNU"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="calendarView" destination="liW-EL-shs" id="gHc-bQ-UrZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dol-BW-oZK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-401" y="-2186"/>
+            <point key="canvasLocation" x="-557" y="-2790"/>
         </scene>
         <!--DiDa Memos-->
         <scene sceneID="VrD-Xl-eME">
@@ -243,30 +327,20 @@
                                 <action selector="tapBackButton:" destination="fJr-CV-jfX" id="cHp-8H-cvH"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" id="GLG-AF-SQS">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6nU-lp-dAo">
-                                <rect key="frame" x="285" y="13" width="19" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" image="add">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="touchAddButton:" destination="fJr-CV-jfX" eventType="touchUpInside" id="2Mp-Mx-rNw"/>
-                                </connections>
-                            </button>
+                        <barButtonItem key="rightBarButtonItem" image="add" id="oK5-cP-eL8">
+                            <connections>
+                                <action selector="tapAddButton:" destination="fJr-CV-jfX" id="LrS-vc-VPd"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="ZWl-kP-kyn" kind="push" identifier="pushToDetail" id="yXc-kE-gx3"/>
-                        <segue destination="lw3-ef-Rr9" kind="push" identifier="pushToRight" id="rgx-Su-z6V"/>
-                        <segue destination="2Nc-bD-jwc" kind="push" identifier="pushToAbout" id="JS0-fc-cpi"/>
-                        <segue destination="3Ty-0U-Ghb" kind="push" identifier="pushToPasscode" id="9B3-Ka-qko"/>
+                        <segue destination="lw3-ef-Rr9" kind="push" identifier="pushToRec" id="rgx-Su-z6V"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eJT-L1-xlE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-557" y="-1539"/>
+            <point key="canvasLocation" x="-139" y="-2431"/>
         </scene>
         <!--Memo Detail-->
         <scene sceneID="Dum-aE-1kP">
@@ -517,7 +591,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NQ6-gL-4sV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1356" y="-599"/>
+            <point key="canvasLocation" x="-1076" y="-1327"/>
         </scene>
         <!--About-->
         <scene sceneID="kpo-gf-UN0">
@@ -567,10 +641,10 @@
             </objects>
             <point key="canvasLocation" x="-877" y="-543"/>
         </scene>
-        <!--Passcode-->
+        <!--Settings-->
         <scene sceneID="71r-YP-tel">
             <objects>
-                <viewController storyboardIdentifier="PasscodeViewController" automaticallyAdjustsScrollViewInsets="NO" id="3Ty-0U-Ghb" customClass="PasscodeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Ty-0U-Ghb" customClass="SettingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="O2w-wh-6fH"/>
                         <viewControllerLayoutGuide type="bottom" id="jhr-sl-nj8"/>
@@ -579,52 +653,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9V3-QJ-7w1">
-                                <rect key="frame" x="86" y="161" width="148" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" title="Turn Passcode Off">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="tapOffButton:" destination="3Ty-0U-Ghb" eventType="touchUpInside" id="GQl-f7-YnS"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7YR-NL-GuS">
-                                <rect key="frame" x="94" y="106" width="133" height="30"/>
+                                <rect key="frame" x="83" y="147" width="155" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Setup Passcode">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="tapSetupButton:" destination="3Ty-0U-Ghb" eventType="touchUpInside" id="EtA-ln-1Wi"/>
+                                    <action selector="tapSetupButton:" destination="3Ty-0U-Ghb" eventType="touchUpInside" id="kny-W7-pl8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bd-qL-QMe">
+                                <rect key="frame" x="60" y="101" width="200" height="30"/>
+                                <state key="normal" title="About DiDa">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="tapAboutButton:" destination="3Ty-0U-Ghb" eventType="touchUpInside" id="Y30-2Q-Fuq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9V3-QJ-7w1">
+                                <rect key="frame" x="90" y="194" width="141" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Turn Passcode Off">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="tapOffButton:" destination="3Ty-0U-Ghb" eventType="touchUpInside" id="oei-s7-b5j"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Passcode" id="hbC-D1-mYz">
-                        <barButtonItem key="leftBarButtonItem" id="h84-VG-ROJ">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eh5-Ry-hvA">
-                                <rect key="frame" x="16" y="13" width="19" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" image="arrow">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="tapBackButton:" destination="3Ty-0U-Ghb" eventType="touchUpInside" id="Sai-IW-Qg1"/>
-                                </connections>
-                            </button>
+                    <navigationItem key="navigationItem" title="Settings" id="hbC-D1-mYz">
+                        <barButtonItem key="leftBarButtonItem" image="arrow" id="e5Q-HC-d1t">
+                            <connections>
+                                <action selector="tapBackButton:" destination="3Ty-0U-Ghb" id="t1U-vT-53F"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="offButton" destination="9V3-QJ-7w1" id="Xh1-eu-kMF"/>
-                        <outlet property="passcodeButton" destination="7YR-NL-GuS" id="rG2-kc-sWn"/>
+                        <outlet property="aboutButton" destination="6bd-qL-QMe" id="L7f-1L-nyp"/>
+                        <outlet property="offButton" destination="9V3-QJ-7w1" id="GOH-Zn-xNi"/>
+                        <outlet property="setupButton" destination="7YR-NL-GuS" id="5Ne-Rg-l2V"/>
+                        <segue destination="2Nc-bD-jwc" kind="push" identifier="pushToAbout" id="QPs-AF-kr2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MSK-HR-sKe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-243" y="-643"/>
+            <point key="canvasLocation" x="-539" y="-1855"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jcR-1a-cWA">
@@ -634,18 +711,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="PWg-bd-vCW" kind="relationship" relationship="rootViewController" id="Szz-g9-dqO"/>
+                        <segue destination="uKg-k4-xsz" kind="relationship" relationship="rootViewController" id="Mnu-mY-RFk"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UU3-6n-ixQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1503" y="-1548"/>
+            <point key="canvasLocation" x="-1619" y="-1678"/>
         </scene>
     </scenes>
     <resources>
         <image name="add" width="19" height="17"/>
         <image name="arrow" width="19" height="17"/>
-        <image name="burger" width="19" height="17"/>
         <image name="delete" width="35" height="35"/>
         <image name="locate" width="10" height="12"/>
         <image name="mic" width="87" height="150"/>
@@ -662,6 +738,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Dg7-n4-sxb"/>
+        <segue reference="6uW-W9-vov"/>
     </inferredMetricsTieBreakers>
 </document>

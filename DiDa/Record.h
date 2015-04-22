@@ -21,5 +21,8 @@
 @property (nonatomic, retain) NSString * note;
 @property (nonatomic, retain) NSString * path;
 @property (nonatomic, retain) NSString * unit;
+@property (nonatomic, retain) NSNumber * category;
+
++ (NSArray *)eventsFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate inContext:(NSManagedObjectContext *)context;
 
 @end

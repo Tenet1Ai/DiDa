@@ -10,9 +10,7 @@
 #import "RecordTableViewCell.h"
 #import "PlayTableViewCell.h"
 #import "AboutViewController.h"
-#import "PasscodeViewController.h"
 #import "NavigationController.h"
-#import "LeftViewController.h"
 #import "RightViewController.h"
 #import "DetailViewController.h"
 #import "Record.h"
@@ -21,11 +19,10 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "AppDelegate.h"
 
-@interface CenterViewController () <NSFetchedResultsControllerDelegate, AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
+@interface CenterViewController () <NSFetchedResultsControllerDelegate,
+AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong) UIBarButtonItem *activityIndicator;
 
 @end
@@ -35,6 +32,17 @@
 
 - (IBAction)tapBackButton:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)tapAddButton:(id)sender {
+    if (audioPlayer) {
+        if ([audioPlayer isPlaying]) {
+            [audioPlayer pause];
+        }
+        [audioPlayer stop];
+        [audioPlayer prepareToPlay];
+    }
+    [self performSegueWithIdentifier:@"pushToRec" sender:@"tapAddButton"];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -49,14 +57,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     DLog("Path: %@", [self applicationDocumentsDirectory]);
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"didamemos.png"]];
-//    self.navigationItem.titleView = imageView;
-    
     originalRows = 0;
     selectedRow = -1;
     tagSelected = -1;
@@ -69,6 +69,10 @@
     currentTime = 0.0;
     filePathString = nil;
     audioPlayer = nil;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -92,19 +96,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)touchMenuButton:(id)sender {
-}
-
-- (IBAction)touchAddButton:(id)sender {
-    if (audioPlayer) {
-        if ([audioPlayer isPlaying]) {
-            [audioPlayer pause];
-        }
-        [audioPlayer stop];
-        [audioPlayer prepareToPlay];
-    }
 }
 
 #pragma mark - Player Control
@@ -318,33 +309,15 @@
 }
 
 - (void)touchedDetailButton:(NSInteger)tag title:(NSString *)title {
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-//    DetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag inSection:0];
-//    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-//    if (record) {
-//        detailViewController.record = record;
-//    }
-//    [self loadAudioFile:record.path];
-//    detailViewController.delegate = self;
-//    detailViewController.tag = tag;
-//    detailViewController.sharedPSC = self.persistentStoreCoordinator;
-//    detailViewController.audioPlayer = self.audioPlayer;
+    DLog(@"touchedDetailButton, tag: %ld", tag);
+    tagSelected = tag;
+    [self performSegueWithIdentifier:@"pushToDetail" sender:@"tapDetailButton"];
 }
-
-//@property (nonatomic, retain) NSDate * date;
-//@property (nonatomic, retain) NSNumber * latitude;
-//@property (nonatomic, retain) NSNumber * length;
-//@property (nonatomic, retain) NSString * location;
-//@property (nonatomic, retain) NSNumber * longitude;
-//@property (nonatomic, retain) NSString * memo;
-//@property (nonatomic, retain) NSString * path;
-//@property (nonatomic, retain) NSString * unit;
 
 - (void)changeTitleAction:(NSInteger)tag title:(NSString *)title {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag inSection:0];
     Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-    NSEntityDescription *ent = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:self.managedObjectContext];
+    NSEntityDescription *ent = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:appDelegate.managedObjectContext];
     // create an earthquake managed object, but don't insert it in our moc yet
     Record *newRecord = [[Record alloc] initWithEntity:ent insertIntoManagedObjectContext:nil];
     newRecord.memo = title;
@@ -358,15 +331,15 @@
     newRecord.unit = record.unit;
     
     if (newRecord) {
-        [self.managedObjectContext insertObject:newRecord];
+        [appDelegate.managedObjectContext insertObject:newRecord];
     }
     if (record) {
-        [self.managedObjectContext deleteObject:record];
+        [appDelegate.managedObjectContext deleteObject:record];
     }
 
     NSError *error = nil;
-    if ([self.managedObjectContext hasChanges]) {
-        if (![self.managedObjectContext save:&error]) {
+    if ([appDelegate.managedObjectContext hasChanges]) {
+        if (![appDelegate.managedObjectContext save:&error]) {
             DLog("Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
@@ -376,7 +349,7 @@
 - (void)changeNoteAction:(NSInteger)tag text:(NSString *)locationText {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag inSection:0];
     Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-    NSEntityDescription *ent = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:self.managedObjectContext];
+    NSEntityDescription *ent = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:appDelegate.managedObjectContext];
     // create an earthquake managed object, but don't insert it in our moc yet
     Record *newRecord = [[Record alloc] initWithEntity:ent insertIntoManagedObjectContext:nil];
     newRecord.memo = record.memo;
@@ -390,15 +363,15 @@
     newRecord.unit = record.unit;
     
     if (newRecord) {
-        [self.managedObjectContext insertObject:newRecord];
+        [appDelegate.managedObjectContext insertObject:newRecord];
     }
     if (record) {
-        [self.managedObjectContext deleteObject:record];
+        [appDelegate.managedObjectContext deleteObject:record];
     }
     
     NSError *error = nil;
-    if ([self.managedObjectContext hasChanges]) {
-        if (![self.managedObjectContext save:&error]) {
+    if ([appDelegate.managedObjectContext hasChanges]) {
+        if (![appDelegate.managedObjectContext save:&error]) {
             DLog("Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
@@ -548,9 +521,9 @@ const int numberOfSharedItems = 5;
         NSString *filePath = [NSString stringWithFormat:@"%@/Documents/%@.m4a", NSHomeDirectory(), record.path];
         [fm removeItemAtPath:filePath error:&error];
         DLog(@"delete a file %@, error: %@", filePath, error);
-        [self.managedObjectContext deleteObject:record];
-        if ([self.managedObjectContext hasChanges]) {
-            if (![self.managedObjectContext save:&error]) {
+        [appDelegate.managedObjectContext deleteObject:record];
+        if ([appDelegate.managedObjectContext hasChanges]) {
+            if (![appDelegate.managedObjectContext save:&error]) {
                 DLog("Unresolved error %@, %@", error, [error userInfo]);
                 abort();
             }
@@ -570,6 +543,11 @@ const int numberOfSharedItems = 5;
         }
         [self deleteAnRecord];
     }
+}
+
+// Returns the path to the application's documents directory.
+- (NSString *)applicationDocumentsDirectory {
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
 // called after fetched results controller received a content change notification
@@ -599,7 +577,7 @@ const int numberOfSharedItems = 5;
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         // Edit the entity name as appropriate.
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"Record"
-                                                  inManagedObjectContext:self.managedObjectContext];
+                                                  inManagedObjectContext:appDelegate.managedObjectContext];
         [fetchRequest setEntity:entity];
     
         BOOL flag = NO;
@@ -617,7 +595,7 @@ const int numberOfSharedItems = 5;
         // nil for section name key path means "no sections".
         NSFetchedResultsController *aFetchedResultsController =
         [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                            managedObjectContext:self.managedObjectContext
+                                            managedObjectContext:appDelegate.managedObjectContext
                                               sectionNameKeyPath:nil
                                                        cacheName:nil];
         self.fetchedResultsController = aFetchedResultsController;
@@ -640,85 +618,33 @@ const int numberOfSharedItems = 5;
 	return _fetchedResultsController;
 }
 
-#pragma mark - Core Data stack
-
-// Returns the path to the application's documents directory.
-- (NSString *)applicationDocumentsDirectory {
-	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-}
-
-// Returns the managed object context for the application.
-// If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
-//
-- (NSManagedObjectContext *)managedObjectContext {
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    UIViewController *viewController = segue.destinationViewController;
+    if ([sender isEqualToString:@"tapAddButton"]) {
     }
-	
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [NSManagedObjectContext new];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-    }
-    
-    // observe the ParseOperation's save operation with its managed object context
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(mergeChanges:)
-                                                 name:NSManagedObjectContextDidSaveNotification
-                                               object:nil];
-    
-    return _managedObjectContext;
-}
-
-// Returns the managed object model for the application.
-// If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
-//
-- (NSManagedObjectModel *)managedObjectModel {
-	
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Records" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    
-    return _managedObjectModel;
-}
-
-// Returns the persistent store coordinator for the application.
-// If the coordinator doesn't already exist, it is created and the application's store added to it
-//
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    if (_persistentStoreCoordinator != nil) {
-        return _persistentStoreCoordinator;
-    }
-    
-    // find the Record data in our Documents folder
-    NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"Records.sqlite"];
-    NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
-    
-    NSError *error = nil;
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-    						 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-    						 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
-        // Handle error
-        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-    }
-    return _persistentStoreCoordinator;
-}
-
-// merge changes to main context,fetchedRequestController will automatically monitor the changes and update tableview.
-- (void)updateMainContext:(NSNotification *)notification {
-    assert([NSThread isMainThread]);
-    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
-}
-
-// this is called via observing "NSManagedObjectContextDidSaveNotification" from our APLParseOperation
-- (void)mergeChanges:(NSNotification *)notification {
-    if (notification.object != self.managedObjectContext) {
-        [self performSelectorOnMainThread:@selector(updateMainContext:) withObject:notification waitUntilDone:NO];
+    if ([sender isEqualToString:@"tapDetailButton"]) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tagSelected inSection:0];
+        Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+        if (record) {
+            [self loadAudioFile:record.path];
+            if ([viewController respondsToSelector:@selector(setRecord:)]) {
+                [viewController setValue:record forKey:@"record"];
+            }
+        }
+        if (audioPlayer) {
+            if ([viewController respondsToSelector:@selector(setAudioPlayer:)]) {
+                [viewController setValue:audioPlayer forKey:@"audioPlayer"];
+            }
+        }
+        if ([viewController respondsToSelector:@selector(setDelegate:)]) {
+            [viewController setValue:self forKey:@"delegate"];
+        }
+        if ([viewController respondsToSelector:@selector(setTag:)]) {
+            [viewController setValue:[NSNumber numberWithInteger:tagSelected] forKey:@"tag"];
+        }
     }
 }
 

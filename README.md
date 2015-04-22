@@ -13,11 +13,9 @@ With DiDa Memos, you will never miss any important meeting or events.
 https://itunes.apple.com/us/app/dida/id735264364?mt=8
 
 # Open source projects in the DiDa app
-<b>Mutual Mobile Drawer Controller<b> [mutualmobile/MMDrawerController](https://github.com/mutualmobile/MMDrawerController)
+DMPasscode [D-32/DMPasscode](https://github.com/D-32/DMPasscode)
 
-<b>DMPasscode</b> [D-32/DMPasscode](https://github.com/D-32/DMPasscode)
-
-<b>POVoiceHUD</b> [polatolu/POVoiceHUD](https://github.com/polatolu/POVoiceHUD)
+POVoiceHUD [polatolu/POVoiceHUD](https://github.com/polatolu/POVoiceHUD)
 
 ## Requirements
 

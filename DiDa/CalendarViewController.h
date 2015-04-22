@@ -10,10 +10,11 @@
 #import "JTCalendar.h"
 
 @interface CalendarViewController : UIViewController {
-    __weak IBOutlet JTCalendarMenuView *menuView;
-    __weak IBOutlet JTCalendarContentView *calendarView;
+    IBOutlet JTCalendarContentView *calendarView;
     JTCalendar *calendar;
-    NSTimer *aTimer;
 }
+
+@property (nonatomic, assign) NSInteger tag;
+@property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @end

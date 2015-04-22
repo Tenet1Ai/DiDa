@@ -16,9 +16,18 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol MonthViewDelegate <NSObject>
+
+@optional
+- (void)tapMonthView:(NSInteger)tag;
+
+@end
+
 @interface INOYearTableCell : UITableViewCell
 
 @property (nonatomic, assign, getter = isLoadingInProgress) BOOL loadingInProgress;
+
+@property (nonatomic, assign) id <MonthViewDelegate> delegate;
 
 - (void)setupWithYearDate:(NSDate *)yearDate;
 - (void)setupWithMonthsImages:(NSArray *)monthsImages;

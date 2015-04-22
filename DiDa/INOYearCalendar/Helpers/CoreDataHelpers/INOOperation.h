@@ -24,16 +24,16 @@ typedef void(^Failure)();
 
 @interface INOOperation : NSOperation
 
-@property (nonatomic, readonly)	NSManagedObjectContext *mainContext;
+@property (nonatomic, readonly) NSManagedObjectContext *mainContext;
 @property (nonatomic, readonly) NSManagedObjectContext *privateContext;
-@property (nonatomic, assign)	BOOL				    needsMergeChanges;
-@property (nonatomic, assign)   BOOL                    needsSaveAfterExecution;
+@property (nonatomic, assign) BOOL needsMergeChanges;
+@property (nonatomic, assign) BOOL needsSaveAfterExecution;
 
 @property (nonatomic, readonly) id data;
 
 @property (nonatomic, strong) BlockOperation block;
-@property (nonatomic, strong) Success        success;
-@property (nonatomic, strong) Failure        failure;
+@property (nonatomic, strong) Success success;
+@property (nonatomic, strong) Failure failure;
 
 @property (nonatomic, assign) NSInteger tag; // is used to cancel operation together with INOOperationQueue
 

@@ -10,10 +10,9 @@
 #import "JTCalendar.h"
 #import "JTCalendarMenuMonthView.h"
 
-// Must be the same in JTCalendarView, JTCalendarMenuView, JTCalendarContentView
-#define NUMBER_PAGES_LOADED 5
+#define NUMBER_PAGES_LOADED 5 // Must be the same in JTCalendarView, JTCalendarMenuView, JTCalendarContentView
 
-@interface JTCalendarMenuView() {
+@interface JTCalendarMenuView(){
     NSMutableArray *monthsViews;
 }
 
@@ -21,9 +20,10 @@
 
 @implementation JTCalendarMenuView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
-    if(!self) {
+    if(!self){
         return nil;
     }
     
@@ -32,17 +32,20 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
     self = [super initWithCoder:aDecoder];
     if(!self){
         return nil;
     }
     
     [self commonInit];
+    
     return self;
 }
 
-- (void)commonInit {
+- (void)commonInit
+{
     monthsViews = [NSMutableArray new];
     
     self.showsHorizontalScrollIndicator = NO;

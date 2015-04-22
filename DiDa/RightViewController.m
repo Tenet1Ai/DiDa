@@ -18,7 +18,6 @@
 
 @interface RightViewController () <FDWaveformViewDelegate, AVAudioPlayerDelegate>
 
-@property (strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSDate *creationDate;
 @property (nonatomic, retain) NSString *hashString;
 
@@ -82,6 +81,8 @@ static double ee = 0.00669342162296594323;
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    appDelegate = [[UIApplication sharedApplication] delegate];
+    
     if ([UIDevice iOSVersion] < 7.0f) {
         topLayoutConstraint.constant = 33;
     } else {
@@ -127,8 +128,6 @@ static double ee = 0.00669342162296594323;
 
     // Creating context in main function here make sure the context is tied to current thread.
     // init: use thread confine model to make things simpler.
-    self.managedObjectContext = [[NSManagedObjectContext alloc] init];
-    self.managedObjectContext.persistentStoreCoordinator = self.sharedPSC;
     promptString = nil;
     
     if (self.voiceWaveView) {
@@ -371,7 +370,6 @@ static double ee = 0.00669342162296594323;
                     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
                     UITextField *textField = [alertView textFieldAtIndex:0];
                     [textField setClearButtonMode:UITextFieldViewModeWhileEditing];
-                    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
                     promptString = [NSString stringWithFormat:@"New Voice %ld", (long)appDelegate.voiceIndex];
                     textField.text = promptString;
                     [alertView show];
@@ -443,7 +441,7 @@ static double ee = 0.00669342162296594323;
     }
     
     if (doneRecording == YES) {
-        NSEntityDescription *ent = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:self.managedObjectContext];
+        NSEntityDescription *ent = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:appDelegate.managedObjectContext];
         // create an Record managed object, but don't insert it in our moc yet
         Record *record = [[Record alloc] initWithEntity:ent insertIntoManagedObjectContext:nil];
         record.date = self.creationDate;
@@ -472,13 +470,14 @@ static double ee = 0.00669342162296594323;
         fetchRequest.predicate = [NSPredicate predicateWithFormat:@"date = %@", record.date];
         DLog("date = %@", record.date);
         
-        NSArray *fetchedItems = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *fetchedItems = [appDelegate.managedObjectContext
+                                 executeFetchRequest:fetchRequest error:&error];
         if (fetchedItems.count == 0) {
-            [self.managedObjectContext insertObject:record];
+            [appDelegate.managedObjectContext insertObject:record];
         }
         
-        if ([self.managedObjectContext hasChanges]) {
-            if (![self.managedObjectContext save:&error]) {
+        if ([appDelegate.managedObjectContext hasChanges]) {
+            if (![appDelegate.managedObjectContext save:&error]) {
                 // Replace this implementation with code to handle the error appropriately.
                 // abort() causes the application to generate a crash log and terminate.
                 // You should not use this function in a shipping application, although it may be useful

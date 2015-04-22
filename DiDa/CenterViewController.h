@@ -13,7 +13,6 @@
     NSInteger selectedRow;
     NSInteger tagSelected;
     NSInteger originalRows;
-    NSTimer *aTimer;
     AVAudioPlayer *audioPlayer;
     NSTimeInterval currentTime;
     AVAudioSession *session;
@@ -23,7 +22,6 @@
     NSString *shareURL;
 }
 
-@property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 
 @end

@@ -11,15 +11,15 @@
 #import "MapAnnotation.h"
 #import "AppDelegate.h"
 
-@interface DetailViewController () <UIGestureRecognizerDelegate, MKMapViewDelegate, AVAudioPlayerDelegate>
-@property (strong) NSManagedObjectContext *managedObjectContext;
+@interface DetailViewController () <UIGestureRecognizerDelegate,
+MKMapViewDelegate, AVAudioPlayerDelegate>
 @end
 
 @implementation DetailViewController
+@synthesize delegate;
 @synthesize record, audioPlayer, tag;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -127,9 +127,7 @@
     
     // Creating context in main function here make sure the context is tied to current thread.
     // init: use thread confine model to make things simpler.
-    self.managedObjectContext = [[NSManagedObjectContext alloc] init];
-    self.managedObjectContext.persistentStoreCoordinator = self.sharedPSC;
-    
+
     appDelegate = [[UIApplication sharedApplication] delegate];
     session = [AVAudioSession sharedInstance];
     if ([UIDevice isRunningIniPhone4]) {
@@ -318,7 +316,8 @@
             [timer invalidate];
             timer = nil;
         }
-        timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];
+        timer = [NSTimer scheduledTimerWithTimeInterval:0.2
+                                                 target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];
     }
 }
 

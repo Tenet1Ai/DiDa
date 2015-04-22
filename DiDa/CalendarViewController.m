@@ -9,70 +9,49 @@
 #import "CalendarViewController.h"
 #import "NavigationController.h"
 #import "AboutViewController.h"
-#import "PasscodeViewController.h"
+#import "HourTableViewCell.h"
 
-@interface CalendarViewController () <JTCalendarDataSource>
+@interface CalendarViewController () <JTCalendarDataSource, UITableViewDataSource, UITableViewDelegate>
 
 @end
 
 @implementation CalendarViewController
+@synthesize tag;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    DLog(@"%ld", tag);
     calendar = [JTCalendar new];
+
     calendar.calendarAppearance.calendar.firstWeekday = 2; // Sunday == 1, Saturday == 7
     calendar.calendarAppearance.dayCircleRatio = 9. / 10.;
-    calendar.calendarAppearance.ratioContentMenu = 3.;
+    calendar.calendarAppearance.ratioContentMenu = 2.;
     calendar.calendarAppearance.focusSelectedDayChangeMode = YES;
-    calendar.calendarAppearance.dayCircleColorToday = [UIColor blueColor];
     
     // Customize the text for each month
-    calendar.calendarAppearance.monthBlock = ^NSString *(NSDate *date, JTCalendar *jt_calendar) {
-        NSCalendar *aCalendar = jt_calendar.calendarAppearance.calendar;
-        NSDateComponents *comps = [aCalendar components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:date];
+    calendar.calendarAppearance.monthBlock = ^NSString *(NSDate *date, JTCalendar *jt_calendar){
+        NSCalendar *nowCalendar = jt_calendar.calendarAppearance.calendar;
+        NSDateComponents *comps = [nowCalendar components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:date];
         NSInteger currentMonthIndex = comps.month;
         
         static NSDateFormatter *dateFormatter;
-        if (!dateFormatter) {
+        if(!dateFormatter){
             dateFormatter = [NSDateFormatter new];
             dateFormatter.timeZone = jt_calendar.calendarAppearance.calendar.timeZone;
         }
-        
-        while(currentMonthIndex <= 0) {
+        while(currentMonthIndex <= 0){
             currentMonthIndex += 12;
         }
-        
         NSString *monthText = [[dateFormatter standaloneMonthSymbols][currentMonthIndex - 1] capitalizedString];
-        
         return [NSString stringWithFormat:@"%ld\n%@", comps.year, monthText];
     };
 
-    [calendar setMenuMonthsView:menuView];
     [calendar setContentView:calendarView];
     [calendar setDataSource:self];
-    [calendar reloadData];
-}
-
-- (void)showCenter {
-    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
-                                              target:self selector:@selector(showViewController:)
-                                            userInfo:@"CenterViewController" repeats:NO];
-}
-
-- (void)showAbout {
-    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
-                                             target:self selector:@selector(showViewController:)
-                                           userInfo:@"AboutViewController" repeats:NO];
-}
-
-- (void)showPasscode {
-    aTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
-                                             target:self selector:@selector(showViewController:)
-                                           userInfo:@"PasscodeViewController" repeats:NO];
-}
-
-- (IBAction)tapMenuButton:(id)sender {
+    calendar.calendarAppearance.isWeekMode = YES;
+    [calendar setCurrentDate:[NSDate date]];
+    [calendar reloadAppearance];
 }
 
 #pragma mark - JTCalendarDataSource
@@ -85,17 +64,22 @@
     DLog(@"Date: %@", date);
 }
 
-- (void)calendarDidLoadPreviousPage {
-    DLog(@"Previous page loaded");
-}
-
-- (void)calendarDidLoadNextPage {
-    DLog(@"Next page loaded");
+- (IBAction)tapMenuButton:(id)sender {
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 24;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *kCellID = @"hourCell";
+    HourTableViewCell *cell = (HourTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellID];
+    return cell;
 }
 
 /*

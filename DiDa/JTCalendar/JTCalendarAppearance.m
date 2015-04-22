@@ -11,8 +11,7 @@
 
 @implementation JTCalendarAppearance
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if(!self){
         return nil;
@@ -23,8 +22,7 @@
     return self;
 }
 
-- (void)setDefaultValues
-{
+- (void)setDefaultValues {
     self.isWeekMode = NO;
     
     self.weekDayFormat = JTCalendarWeekDayFormatShort;

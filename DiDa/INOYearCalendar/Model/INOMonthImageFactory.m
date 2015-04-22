@@ -16,8 +16,8 @@
 
 #import "INOMonthImageFactory.h"
 #import "INOMonthGlyphsHelper.h"
-
-#import "Event.h"
+#import "Record.h"
+#import "NSDate+FSExtension.h"
 
 static INOMonthImageFactory *factory = nil;
 
@@ -98,6 +98,7 @@ static NSUInteger const kMonthDaysRows    = 6;
 
 - (CGContextRef)drawMonthInContext:(CGContextRef)ctx monthDate:(NSDate *)monthDate ofSize:(CGSize)size eventsForDates:(NSDictionary *)eventsForDates {
     
+    NSDate *nowDate = [NSDate date];
     // Initializing
     CGFloat monthNameHeight = 20.0f;
     CGRect monthNameFrame = CGRectMake(0.0f, 0.0f, size.width, monthNameHeight);
@@ -143,17 +144,22 @@ static NSUInteger const kMonthDaysRows    = 6;
         
         // Events markers drawing
         if (eventsForDates) {
-            
             NSDate *date = [beginningOfMonthDate dateByAddingTimeInterval:secondsInSingleDay * i];
+            UIColor *categoryColor = nil;
+            BOOL hasEvent = NO;
+            if ([date fs_isEqualToDateForDay:nowDate]) {
+                categoryColor = [UIColor redColor];
+                hasEvent = YES;
+            }
             NSArray *eventsForDate = [eventsForDates objectForKey:date];
-            
             if ([eventsForDate count] > 0) {
-                UIColor *categoryColor = [_colorsForEventCategories objectForKey:[[eventsForDate firstObject] eventCategory]];
-                
+                categoryColor = [_colorsForEventCategories objectForKey:[[eventsForDate firstObject] category]];
                 if (!categoryColor) {
-                    categoryColor = [UIColor grayColor];
+                    categoryColor = [UIColor colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.4f];
                 }
-                
+                hasEvent = YES;
+            }
+            if (hasEvent == YES) {
                 CGContextSetFillColorWithColor(ctx, categoryColor.CGColor);
                 CGContextFillEllipseInRect(ctx, UIEdgeInsetsInsetRect(CGRectMake(offset.x * dateSize.width,
                                                                                  offset.y * dateSize.height + monthNameHeight - dateSize.height / 4,
@@ -162,9 +168,7 @@ static NSUInteger const kMonthDaysRows    = 6;
                                                                       UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f)));
             }
         }
-        
         datesIterator++;
-        
     }
     
     // Glyphs drawing
