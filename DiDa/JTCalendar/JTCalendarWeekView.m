@@ -105,16 +105,14 @@
 
 #pragma mark - JTCalendarManager
 
-- (void)setCalendarManager:(JTCalendar *)calendarManager
-{
+- (void)setCalendarManager:(JTCalendar *)calendarManager {
     self->_calendarManager = calendarManager;
-    for(JTCalendarDayView *view in daysViews){
+    for (JTCalendarDayView *view in daysViews){
         [view setCalendarManager:calendarManager];
     }
 }
 
-- (void)reloadData
-{
+- (void)reloadData {
     for(JTCalendarDayView *view in daysViews){
         [view reloadData];
     }

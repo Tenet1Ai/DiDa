@@ -18,8 +18,7 @@
 
 @implementation JTCalendar
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if(!self){
         return nil;
@@ -34,14 +33,12 @@
 }
 
 // Bug in iOS
-- (void)dealloc
-{
+- (void)dealloc {
     [self->_menuMonthsView setDelegate:nil];
     [self->_contentView setDelegate:nil];
 }
 
-- (void)setMenuMonthsView:(JTCalendarMenuView *)menuMonthsView
-{
+- (void)setMenuMonthsView:(JTCalendarMenuView *)menuMonthsView {
     [self->_menuMonthsView setDelegate:nil];
     [self->_menuMonthsView setCalendarManager:nil];
     
@@ -56,8 +53,7 @@
     [self.menuMonthsView reloadAppearance];
 }
 
-- (void)setContentView:(JTCalendarContentView *)contentView
-{
+- (void)setContentView:(JTCalendarContentView *)contentView {
     [self->_contentView setDelegate:nil];
     [self->_contentView setCalendarManager:nil];
     
@@ -69,8 +65,7 @@
     [self.contentView reloadAppearance];
 }
 
-- (void)reloadData
-{
+- (void)reloadData {
     // Erase cache
     [self.dataCache reloadData];
     
@@ -78,26 +73,24 @@
     [self.contentView reloadData];
 }
 
-- (void)reloadAppearance
-{
+- (void)reloadAppearance {
     [self.menuMonthsView reloadAppearance];
     [self.contentView reloadAppearance];
     
-    if(cacheLastWeekMode != self.calendarAppearance.isWeekMode || cacheFirstWeekDay != self.calendarAppearance.calendar.firstWeekday){
+    if(cacheLastWeekMode != self.calendarAppearance.isWeekMode
+       || cacheFirstWeekDay != self.calendarAppearance.calendar.firstWeekday){
         cacheLastWeekMode = self.calendarAppearance.isWeekMode;
         cacheFirstWeekDay = self.calendarAppearance.calendar.firstWeekday;
         
         if(self.calendarAppearance.focusSelectedDayChangeMode && self.currentDateSelected){
             [self setCurrentDate:self.currentDateSelected];
-        }
-        else{
+        } else {
             [self setCurrentDate:self.currentDate];
         }
     }
 }
 
-- (void)setCurrentDate:(NSDate *)currentDate
-{
+- (void)setCurrentDate:(NSDate *)currentDate {
     NSAssert(currentDate, @"JTCalendar currentDate cannot be null");
 
     self->_currentDate = currentDate;
@@ -111,8 +104,7 @@
 
 #pragma mark - UIScrollView delegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)sender
-{
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
     if(self.calendarAppearance.isWeekMode){
         return;
     }
@@ -131,8 +123,7 @@
     }
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if(scrollView == self.contentView){
         self.menuMonthsView.scrollEnabled = NO;
     }
@@ -142,18 +133,15 @@
 }
 
 // Use for scroll with scrollRectToVisible or setContentOffset
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     [self updatePage];
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     [self updatePage];
 }
 
-- (void)updatePage
-{
+- (void)updatePage {
     CGFloat pageWidth = CGRectGetWidth(self.contentView.frame);
     CGFloat fractionalPage = self.contentView.contentOffset.x / pageWidth;
         
@@ -205,8 +193,7 @@
     }
 }
 
-- (void)repositionViews
-{
+- (void)repositionViews {
     // Position to the middle page
     CGFloat pageWidth = CGRectGetWidth(self.contentView.frame);
     self.contentView.contentOffset = CGPointMake(pageWidth * ((NUMBER_PAGES_LOADED / 2)), self.contentView.contentOffset.y);
@@ -215,18 +202,15 @@
     self.menuMonthsView.contentOffset = CGPointMake(menuPageWidth * ((NUMBER_PAGES_LOADED / 2)), self.menuMonthsView.contentOffset.y);
 }
 
-- (void)loadNextMonth
-{
+- (void)loadNextMonth {
     [self loadNextPage];
 }
 
-- (void)loadPreviousMonth
-{
+- (void)loadPreviousMonth {
     [self loadPreviousPage];
 }
 
-- (void)loadNextPage
-{
+- (void)loadNextPage {
     self.menuMonthsView.scrollEnabled = NO;
     
     CGRect frame = self.contentView.frame;
@@ -235,8 +219,7 @@
     [self.contentView scrollRectToVisible:frame animated:YES];
 }
 
-- (void)loadPreviousPage
-{
+- (void)loadPreviousPage {
     self.menuMonthsView.scrollEnabled = NO;
     
     CGRect frame = self.contentView.frame;

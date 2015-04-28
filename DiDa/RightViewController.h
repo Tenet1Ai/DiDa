@@ -13,7 +13,6 @@
 #import "AppDelegate.h"
 
 @interface RightViewController : UIViewController <VoiceWaveViewDelegate, CLLocationManagerDelegate, UIAlertViewDelegate> {
-    __weak IBOutlet UIImageView *micImageView;
     __weak IBOutlet UIButton *playPauseButton;
     __weak IBOutlet UIButton *recButton;
     __weak IBOutlet UIButton *doneButton;
@@ -21,6 +20,7 @@
     __weak IBOutlet UILabel *timeLabel;
     __weak IBOutlet NSLayoutConstraint *topLayoutConstraint;
     __weak IBOutlet FDWaveformView *waveForm;
+    __weak IBOutlet UIDatePicker *memoDatePicker;
     NSTimer *timer;
     float recordTime;
     NSString *promptString;
@@ -37,5 +37,6 @@
 @property (nonatomic, assign) double longitude;
 @property (nonatomic, retain) NSString *location;
 @property (nonatomic, retain) NSString *unit;
+@property (nonatomic, assign) NSDate *selectedDate;
 
 @end

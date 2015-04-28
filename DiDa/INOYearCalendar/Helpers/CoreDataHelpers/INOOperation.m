@@ -46,14 +46,12 @@
 }
 
 - (void)dealloc {
-	
 	if (_privateContext) {
 		[[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:NSManagedObjectContextDidSaveNotification
                                                       object:_privateContext
 		 ];
 	}
-    
 }
 
 #pragma mark - Public Methods
@@ -66,7 +64,6 @@
 
 - (void)main {
     @autoreleasepool {
-        
         if ([self isCancelled] && _failure) {
             _failure();
             return;

@@ -35,10 +35,6 @@
     }
 }
 
-- (IBAction)tapBackButton:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (IBAction)tapAboutButton:(id)sender {
     if (&UIApplicationOpenSettingsURLString != nil) {
         NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];

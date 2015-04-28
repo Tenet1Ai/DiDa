@@ -80,7 +80,7 @@ static CGFloat const kDefaultMargin = 5.0f;
 }
 
 - (void)tapMonthView:(UITapGestureRecognizer *)recognizer {
-    DLog(@"%ld", recognizer.view.tag);
+    DLog(@"%ld", (long)recognizer.view.tag);
     [self.delegate tapMonthView:recognizer.view.tag];
 }
 

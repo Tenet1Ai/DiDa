@@ -68,36 +68,35 @@ static NSUInteger const kMonthDaysRows    = 6;
     return [self monthImageWithDate:monthDate ofSize:size eventsForDates:nil];
 }
 
-- (UIImage *)monthImageWithDate:(NSDate *)monthDate ofSize:(CGSize)size eventsForDates:(NSDictionary *)eventsForDates {
-    
+- (UIImage *)monthImageWithDate:(NSDate *)monthDate
+                         ofSize:(CGSize)size eventsForDates:(NSDictionary *)eventsForDates {
     if (!CGSizeEqualToSize(CGSizeZero, size)) {
         
         CGContextRef ctx = CGContextCreate(size);
-        UIImage *monthImage = UIGraphicsGetImageFromContext([self drawMonthInContext:ctx monthDate:monthDate ofSize:size eventsForDates:eventsForDates]);
+        UIImage *monthImage = UIGraphicsGetImageFromContext([self drawMonthInContext:ctx
+                                                                           monthDate:monthDate
+                                                                              ofSize:size eventsForDates:eventsForDates]);
         CGContextRelease(ctx);
         return monthImage;
         
     }
     
     return nil;
-    
 }
 
 - (void)resetFactory {
-    
     _monthTitleDateFormatter = [[NSDateFormatter alloc] init];
     [_monthTitleDateFormatter setDateFormat:@"LLLL"];
     
     _colorsForEventCategories = @{};
     
     _glyphsHelper = [INOMonthGlyphsHelper glyphHelperWithFontName:@"Helvetica" fontSize:8.0f];
-    
 }
 
 #pragma mark - Private Methods
 
-- (CGContextRef)drawMonthInContext:(CGContextRef)ctx monthDate:(NSDate *)monthDate ofSize:(CGSize)size eventsForDates:(NSDictionary *)eventsForDates {
-    
+- (CGContextRef)drawMonthInContext:(CGContextRef)ctx monthDate:(NSDate *)monthDate
+                            ofSize:(CGSize)size eventsForDates:(NSDictionary *)eventsForDates {
     NSDate *nowDate = [NSDate date];
     // Initializing
     CGFloat monthNameHeight = 20.0f;
@@ -122,23 +121,27 @@ static NSUInteger const kMonthDaysRows    = 6;
                                      datesIterator / kMonthDaysColumns);
         
         if (i < kSignleFigureGlyphsCount) {
-            
             CGSize glyphAdvance = _glyphsHelper.glyphAdvances[glyphIterator];
-            CGPoint position = CGPointMake(offset.x * dateSize.width + 0.5 * (dateSize.width - glyphAdvance.width),
-                                           (datesAreaSize.height - (offset.y + 1) * dateSize.height) + 0.5 * (dateSize.height - glyphAdvance.height));
+            CGPoint position = CGPointMake(offset.x * dateSize.width
+                                           + 0.5 * (dateSize.width - glyphAdvance.width),
+                                           (datesAreaSize.height - (offset.y + 1) * dateSize.height)
+                                           + 0.5 * (dateSize.height - glyphAdvance.height));
             glyphPositions[glyphIterator++] = position;
-            
         } else {
-            
             CGSize firstFigureGlyphAdvance = _glyphsHelper.glyphAdvances[glyphIterator];
             CGSize secondFigureGlyphAdvance = _glyphsHelper.glyphAdvances[glyphIterator + 1];
             
-            CGFloat glyphPositionY = (datesAreaSize.height - (offset.y + 1) * dateSize.height) + 0.5 * (dateSize.height - firstFigureGlyphAdvance.height);
+            CGFloat glyphPositionY = (datesAreaSize.height - (offset.y + 1) * dateSize.height)
+            + 0.5 * (dateSize.height - firstFigureGlyphAdvance.height);
             
-            glyphPositions[glyphIterator++] = CGPointMake(offset.x * dateSize.width + 0.5 * (dateSize.width - firstFigureGlyphAdvance.width) - 0.5 *secondFigureGlyphAdvance.width,
+            glyphPositions[glyphIterator++] = CGPointMake(offset.x * dateSize.width
+                                                          + 0.5 * (dateSize.width - firstFigureGlyphAdvance.width)
+                                                          - 0.5 *secondFigureGlyphAdvance.width,
                                                           glyphPositionY);
             
-            glyphPositions[glyphIterator++] = CGPointMake(offset.x * dateSize.width + 0.5 * (dateSize.width - secondFigureGlyphAdvance.width) + 0.5 * firstFigureGlyphAdvance.width,
+            glyphPositions[glyphIterator++] = CGPointMake(offset.x * dateSize.width
+                                                          + 0.5 * (dateSize.width - secondFigureGlyphAdvance.width)
+                                                          + 0.5 * firstFigureGlyphAdvance.width,
                                                           glyphPositionY);
         }
         
@@ -147,18 +150,26 @@ static NSUInteger const kMonthDaysRows    = 6;
             NSDate *date = [beginningOfMonthDate dateByAddingTimeInterval:secondsInSingleDay * i];
             UIColor *categoryColor = nil;
             BOOL hasEvent = NO;
-            if ([date fs_isEqualToDateForDay:nowDate]) {
-                categoryColor = [UIColor redColor];
-                hasEvent = YES;
-            }
+            
             NSArray *eventsForDate = [eventsForDates objectForKey:date];
             if ([eventsForDate count] > 0) {
-                categoryColor = [_colorsForEventCategories objectForKey:[[eventsForDate firstObject] category]];
-                if (!categoryColor) {
-                    categoryColor = [UIColor colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.4f];
+                id category = [[eventsForDate firstObject] category];
+                NSInteger categoryInteger = 0;
+                if ([category isKindOfClass:[NSNumber class]]) {
+                    categoryInteger = [category integerValue];
+                }
+                if (categoryInteger == 0) {
+                    categoryColor = [_colorsForEventCategories objectForKey:@1];
+                } else {
+                    categoryColor = [_colorsForEventCategories objectForKey:category];
                 }
                 hasEvent = YES;
             }
+            if ([date fs_isEqualToDateForDay:nowDate]) {
+                categoryColor = [_colorsForEventCategories objectForKey:@0];
+                hasEvent = YES;
+            }
+            
             if (hasEvent == YES) {
                 CGContextSetFillColorWithColor(ctx, categoryColor.CGColor);
                 CGContextFillEllipseInRect(ctx, UIEdgeInsetsInsetRect(CGRectMake(offset.x * dateSize.width,
@@ -181,10 +192,10 @@ static NSUInteger const kMonthDaysRows    = 6;
     free(glyphPositions);
     
     // Drawing month title
-    [self drawMonthTitleInContext:ctx inRect:monthNameFrame monthName:[_monthTitleDateFormatter stringFromDate:monthDate]];
-    
+    [self drawMonthTitleInContext:ctx
+                           inRect:monthNameFrame
+                        monthName:[_monthTitleDateFormatter stringFromDate:monthDate]];
     return ctx;
-    
 }
 
 - (void)drawMonthTitleInContext:(CGContextRef)ctx inRect:(CGRect)rect monthName:(NSString *)monthName {
@@ -192,8 +203,9 @@ static NSUInteger const kMonthDaysRows    = 6;
     CGMutablePathRef path = CGPathCreateMutable();
     CGPathAddRect(path, NULL, rect);
     
-    NSDictionary *attributes = @{(id)kCTForegroundColorAttributeName : (id)[UIColor colorWithRed:1.0f green:59 / 255.0f blue:48 / 255.0f alpha:1.0f].CGColor,
-                                 NSFontAttributeName                 : [UIFont systemFontOfSize:12.0f]};
+    NSDictionary *attributes = @{(id)kCTForegroundColorAttributeName : (id)[UIColor colorWithRed:1.0f
+                                                                                           green:59 / 255.0f blue:48 / 255.0f alpha:1.0f].CGColor,
+                                 NSFontAttributeName : [UIFont systemFontOfSize:12.0f]};
     NSAttributedString* attString = [[NSAttributedString alloc] initWithString:monthName
                                                                     attributes:attributes];
     
@@ -216,7 +228,11 @@ CG_INLINE CGContextRef CGContextCreate(CGSize size) {
     
     CGFloat scaleFactor = [[UIScreen mainScreen] scale];
 	CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
-	CGContextRef ctx = CGBitmapContextCreate(NULL, size.width * scaleFactor, size.height * scaleFactor, 8, size.width * 2 * (CGColorSpaceGetNumberOfComponents(space) + 1), space, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
+	CGContextRef ctx = CGBitmapContextCreate(NULL,
+                                             size.width * scaleFactor,
+                                             size.height * scaleFactor, 8,
+                                             size.width * 2 * (CGColorSpaceGetNumberOfComponents(space) + 1),
+                                             space, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
     
     CGContextScaleCTM(ctx, scaleFactor, scaleFactor);
     CGContextSetInterpolationQuality(ctx, kCGInterpolationHigh);
@@ -225,17 +241,17 @@ CG_INLINE CGContextRef CGContextCreate(CGSize size) {
 	CGColorSpaceRelease(space);
     
 	return ctx;
-    
 }
 
-CG_INLINE UIImage* UIGraphicsGetImageFromContext(CGContextRef ctx) {
+CG_INLINE UIImage *UIGraphicsGetImageFromContext(CGContextRef ctx) {
     
 	CGImageRef cgImage = CGBitmapContextCreateImage(ctx);
-	UIImage* image = [UIImage imageWithCGImage:cgImage scale:[[UIScreen mainScreen] scale] orientation:UIImageOrientationDownMirrored];
+	UIImage* image = [UIImage imageWithCGImage:cgImage
+                                         scale:[[UIScreen mainScreen] scale]
+                                   orientation:UIImageOrientationDownMirrored];
 	CGImageRelease(cgImage);
     
 	return image;
-    
 }
 
 @end

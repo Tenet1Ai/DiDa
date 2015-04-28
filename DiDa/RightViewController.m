@@ -11,19 +11,22 @@
 #import "Record.h"
 #import "AppDelegate.h"
 #import <FDWaveformView.h>
+#import "NSDate+FSExtension.h"
 
 #define TagAlertLocation 1001
 #define TagAlertSave 1002
 #define TagAlertDelete 1003
 
+#define kBlue [UIColor colorWithRed:16/255.0 green:109/255.0 blue:255/255.0 alpha:1.0]
+
 @interface RightViewController () <FDWaveformViewDelegate, AVAudioPlayerDelegate>
 
-@property (nonatomic, retain) NSDate *creationDate;
 @property (nonatomic, retain) NSString *hashString;
 
 @end
 
 @implementation RightViewController
+@synthesize selectedDate;
 
 static double a = 6378245.0;
 static double ee = 0.00669342162296594323;
@@ -83,6 +86,10 @@ static double ee = 0.00669342162296594323;
 	// Do any additional setup after loading the view.
     appDelegate = [[UIApplication sharedApplication] delegate];
     
+    if (selectedDate) {
+        memoDatePicker.date = selectedDate;
+    }
+    
     if ([UIDevice iOSVersion] < 7.0f) {
         topLayoutConstraint.constant = 33;
     } else {
@@ -110,7 +117,6 @@ static double ee = 0.00669342162296594323;
     
     recButton.selected = NO;
     doneButton.hidden = YES;
-    micImageView.hidden = NO;
     playPauseButton.hidden = YES;
 
 //    UIImage *img = [UIImage imageNamed:@"back.png"];
@@ -179,6 +185,12 @@ static double ee = 0.00669342162296594323;
     
     [self.locationManager startUpdatingLocation];
     self.localGeocoder = [[CLGeocoder alloc] init];
+    
+    if (appDelegate.outputDevice == 0) {
+        self.navigationItem.rightBarButtonItem.tintColor = kBlue;
+    } else {
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor lightGrayColor];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -200,7 +212,6 @@ static double ee = 0.00669342162296594323;
     [UIView animateWithDuration:0.25f animations:^{
         waveformView.alpha = 1.0f;
         playPauseButton.hidden = NO;
-        micImageView.hidden = YES;
         timeLabel.hidden = YES;
         NSError *error = nil;
         audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioURL error:&error];
@@ -272,7 +283,6 @@ static double ee = 0.00669342162296594323;
         
         waveForm.alpha = 0.0f;
         playPauseButton.hidden = YES;
-        micImageView.hidden = NO;
         timeLabel.hidden = NO;
         
         doneButton.hidden = YES;
@@ -303,6 +313,18 @@ static double ee = 0.00669342162296594323;
     }
 }
 
+- (IBAction)tapSpeakerButton:(id)sender {
+    DLog(@"%ld", (long)appDelegate.outputDevice);
+    if (appDelegate.outputDevice == 0) {
+        appDelegate.outputDevice = 1;
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor lightGrayColor];
+    } else {
+        appDelegate.outputDevice = 0;
+        self.navigationItem.rightBarButtonItem.tintColor = kBlue;
+    }
+    [appDelegate switchAudioSessionCategory];
+}
+
 - (IBAction)tapPlayButton:(id)sender {
     if (playPauseButton.selected == NO) {
         if (audioPlayer) {
@@ -329,53 +351,45 @@ static double ee = 0.00669342162296594323;
     [audioPlayer prepareToPlay];
 }
 
-- (IBAction)touchBackButton:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (IBAction)touchDoneButton:(id)sender {
 //    NSString *executablePath = [[NSBundle mainBundle] executablePath];
 //    DLog(@"executablePath: %@", executablePath);
     NSString *filePath = self.voiceWaveView.recorderFilePath;
     if (filePath != nil) {
-        CFStringRef executableFileSHA1Hash =
-        FileSHA1HashCreateWithPath((__bridge CFStringRef)filePath,
-                                   FileHashDefaultChunkSizeForReadingData);
-        if (executableFileSHA1Hash) {
-            NSString *hashString = (__bridge NSString *)executableFileSHA1Hash;
-            DLog(@"sha1 string: %@ length: %lu", hashString, (unsigned long)hashString.length);
-            if (hashString.length > 0) {
-                NSString *destFilePath = [NSString stringWithFormat:@"%@/Documents/%@.m4a", NSHomeDirectory(), hashString];
-                DLog(@"new file path: %@", destFilePath);
-                NSFileManager *fm = [NSFileManager defaultManager];
-                NSError *error = nil;
-                if ([fm moveItemAtPath:filePath toPath:destFilePath error:&error] == YES) {
-                    DLog(@"error: %@", error);
-                    error = nil;
-                    NSDictionary *fileAttributes = [fm attributesOfItemAtPath:destFilePath error:&error];
-                    NSDate *creationDate = [fileAttributes objectForKey:NSFileCreationDate];
-                    NSTimeZone *timezone = [NSTimeZone systemTimeZone];
-                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                    [formatter setDateFormat:@"YYYY-MM-d HH:mm:ss"];
-                    [formatter setTimeZone:timezone];
-                    self.creationDate = creationDate;
-                    self.hashString = hashString;
-                    
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Save Memo", nil)
-                                                                                                  message:nil delegate:self
-                                                              cancelButtonTitle:NSLocalizedString(@"Delete", nil)
-                                                              otherButtonTitles:NSLocalizedString(@"Save", nil), nil];
-
-                    alertView.tag = TagAlertSave;
-                    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-                    UITextField *textField = [alertView textFieldAtIndex:0];
-                    [textField setClearButtonMode:UITextFieldViewModeWhileEditing];
-                    promptString = [NSString stringWithFormat:@"New Voice %ld", (long)appDelegate.voiceIndex];
-                    textField.text = promptString;
-                    [alertView show];
+        NSFileManager *fm = [NSFileManager defaultManager];
+        if ([fm fileExistsAtPath:filePath]) {
+            CFStringRef executableFileSHA1Hash =
+            FileSHA1HashCreateWithPath((__bridge CFStringRef)filePath,
+                                       FileHashDefaultChunkSizeForReadingData);
+            if (executableFileSHA1Hash) {
+                NSString *hashString = (__bridge NSString *)executableFileSHA1Hash;
+                DLog(@"sha1 string: %@ length: %lu", hashString, (unsigned long)hashString.length);
+                if (hashString.length > 0) {
+                    NSString *destFilePath = [NSString stringWithFormat:@"%@/Documents/%@.m4a", NSHomeDirectory(), hashString];
+                    DLog(@"new file path: %@", destFilePath);
+                    NSFileManager *fm = [NSFileManager defaultManager];
+                    NSError *error = nil;
+                    if ([fm moveItemAtPath:filePath toPath:destFilePath error:&error] == YES) {
+                        DLog(@"error: %@", error);
+                        error = nil;
+                        self.hashString = hashString;
+                        
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Save Memo", nil)
+                                                                            message:nil delegate:self
+                                                                  cancelButtonTitle:NSLocalizedString(@"Delete", nil)
+                                                                  otherButtonTitles:NSLocalizedString(@"Save", nil), nil];
+                        
+                        alertView.tag = TagAlertSave;
+                        alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                        UITextField *textField = [alertView textFieldAtIndex:0];
+                        [textField setClearButtonMode:UITextFieldViewModeWhileEditing];
+                        promptString = [NSString stringWithFormat:NSLocalizedString(@"New Memo", nil)];
+                        textField.text = promptString;
+                        [alertView show];
+                    }
                 }
+                CFRelease(executableFileSHA1Hash);
             }
-            CFRelease(executableFileSHA1Hash);
         }
     }
 }
@@ -399,7 +413,6 @@ static double ee = 0.00669342162296594323;
             doneButton.hidden = YES;
             playPauseButton.hidden = YES;
             waveForm.alpha = 0.0f;
-            micImageView.hidden = NO;
             if (audioPlayer) {
                 if ([audioPlayer isPlaying]) {
                     [audioPlayer stop];
@@ -429,22 +442,21 @@ static double ee = 0.00669342162296594323;
             alertView.tag = TagAlertDelete;
             [alertView show];
         } else if (buttonIndex == 1) {
-            if (audioPlayer) {
-                if ([audioPlayer isPlaying]) {
-                    [audioPlayer stop];
-                    [audioPlayer prepareToPlay];
-                }
-                audioPlayer = nil;
-            }
             doneRecording = YES;
+            doneButton.hidden = YES;
         }
     }
     
     if (doneRecording == YES) {
+        DLog(@"%@", memoDatePicker.date);
         NSEntityDescription *ent = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:appDelegate.managedObjectContext];
         // create an Record managed object, but don't insert it in our moc yet
         Record *record = [[Record alloc] initWithEntity:ent insertIntoManagedObjectContext:nil];
-        record.date = self.creationDate;
+        NSDate *memoDate = memoDatePicker.date;
+        record.date = memoDate;
+        NSInteger year = [memoDate fs_year];
+        NSInteger month = [memoDate fs_month];
+        record.section = [NSNumber numberWithInteger:(year * 1000 + month)];
         NSTimeZone *timezone = [NSTimeZone systemTimeZone];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"YYYY-MM-d HH:mm:ss"];
@@ -458,6 +470,7 @@ static double ee = 0.00669342162296594323;
         record.location = self.location;
         record.note = self.location;
         record.unit = self.unit;
+        record.category = @1;
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         fetchRequest.entity = ent;

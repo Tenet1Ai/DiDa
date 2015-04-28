@@ -13,15 +13,15 @@
 
 @optional
 
-- (void)touchedPlayButton:(NSInteger)tag path:(NSString *)pathString sender:(id)sender;
-- (void)touchedDeleteButton:(NSInteger)tag title:(NSString *)title isInView:(BOOL)flag;
-- (void)touchedShareButton:(NSInteger)tag title:(NSString *)title;
-- (void)touchedDetailButton:(NSInteger)tag title:(NSString *)title;
+- (void)touchedPlayButton:(NSString *)pathString sender:(id)sender;
+- (void)touchedDeleteButton:(NSString *)title isInView:(BOOL)flag;
+- (void)touchedShareButton:(NSString *)title;
+- (void)touchedDetailButton:(NSString *)title;
 - (BOOL)isPlaying;
 - (NSTimeInterval)getCurrentTimeOfPlayer;
 - (void)setCurrentTimeOfPlayer:(NSTimeInterval)time;
-- (void)changeTitleAction:(NSInteger)tag title:(NSString *)title;
-- (void)changeNoteAction:(NSInteger)tag text:(NSString *)locationText;
+- (void)changeTitleAction:(NSString *)title;
+- (void)changeNoteAction:(NSString *)note;
 - (void)showAboutViewController;
 
 @end

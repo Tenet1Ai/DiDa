@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 
 @interface PlayTableViewCell : UITableViewCell {
+    __weak IBOutlet UIButton *speakerButton;
     __weak IBOutlet UISlider *playSlider;
     __weak IBOutlet UIButton *playButton;
     __weak IBOutlet UILabel *memoLabel;

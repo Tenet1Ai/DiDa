@@ -22,8 +22,7 @@
 
 @implementation JTCalendarContentView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if(!self){
         return nil;
@@ -34,8 +33,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if(!self){
         return nil;
@@ -46,8 +44,7 @@
     return self;
 }
 
-- (void)commonInit
-{
+- (void)commonInit {
     monthsViews = [NSMutableArray new];
     
     self.showsHorizontalScrollIndicator = NO;
@@ -62,15 +59,13 @@
     }
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [self configureConstraintsForSubviews];
     
     [super layoutSubviews];
 }
 
-- (void)configureConstraintsForSubviews
-{
+- (void)configureConstraintsForSubviews {
     self.contentOffset = CGPointMake(self.contentOffset.x, 0); // Prevent bug when contentOffset.y is negative
  
     CGFloat x = 0;
@@ -93,8 +88,7 @@
     self.contentSize = CGSizeMake(width * NUMBER_PAGES_LOADED, height);
 }
 
-- (void)setCurrentDate:(NSDate *)currentDate
-{
+- (void)setCurrentDate:(NSDate *)currentDate {
     self->_currentDate = currentDate;
 
     NSCalendar *calendar = self.calendarManager.calendarAppearance.calendar;
@@ -121,8 +115,7 @@
     }
 }
 
-- (NSDate *)beginningOfMonth:(NSDate *)date
-{
+- (NSDate *)beginningOfMonth:(NSDate *)date {
     NSCalendar *calendar = self.calendarManager.calendarAppearance.calendar;
     NSDateComponents *componentsCurrentDate = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitWeekOfMonth fromDate:date];
     
@@ -136,8 +129,7 @@
     return [calendar dateFromComponents:componentsNewDate];
 }
 
-- (NSDate *)beginningOfWeek:(NSDate *)date
-{
+- (NSDate *)beginningOfWeek:(NSDate *)date {
     NSCalendar *calendar = self.calendarManager.calendarAppearance.calendar;
     NSDateComponents *componentsCurrentDate = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitWeekday|NSCalendarUnitWeekOfMonth fromDate:date];
     
@@ -153,8 +145,7 @@
 
 #pragma mark - JTCalendarManager
 
-- (void)setCalendarManager:(JTCalendar *)calendarManager
-{
+- (void)setCalendarManager:(JTCalendar *)calendarManager {
     self->_calendarManager = calendarManager;
     
     for(JTCalendarMonthView *view in monthsViews){
@@ -162,15 +153,13 @@
     }
 }
 
-- (void)reloadData
-{
+- (void)reloadData {
     for(JTCalendarMonthView *monthView in monthsViews){
         [monthView reloadData];
     }
 }
 
-- (void)reloadAppearance
-{
+- (void)reloadAppearance {
     // Fix when change mode during scroll
     self.scrollEnabled = YES;
     

@@ -12,16 +12,13 @@
 #import "NavigationController.h"
 #import "DMPasscode.h"
 #import "CalendarViewController.h"
-#import "Record.h"
-
-@interface AppDelegate ()
-@end
+#import <MediaPlayer/MediaPlayer.h>
 
 @implementation AppDelegate
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-@synthesize voiceIndex, outputDevice, dataSort;
+@synthesize outputDevice, dataSort, audioPlayer;
 
 #pragma mark -
 
@@ -73,7 +70,6 @@
 // If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
 //
 - (NSManagedObjectModel *)managedObjectModel {
-    
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
@@ -100,91 +96,17 @@
                              [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
                              [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                   configuration:nil URL:storeUrl options:options error:&error]) {
         // Handle error
         DLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+    
     return _persistentStoreCoordinator;
 }
 
-#pragma mark - Sample Helpers
-
-//- (void)createTestEvents {
-//    const NSUInteger secondsInSingleYear = 31556926;
-//    const NSUInteger yearsToPopulate     = 50;
-//    const NSUInteger eventsCount         = 100;
-//    
-//    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Event"];
-//    NSInteger count = [self.managedObjectContext countForFetchRequest:request error:nil];
-//    
-//    if (count < eventsCount) {
-//        for (NSUInteger i = count; i < eventsCount; i++) {
-//            Event *event = [NSEntityDescription insertNewObjectForEntityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
-//            
-//            NSNumber *randomNumber =@(arc4random() % 4);
-//            NSDecimalNumber *newNumber = [[NSDecimalNumber alloc] initWithInt:[randomNumber intValue]];
-//            [event setEventCategory:newNumber];
-//            [event setEventDate:[NSDate dateWithTimeIntervalSinceNow:arc4random() % (secondsInSingleYear * yearsToPopulate)]];
-//            
-//            NSError *error = nil;
-//            [event.managedObjectContext save:&error];
-//            NSAssert(!error, @"Error while saving event: %@", [error userInfo]);
-//        }
-//    }
-//}
-
-//- (void)createMemoEvents {
-//    NSArray *memoArray = self.memoFetchedResultsController.fetchedObjects;
-//    for (Record *record in memoArray) {
-//        NSDate *date = record.date;
-//        NSArray *eventArray = self.fetchedResultsController.fetchedObjects;
-//        BOOL hasEvent = NO;
-//        for (Event *event in eventArray) {
-//            if ([date isEqualToDate:event.eventDate]) {
-//                hasEvent = YES;
-//                break;
-//            }
-//        }
-//        if (hasEvent == NO) {
-//            Event *event = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-//                                                         inManagedObjectContext:self.managedObjectContext];
-//            NSDecimalNumber *newNumber = [[NSDecimalNumber alloc] initWithInt:1];
-//            [event setEventCategory:newNumber];
-//            [event setEventDate:date];
-//            NSError *error = nil;
-//            [event.managedObjectContext save:&error];
-//            NSAssert(!error, @"Error while saving event: %@", [error userInfo]);
-//        }
-//        DLog(@"%@ %@ %d", [record class], record.memo, hasEvent);
-//    }
-//}
-
-//- (void)createMemoEvents {
-//    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Record"];
-//    NSArray *memoArray = [self.managedObjectContext executeFetchRequest:request error:nil];
-//    NSMutableArray *dateArray = [[NSMutableArray alloc] init];
-//    for (Record *record in memoArray) {
-//        [dateArray addObject:record.date];
-//    }
-//
-//    
-//        for (NSUInteger i = 0; i < [dateArray count]; i++) {
-//            NSDate *date = [NSDate date];
-//            Event *event = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-//                                                         inManagedObjectContext:self.managedObjectContext];
-//            NSDecimalNumber *newNumber = [[NSDecimalNumber alloc] initWithInt:1];
-//            [event setEventCategory:newNumber];
-//            [event setEventDate:date];
-//            NSError *error = nil;
-//            [event.managedObjectContext save:&error];
-//        }
-////        DLog(@"Error while saving event: %@", [error userInfo]);
-////        DLog(@"%@ %@", [record class], record.memo);
-//}
-
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    voiceIndex = 0;
     outputDevice = 0;
     dataSort = 0;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -199,8 +121,28 @@
     return YES;
 }
 
+- (void)setFileProtectionNone:(NSString *)filePath {
+    NSError *error = nil;
+    NSDictionary *oldAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:&error];
+    DLog(@"error: %@", error);
+    NSMutableDictionary *newAttributes = nil;
+    if (oldAttributes) {
+        newAttributes = [[NSMutableDictionary alloc] initWithDictionary:oldAttributes];
+    } else {
+        newAttributes = [[NSMutableDictionary alloc] init];
+    }
+    [newAttributes setObject:NSFileProtectionNone forKey:NSFileProtectionKey];
+    [[NSFileManager defaultManager] setAttributes:newAttributes
+                                     ofItemAtPath:filePath
+                                            error:&error];
+    if (error) {
+        DLog(@"error: %@", error);
+    }
+}
+
 - (void)switchAudioSessionCategory {
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setActive:YES error:nil];
     if (outputDevice == 0) {
         if (![audioSession.category isEqualToString:AVAudioSessionCategoryPlayback]) {
             [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
@@ -228,15 +170,77 @@
     // Override point for customization after application launch.
     DLog(@"%@", NSHomeDirectory());
     [self managedObjectContext];
-//    [self createTestEvents];
-//    [self createMemoEvents];
 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     [self switchAudioSessionCategory];
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self becomeFirstResponder];
     DLog(@"%@", [[UIDevice currentDevice] identifierForVendor]);
     return YES;
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
+    if (receivedEvent.type == UIEventTypeRemoteControl) {
+        switch (receivedEvent.subtype) {
+            case UIEventSubtypeRemoteControlTogglePlayPause:
+//                [[PlayController sharedInstance] pause];
+                DLog(@"RemoteControlEvents: play pause");
+                break;
+            case UIEventSubtypeRemoteControlPlay:
+                //                [[PlayController sharedInstance] pause];
+                DLog(@"RemoteControlEvents: play");
+                break;
+            case UIEventSubtypeRemoteControlPause:
+                //                [[PlayController sharedInstance] pause];
+                DLog(@"RemoteControlEvents: pause");
+                break;
+            case UIEventSubtypeRemoteControlStop:
+                //                [[PlayController sharedInstance] pause];
+                DLog(@"RemoteControlEvents: stop");
+                break;
+            case UIEventSubtypeRemoteControlNextTrack:
+//                [[PlayController sharedInstance] playModeNext];
+                DLog(@"RemoteControlEvents: playModeNext");
+                break;
+            case UIEventSubtypeRemoteControlPreviousTrack:
+//                [[PlayController sharedInstance] playPrev];
+                DLog(@"RemoteControlEvents: playPrev");
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+- (void)setMemoInfo:(Record *)record {
+    if (memoInfoDictionary) {
+        [memoInfoDictionary removeAllObjects];
+        memoInfoDictionary = nil;
+    }
+    memoInfoDictionary = [[NSMutableDictionary alloc] init];
+    if (record.memo && record.memo.length > 0) {
+        [memoInfoDictionary setObject:record.memo forKey:MPMediaItemPropertyTitle];
+    }
+    if (record.note && record.note.length > 0) {
+        [memoInfoDictionary setObject:record.note forKey:MPMediaItemPropertyAlbumTitle];
+    }
+    if ([record.length integerValue] > 0) {
+        [memoInfoDictionary setObject:record.length forKey:MPMediaItemPropertyPlaybackDuration];
+    }
+}
+
+- (void)setLockScreenNowPlayingInfo {
+    if (NSClassFromString(@"MPNowPlayingInfoCenter")) {
+        if (memoInfoDictionary) {
+            //        [dictionary setObject:@"Artist" forKey:MPMediaItemProperty];
+            [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:memoInfoDictionary];
+        }
+    }
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -263,6 +267,9 @@
         [application endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     });
+    
+    [self setLockScreenNowPlayingInfo];
+    [application beginBackgroundTaskWithExpirationHandler:nil];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

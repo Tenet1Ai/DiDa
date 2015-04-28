@@ -25,7 +25,6 @@
     Record *record;
     AVAudioPlayer *audioPlayer;
     NSTimer *timer;
-    NSInteger tag;
     AVAudioSession *session;
     AppDelegate *appDelegate;
     BOOL willUpdateRecord;
@@ -35,6 +34,5 @@
 @property (nonatomic, strong) Record *record;
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic, assign) id<TouchActionsDelegate> delegate;
-@property (nonatomic, assign) NSInteger tag;
 
 @end

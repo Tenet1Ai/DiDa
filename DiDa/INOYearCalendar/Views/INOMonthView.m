@@ -31,24 +31,17 @@
 @implementation INOMonthView
 
 - (id)init {
-    
     self = [super init];
-    
     if (self) {
-        
         _imageView = [[UIImageView alloc] init];
         [self addSubview:_imageView];
-        
     }
-    
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
     [_imageView setFrame:self.bounds];
-    
 }
 
 #pragma mark - Public Methods

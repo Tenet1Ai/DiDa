@@ -18,8 +18,7 @@
 
 @implementation JTCalendarDataCache
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if(!self){
         return nil;
@@ -32,14 +31,12 @@
     return self;
 }
 
-- (void)reloadData
-{
+- (void)reloadData {
     [events removeAllObjects];
 }
 
-- (BOOL)haveEvent:(NSDate *)date
-{
-    if(!self.calendarManager.dataSource){
+- (BOOL)haveEvent:(NSDate *)date {
+    if (!self.calendarManager.dataSource){
         return NO;
     }
     
@@ -50,14 +47,12 @@
     BOOL haveEvent;
     NSString *key = [dateFormatter stringFromDate:date];
     
-    if(events[key] != nil){
+    if (events[key] != nil){
         haveEvent = [events[key] boolValue];
-    }
-    else{
+    } else {
         haveEvent = [self.calendarManager.dataSource calendarHaveEvent:self.calendarManager date:date];
         events[key] = [NSNumber numberWithBool:haveEvent];
     }
-    
     return haveEvent;
 }
 

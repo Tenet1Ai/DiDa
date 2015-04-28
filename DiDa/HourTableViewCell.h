@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HourTableViewCell : UITableViewCell
+@interface HourTableViewCell : UITableViewCell {
+    __weak IBOutlet UILabel *timeLabel;
+}
+
+- (void)initCell:(NSInteger)row;
 
 @end

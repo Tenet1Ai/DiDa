@@ -11,13 +11,15 @@
 #import "MapAnnotation.h"
 #import "AppDelegate.h"
 
+#define kBlue [UIColor colorWithRed:16/255.0 green:109/255.0 blue:255/255.0 alpha:1.0]
+
 @interface DetailViewController () <UIGestureRecognizerDelegate,
 MKMapViewDelegate, AVAudioPlayerDelegate>
 @end
 
 @implementation DetailViewController
 @synthesize delegate;
-@synthesize record, audioPlayer, tag;
+@synthesize record, audioPlayer;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -58,7 +60,11 @@ MKMapViewDelegate, AVAudioPlayerDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     willUpdateRecord = YES;
-    DLog(@"record: %ld", (long)self.tag);
+    if (appDelegate.outputDevice == 0) {
+        self.navigationItem.rightBarButtonItem.tintColor = kBlue;
+    } else {
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor lightGrayColor];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -69,6 +75,9 @@ MKMapViewDelegate, AVAudioPlayerDelegate>
         [self updateNote];
     }
     willUpdateRecord = NO;
+    if (audioPlayer) {
+        appDelegate.audioPlayer = audioPlayer;
+    }
 }
 
 - (void)viewDidLoad {
@@ -156,41 +165,31 @@ MKMapViewDelegate, AVAudioPlayerDelegate>
 }
 
 - (void)updateSlider {
-    if (audioPlayer) {
-        if ([audioPlayer isPlaying]) {
-            if (appDelegate.outputDevice == 0) {
-                if (![session.category isEqualToString:AVAudioSessionCategoryPlayback]) {
-                    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-                    UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
-                    AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
-                    UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
-                    AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(audioRouteOverride), &audioRouteOverride);
-#endif
-                }
+    if (self.view) {
+        if (audioPlayer) {
+            if ([audioPlayer isPlaying]) {
+                [appDelegate switchAudioSessionCategory];
+                // Updates the slider about the music time
+                playSlider.value = audioPlayer.currentTime;
+                NSString *endTimeString = [self stringFromTimeInterval:(audioPlayer.duration - audioPlayer.currentTime)];
+                endLabel.text = [NSString stringWithFormat:@"-%@", endTimeString];
+                NSString *startTimeString = [self stringFromTimeInterval:audioPlayer.currentTime];
+                startLabel.text = startTimeString;
+                playButton.selected = YES;
             } else {
-                if (![session.category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
-                    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-                    UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
-                    AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
-                    UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
-                    AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(audioRouteOverride), &audioRouteOverride);
-#endif
+                [audioPlayer stop];
+                [audioPlayer prepareToPlay];
+                playButton.selected = NO;
+                if (timer) {
+                    [timer invalidate];
+                    timer = nil;
                 }
             }
-            
-            // Updates the slider about the music time
-            playSlider.value = audioPlayer.currentTime;
-            NSString *endTimeString = [self stringFromTimeInterval:(audioPlayer.duration - audioPlayer.currentTime)];
-            endLabel.text = [NSString stringWithFormat:@"-%@", endTimeString];
-            NSString *startTimeString = [self stringFromTimeInterval:audioPlayer.currentTime];
-            startLabel.text = startTimeString;
-            playButton.selected = YES;
-        } else {
-            [audioPlayer stop];
-            [audioPlayer prepareToPlay];
-            playButton.selected = NO;
+        }
+    } else {
+        if (timer) {
+            [timer invalidate];
+            timer = nil;
         }
     }
 }
@@ -203,12 +202,19 @@ MKMapViewDelegate, AVAudioPlayerDelegate>
         }
         playButton.selected = NO;
         [playSlider setValue:0.0];
-        NSString *endTimeString = [self stringFromTimeInterval:audioPlayer.duration];
-        endLabel.text = [NSString stringWithFormat:@"-%@", endTimeString];
+        NSString *endTimeString = nil;
+        if (audioPlayer) {
+            endTimeString = [self stringFromTimeInterval:audioPlayer.duration];
+            endLabel.text = [NSString stringWithFormat:@"-%@", endTimeString];
+        } else {
+            endLabel.text = @"0:00";
+        }
         startLabel.text = @"0:00";
     }
-    [audioPlayer stop];
-    [audioPlayer prepareToPlay];
+    if (audioPlayer) {
+        [audioPlayer stop];
+        [audioPlayer prepareToPlay];
+    }
 }
 
 //- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
@@ -271,7 +277,7 @@ MKMapViewDelegate, AVAudioPlayerDelegate>
     [memoTextField resignFirstResponder];
     DLog(@"1: %@ 2: %@", memoTextField.text, record.memo);
     if (![record.memo isEqualToString:memoTextField.text]) {
-        [self.delegate changeTitleAction:self.tag title:memoTextField.text];
+        [self.delegate changeTitleAction:memoTextField.text];
     }
 }
 
@@ -279,7 +285,7 @@ MKMapViewDelegate, AVAudioPlayerDelegate>
     [locationTextView resignFirstResponder];
     DLog(@"1: %@ 2: %@", locationTextView.text, record.note);
     if (![record.location isEqualToString:locationTextView.text]) {
-        [self.delegate changeNoteAction:self.tag text:locationTextView.text];
+        [self.delegate changeNoteAction:locationTextView.text];
     }
 }
 
@@ -305,6 +311,18 @@ MKMapViewDelegate, AVAudioPlayerDelegate>
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)tapSpeakerButton:(id)sender {
+    DLog(@"%ld", (long)appDelegate.outputDevice);
+    if (appDelegate.outputDevice == 0) {
+        appDelegate.outputDevice = 1;
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor lightGrayColor];
+    } else {
+        appDelegate.outputDevice = 0;
+        self.navigationItem.rightBarButtonItem.tintColor = kBlue;
+    }
+    [appDelegate switchAudioSessionCategory];
+}
+
 - (IBAction)touchPlayButton:(id)sender {
     if (playButton.selected == YES) {
         playButton.selected = NO;
@@ -319,10 +337,6 @@ MKMapViewDelegate, AVAudioPlayerDelegate>
         timer = [NSTimer scheduledTimerWithTimeInterval:0.2
                                                  target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];
     }
-}
-
-- (IBAction)touchBackButton:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)touchDoneButton:(id)sender {
@@ -347,7 +361,7 @@ MKMapViewDelegate, AVAudioPlayerDelegate>
     } else {
         titleString = @"Voice Memo";
     }
-    [self.delegate touchedShareButton:self.tag title:titleString];
+    [self.delegate touchedShareButton:titleString];
 }
 
 - (IBAction)touchDeleteButton:(id)sender {
@@ -372,7 +386,7 @@ MKMapViewDelegate, AVAudioPlayerDelegate>
             audioPlayer = nil;
         }
         willUpdateRecord = NO;
-        [self.delegate touchedDeleteButton:self.tag title:record.memo isInView:NO];
+        [self.delegate touchedDeleteButton:record.memo isInView:NO];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

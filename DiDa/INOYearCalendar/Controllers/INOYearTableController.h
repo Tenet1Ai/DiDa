@@ -15,12 +15,23 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AppDelegate.h"
 
 @interface INOYearTableController : UIViewController {
+    __weak IBOutlet UITableView *searchTableView;
     __weak IBOutlet UITableView *yearTableView;
     __weak IBOutlet UIView *bottomView;
     NSInteger tagSelected;
     NSIndexPath *nowIndexPath;
+    __weak IBOutlet UISearchBar *memoSearchBar;
+    AppDelegate *appDelegate;
+    NSIndexPath *selectedIndexPath;
+    AVAudioPlayer *audioPlayer;
+    NSString *filePathString;
+    NSString *shareText;
+    NSString *shareURL;
+    
+    NSInteger numberOfSharedItems;
 }
 
 @end

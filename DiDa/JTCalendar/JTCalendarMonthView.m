@@ -148,8 +148,7 @@
     }
 }
 
-- (void)reloadData
-{
+- (void)reloadData {
     for(JTCalendarWeekView *view in weeksViews){
         [view reloadData];
         

@@ -8,7 +8,6 @@
 
 #import "Record.h"
 
-
 @implementation Record
 
 @dynamic date;
@@ -21,9 +20,10 @@
 @dynamic path;
 @dynamic unit;
 @dynamic category;
+@dynamic section;
 
-+ (NSArray *)eventsFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate inContext:(NSManagedObjectContext *)context {
-    
++ (NSArray *)eventsFromDate:(NSDate *)fromDate
+                     toDate:(NSDate *)toDate inContext:(NSManagedObjectContext *)context {
     NSEntityDescription *eventEntity = [NSEntityDescription entityForName:NSStringFromClass([Record class]) inManagedObjectContext:context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:eventEntity];

@@ -20,4 +20,12 @@
     // Configure the view for the selected state
 }
 
+- (void)initCell:(NSInteger)row {
+    if (row < 10) {
+        timeLabel.text = [NSString stringWithFormat:@"0%ld:00", (long)row];
+    } else {
+        timeLabel.text = [NSString stringWithFormat:@"%ld:00", (long)row];
+    }
+}
+
 @end

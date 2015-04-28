@@ -31,7 +31,7 @@
     self.memoLabel.text = record.memo;
     NSTimeZone *timezone = [NSTimeZone systemTimeZone];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-d HH:mm:ss"];
+    [formatter setDateFormat:@"d/MM/YYYY HH:mm:ss"];
     [formatter setTimeZone:timezone];
     NSString *correctDate = [formatter stringFromDate:record.date];
     self.dateLabel.text = correctDate;

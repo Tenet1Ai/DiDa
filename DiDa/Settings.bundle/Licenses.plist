@@ -65,6 +65,40 @@
 			<key>File</key>
 			<string>FDWaveformView</string>
 		</dict>
+		<dict>
+			<key>New item</key>
+			<dict>
+				<key>Type</key>
+				<string>PSChildPaneSpecifier</string>
+				<key>Title</key>
+				<string>DMPasscode</string>
+				<key>File</key>
+				<string>DMPasscode</string>
+			</dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>FSCalendar</string>
+			<key>File</key>
+			<string>FSCalendar</string>
+		</dict>
+		<dict>
+			<key>New item</key>
+			<dict>
+				<key>Type</key>
+				<string>PSChildPaneSpecifier</string>
+				<key>Title</key>
+				<string>DMPasscode</string>
+				<key>File</key>
+				<string>DMPasscode</string>
+			</dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>JTCalendar</string>
+			<key>File</key>
+			<string>JTCalendar</string>
+		</dict>
 	</array>
 </dict>
 </plist>

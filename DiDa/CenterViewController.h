@@ -10,16 +10,15 @@
 #import "PlayTableViewCell.h"
 
 @interface CenterViewController : UITableViewController <TouchActionsDelegate> {
-    NSInteger selectedRow;
-    NSInteger tagSelected;
+    NSIndexPath *selectedIndexPath;
     NSInteger originalRows;
     AVAudioPlayer *audioPlayer;
     NSTimeInterval currentTime;
-    AVAudioSession *session;
     AppDelegate *appDelegate;
     NSString *filePathString;
     NSString *shareText;
     NSString *shareURL;
+    NSInteger numberOfSharedItems;
 }
 
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;

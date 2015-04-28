@@ -18,6 +18,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import "AppDelegate.h"
+#import "NSDate+FSExtension.h"
 
 @interface CenterViewController () <NSFetchedResultsControllerDelegate,
 AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
@@ -30,11 +31,36 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
 @implementation CenterViewController
 @synthesize audioPlayer;
 
-- (IBAction)tapBackButton:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+- (void)sortData {
+    if (appDelegate.dataSort == 0) {
+        appDelegate.dataSort = 1;
+    } else {
+        appDelegate.dataSort = 0;
+    }
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithLong:appDelegate.dataSort] forKey:@"AppDataSort"];
+    [userDefaults synchronize];
+    [self resetBarButtons];
+    _fetchedResultsController = nil;
+    [self.tableView reloadData];
 }
 
-- (IBAction)tapAddButton:(id)sender {
+- (void)resetBarButtons {
+    UIBarButtonItem *firstItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                               target:self action:@selector(goToRecorder)];
+    UIBarButtonItem *secondItem = nil;
+    if (appDelegate.dataSort == 0) {
+        secondItem = [[UIBarButtonItem alloc] initWithTitle:@"⬆︎"
+                                                      style:UIBarButtonItemStyleBordered target:self action:@selector(sortData)];
+    } else {
+        secondItem = [[UIBarButtonItem alloc] initWithTitle:@"⬇︎"
+                                                      style:UIBarButtonItemStyleBordered target:self action:@selector(sortData)];
+    }
+    NSArray *itemsArray = @[firstItem, secondItem];
+    self.navigationItem.rightBarButtonItems = itemsArray;
+}
+
+- (void)goToRecorder {
     if (audioPlayer) {
         if ([audioPlayer isPlaying]) {
             [audioPlayer pause];
@@ -42,7 +68,7 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
         [audioPlayer stop];
         [audioPlayer prepareToPlay];
     }
-    [self performSegueWithIdentifier:@"pushToRec" sender:@"tapAddButton"];
+    [self performSegueWithIdentifier:@"pushToRec" sender:@"pushToRec"];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -56,12 +82,10 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    DLog("Path: %@", [self applicationDocumentsDirectory]);
+
     originalRows = 0;
-    selectedRow = -1;
-    tagSelected = -1;
+    selectedIndexPath = [NSIndexPath indexPathForRow:-1 inSection:-1];
     appDelegate = [[UIApplication sharedApplication] delegate];
-    appDelegate.voiceIndex = 0;
     UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:nil];
     [self.tableView addGestureRecognizer:tapRec];
     tapRec.delegate = self;
@@ -69,11 +93,29 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
     currentTime = 0.0;
     filePathString = nil;
     audioPlayer = nil;
+    
+    numberOfSharedItems = 5;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self resetBarButtons];
+    if (selectedIndexPath.row != -1 && selectedIndexPath.section != -1) {
+        NSArray *indexPaths= [NSArray arrayWithObjects:selectedIndexPath, nil];
+        [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - common functions
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
 //    DLog(@"%@", NSStringFromClass([touch.view class]));
@@ -86,44 +128,9 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
         || [classString isEqualToString:@"_UITableViewCellActionButton"]) {
         return NO;
     } else {
-        selectedRow = -1;
-        tagSelected = -1;
+        selectedIndexPath = [NSIndexPath indexPathForRow:-1 inSection:-1];
         [self.tableView reloadData];
         return YES;
-    }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Player Control
-
-- (void)switchAudioSessionCategory {
-//    DLog(@"min: %d", __IPHONE_OS_VERSION_MIN_REQUIRED);
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    if (appDelegate.outputDevice == 0) {
-        if (![audioSession.category isEqualToString:AVAudioSessionCategoryPlayback]) {
-            DLog(@"__IPHONE_OS_VERSION_MIN_REQUIRED");
-            [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-            UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
-            AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
-            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
-            AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(audioRouteOverride), &audioRouteOverride);
-#endif
-        }
-    } else {
-        if (![audioSession.category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
-            [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-            UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
-            AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
-            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
-            AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(audioRouteOverride), &audioRouteOverride);
-#endif
-        }
     }
 }
 
@@ -143,13 +150,14 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
         audioPlayer.delegate = self;
         [audioPlayer prepareToPlay];
         filePathString = pathString;
+        [appDelegate setFileProtectionNone:filePath];
     }
 }
 
 - (BOOL)isPlaying {
     if (audioPlayer) {
         if ([audioPlayer isPlaying]) {
-            [self switchAudioSessionCategory];
+            [appDelegate switchAudioSessionCategory];
             return YES;
         }
     }
@@ -179,19 +187,6 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
     }
 }
 
-- (void)touchedPlayButton:(NSInteger)tag path:(NSString *)pathString sender:(id)sender {
-    UIButton *playButton = (UIButton *)sender;
-    if (playButton.selected == NO) {
-        [self loadAudioFile:pathString];
-        if ((currentTime > 0.0) && (currentTime < audioPlayer.duration)) {
-            [audioPlayer setCurrentTime:currentTime];
-        }
-        [audioPlayer play];
-    } else {
-        [audioPlayer stop];
-    }
-}
-
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     if (flag) {
         currentTime = 0.0;
@@ -200,10 +195,8 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
     [audioPlayer prepareToPlay];
 }
 
-#pragma mark - Table view data source
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == selectedRow) {
+    if (indexPath.row == selectedIndexPath.row && indexPath.section == selectedIndexPath.section) {
         return 144;
     }
     return 49;
@@ -222,17 +215,29 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
         numberOfRows = [sectionInfo numberOfObjects];
     }
     if (numberOfRows == 0) {
-        selectedRow = -1;
-        tagSelected = -1;
+        selectedIndexPath = [NSIndexPath indexPathForRow:-1 inSection:-1];
     }
-    appDelegate = [[UIApplication sharedApplication] delegate];
-    appDelegate.voiceIndex = numberOfRows + 1;
     originalRows = numberOfRows;
     return numberOfRows;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    id <NSFetchedResultsSectionInfo> theSection = [[self.fetchedResultsController sections] objectAtIndex:section];
+    NSString *sectionName = [theSection name];
+    NSInteger sectionInteger = [sectionName integerValue];
+    if (sectionInteger > 0) {
+        NSInteger year = sectionInteger / 1000;
+        NSInteger month = sectionInteger - year * 1000;
+        NSDate *date = [NSDate fs_dateWithYear:year month:month day:1];
+        NSString *dateString = [date fs_stringWithFormat:@"MMMM yyyy"];
+        return dateString;
+    } else {
+        return @" ";
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == selectedRow) {
+    if (indexPath.row == selectedIndexPath.row && indexPath.section == selectedIndexPath.section) {
         static NSString *kPlayCellID = @"PlayCellID";
         PlayTableViewCell *cell = (PlayTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kPlayCellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -253,7 +258,7 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (selectedRow == indexPath.row) {
+    if (selectedIndexPath.row == indexPath.row && selectedIndexPath.section == indexPath.section) {
         return;
     }
     if (audioPlayer) {
@@ -264,18 +269,25 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
         currentTime = 0.0;
     }
 
-    NSIndexPath *origIndexPath = [NSIndexPath indexPathForRow:selectedRow inSection:0];
-    NSArray *indexPaths = [NSArray arrayWithObjects:indexPath, origIndexPath, nil];
-    selectedRow = indexPath.row;
+    NSIndexPath *origIndexPath = [NSIndexPath indexPathForRow:selectedIndexPath.row
+                                                    inSection:selectedIndexPath.section];
+    NSArray *indexPaths = nil;
+    if (selectedIndexPath.row == -1) {
+        indexPaths = [NSArray arrayWithObjects:indexPath, nil];
+    } else {
+        indexPaths = [NSArray arrayWithObjects:indexPath, origIndexPath, nil];
+    }
+    selectedIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
     [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    [appDelegate setMemoInfo:record];
 }
 
 // Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
-    if (indexPath.row == selectedRow) {
+    if (indexPath.row == selectedIndexPath.row && indexPath.section == selectedIndexPath.section) {
         return NO;
     }
     return YES;
@@ -289,9 +301,8 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        DLog(@"%ld", (long)indexPath.row);
-        tagSelected = indexPath.row;
-        Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+        selectedIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
+        Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:selectedIndexPath];
         NSString *memoString = record.memo;
         NSString *titleString = nil;
         if (memoString && memoString.length > 0) {
@@ -308,60 +319,45 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
     }   
 }
 
-- (void)touchedDetailButton:(NSInteger)tag title:(NSString *)title {
-    DLog(@"touchedDetailButton, tag: %ld", tag);
-    tagSelected = tag;
-    [self performSegueWithIdentifier:@"pushToDetail" sender:@"tapDetailButton"];
-}
-
-- (void)changeTitleAction:(NSInteger)tag title:(NSString *)title {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag inSection:0];
-    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-    NSEntityDescription *ent = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:appDelegate.managedObjectContext];
-    // create an earthquake managed object, but don't insert it in our moc yet
-    Record *newRecord = [[Record alloc] initWithEntity:ent insertIntoManagedObjectContext:nil];
-    newRecord.memo = title;
-    newRecord.date = record.date;
-    newRecord.latitude = record.latitude;
-    newRecord.length = record.length;
-    newRecord.location = record.location;
-    newRecord.note = record.note;
-    newRecord.longitude = record.longitude;
-    newRecord.path = record.path;
-    newRecord.unit = record.unit;
-    
-    if (newRecord) {
-        [appDelegate.managedObjectContext insertObject:newRecord];
-    }
-    if (record) {
-        [appDelegate.managedObjectContext deleteObject:record];
-    }
-
-    NSError *error = nil;
-    if ([appDelegate.managedObjectContext hasChanges]) {
-        if (![appDelegate.managedObjectContext save:&error]) {
-            DLog("Unresolved error %@, %@", error, [error userInfo]);
-            abort();
+- (void)touchedPlayButton:(NSString *)pathString sender:(id)sender {
+    UIButton *playButton = (UIButton *)sender;
+    if (playButton.selected == NO) {
+        [self loadAudioFile:pathString];
+        if ((currentTime > 0.0) && (currentTime < audioPlayer.duration)) {
+            [audioPlayer setCurrentTime:currentTime];
         }
+        [audioPlayer play];
+    } else {
+        [audioPlayer stop];
     }
 }
 
-- (void)changeNoteAction:(NSInteger)tag text:(NSString *)locationText {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag inSection:0];
-    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+- (void)touchedDetailButton:(NSString *)title {
+    [self performSegueWithIdentifier:@"pushToDetail" sender:@"pushToDetail"];
+}
+
+- (void)repalceRecord:(NSInteger)type string:(NSString *)string {
+    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:selectedIndexPath];
     NSEntityDescription *ent = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:appDelegate.managedObjectContext];
     // create an earthquake managed object, but don't insert it in our moc yet
     Record *newRecord = [[Record alloc] initWithEntity:ent insertIntoManagedObjectContext:nil];
     newRecord.memo = record.memo;
+    newRecord.note = record.note;
     newRecord.date = record.date;
     newRecord.latitude = record.latitude;
     newRecord.length = record.length;
     newRecord.location = record.location;
-    newRecord.note = locationText;
     newRecord.longitude = record.longitude;
     newRecord.path = record.path;
     newRecord.unit = record.unit;
-    
+    newRecord.category = record.category;
+    newRecord.section = record.section;
+    if (type == 1) {
+        newRecord.memo = string;
+    } else if (type == 2) {
+        newRecord.note = string;
+    }
+
     if (newRecord) {
         [appDelegate.managedObjectContext insertObject:newRecord];
     }
@@ -378,9 +374,16 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
     }
 }
 
-- (void)touchedDeleteButton:(NSInteger)tag title:(NSString *)title isInView:(BOOL)flag {
+- (void)changeTitleAction:(NSString *)title {
+    [self repalceRecord:1 string:title];
+}
+
+- (void)changeNoteAction:(NSString *)note {
+    [self repalceRecord:2 string:note];
+}
+
+- (void)touchedDeleteButton:(NSString *)title isInView:(BOOL)flag {
     DLog(@"%d", flag);
-    tagSelected = tag;
     if (flag) {
         NSString *titleString = nil;
         if (title && title.length > 0) {
@@ -397,13 +400,9 @@ AVAudioPlayerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
     }
 }
 
-const int numberOfSharedItems = 5;
-
-- (void)touchedShareButton:(NSInteger)tag title:(NSString *)title {
-    DLog(@"%ld", (long)tag);
+- (void)touchedShareButton:(NSString *)title {
     NSArray *activityItems;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tag inSection:0];
-    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:selectedIndexPath];
     if (record) {
         NSString *filePath = [NSString stringWithFormat:@"%@/Documents/%@.m4a", NSHomeDirectory(), record.path];
         NSFileManager *fm = [NSFileManager defaultManager];
@@ -512,9 +511,7 @@ const int numberOfSharedItems = 5;
 }
 
 - (void)deleteAnRecord {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tagSelected inSection:0];
-    tagSelected = -1;
-    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:selectedIndexPath];
     if (record) {
         NSFileManager *fm = [NSFileManager defaultManager];
         NSError *error = nil;
@@ -545,30 +542,28 @@ const int numberOfSharedItems = 5;
     }
 }
 
-// Returns the path to the application's documents directory.
-- (NSString *)applicationDocumentsDirectory {
-    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-}
-
 // called after fetched results controller received a content change notification
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    selectedRow = -1;
-    tagSelected = -1;
-    NSInteger numberOfRows = 0;
-    NSInteger flag = 0;
-    if ([[self.fetchedResultsController sections] count] > 0) {
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
-        numberOfRows = [sectionInfo numberOfObjects];
-        if (numberOfRows > originalRows) {
-            flag = 1;
-        }
-    }
+//    selectedIndexPath = [NSIndexPath indexPathForRow:-1 inSection:-1];
+//    _fetchedResultsController = nil;
     [self.tableView reloadData];
-    if (flag == 1) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    }
+//    NSInteger numberOfRows = 0;
+//    NSInteger flag = 0;
+//    if ([[self.fetchedResultsController sections] count] > 0) {
+//        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
+//        numberOfRows = [sectionInfo numberOfObjects];
+//        if (numberOfRows > originalRows) {
+//            flag = 1;
+//        }
+//    }
+//    [self.tableView reloadData];
+//    if (flag == 1) {
+//        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//    }
 }
+
+#pragma mark -
 
 - (NSFetchedResultsController *)fetchedResultsController {
     // Set up the fetched results controller if needed.
@@ -582,9 +577,9 @@ const int numberOfSharedItems = 5;
     
         BOOL flag = NO;
         if (appDelegate.dataSort == 0) {
-            flag = NO;
-        } else {
             flag = YES;
+        } else {
+            flag = NO;
         }
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:flag];
         NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
@@ -596,7 +591,7 @@ const int numberOfSharedItems = 5;
         NSFetchedResultsController *aFetchedResultsController =
         [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                             managedObjectContext:appDelegate.managedObjectContext
-                                              sectionNameKeyPath:nil
+                                              sectionNameKeyPath:@"section"
                                                        cacheName:nil];
         self.fetchedResultsController = aFetchedResultsController;
         self.fetchedResultsController.delegate = self;
@@ -623,11 +618,10 @@ const int numberOfSharedItems = 5;
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     UIViewController *viewController = segue.destinationViewController;
-    if ([sender isEqualToString:@"tapAddButton"]) {
+    if ([sender isEqualToString:@"pushToRec"]) {
     }
-    if ([sender isEqualToString:@"tapDetailButton"]) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tagSelected inSection:0];
-        Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    if ([sender isEqualToString:@"pushToDetail"]) {
+        Record *record = (Record *)[self.fetchedResultsController objectAtIndexPath:selectedIndexPath];
         if (record) {
             [self loadAudioFile:record.path];
             if ([viewController respondsToSelector:@selector(setRecord:)]) {
@@ -641,9 +635,6 @@ const int numberOfSharedItems = 5;
         }
         if ([viewController respondsToSelector:@selector(setDelegate:)]) {
             [viewController setValue:self forKey:@"delegate"];
-        }
-        if ([viewController respondsToSelector:@selector(setTag:)]) {
-            [viewController setValue:[NSNumber numberWithInteger:tagSelected] forKey:@"tag"];
         }
     }
 }

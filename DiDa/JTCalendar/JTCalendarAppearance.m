@@ -33,13 +33,13 @@
     self.autoChangeMonth = YES;
     
     self.dayCircleRatio = 1.;
-    self.dayDotRatio = 1. / 9.;
+    self.dayDotRatio = 1. / 7.;
     
     self.menuMonthTextFont = [UIFont systemFontOfSize:17.];
     self.weekDayTextFont = [UIFont systemFontOfSize:11];
     self.dayTextFont = [UIFont systemFontOfSize:[UIFont systemFontSize]];
 
-    self.dayFormat = @"dd";
+    self.dayFormat = @"d";
 
     // Day Background and Border
     self.dayBackgroundColor = [UIColor clearColor];
@@ -89,8 +89,7 @@
     };
 }
 
-- (NSCalendar *)calendar
-{
+- (NSCalendar *)calendar {
     static NSCalendar *calendar;
     static dispatch_once_t once;
     
@@ -106,8 +105,7 @@
     return calendar;
 }
 
-- (void)setDayDotColorForAll:(UIColor *)dotColor
-{
+- (void)setDayDotColorForAll:(UIColor *)dotColor {
     self.dayDotColor = dotColor;
     self.dayDotColorSelected = dotColor;
     
@@ -118,8 +116,7 @@
     self.dayDotColorTodayOtherMonth = dotColor;
 }
 
-- (void)setDayTextColorForAll:(UIColor *)textColor
-{
+- (void)setDayTextColorForAll:(UIColor *)textColor {
     self.dayTextColor = textColor;
     self.dayTextColorSelected = textColor;
     

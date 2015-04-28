@@ -35,8 +35,7 @@ static NSArray *cacheDaysOfWeeks;
     return self;
 }
 
-- (void)commonInit
-{    
+- (void)commonInit {    
     for(NSString *day in [self daysOfWeek]){
         UILabel *view = [UILabel new];
         
@@ -50,9 +49,8 @@ static NSArray *cacheDaysOfWeeks;
     }
 }
 
-- (NSArray *)daysOfWeek
-{
-    if(cacheDaysOfWeeks){
+- (NSArray *)daysOfWeek {
+    if(cacheDaysOfWeeks) {
         return cacheDaysOfWeeks;
     }
     
@@ -71,10 +69,10 @@ static NSArray *cacheDaysOfWeeks;
             break;
     }
     
-    for(NSInteger i = 0; i < days.count; ++i){
-        NSString *day = days[i];
-        [days replaceObjectAtIndex:i withObject:[day uppercaseString]];
-    }
+//    for (NSInteger i = 0; i < days.count; ++i){
+//        NSString *day = days[i];
+//        [days replaceObjectAtIndex:i withObject:[day uppercaseString]];
+//    }
     
     // Redorder days for be conform to calendar
     {
@@ -92,8 +90,7 @@ static NSArray *cacheDaysOfWeeks;
     return cacheDaysOfWeeks;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     CGFloat x = 0;
     CGFloat width = self.frame.size.width / 7.;
     CGFloat height = self.frame.size.height;
@@ -114,13 +111,11 @@ static NSArray *cacheDaysOfWeeks;
     // No need to call [super layoutSubviews]
 }
 
-+ (void)beforeReloadAppearance
-{
++ (void)beforeReloadAppearance {
     cacheDaysOfWeeks = nil;
 }
 
-- (void)reloadAppearance
-{
+- (void)reloadAppearance {
     for(int i = 0; i < self.subviews.count; ++i){
         UILabel *view = [self.subviews objectAtIndex:i];
         

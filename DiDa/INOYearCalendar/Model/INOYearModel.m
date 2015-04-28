@@ -19,6 +19,8 @@
 #import "INOOperationQueue.h"
 #import "AppDelegate.h"
 #import "Record.h"
+#import "NSDate+INOHelpers.h"
+#import "NSDate+FSExtension.h"
 
 static NSUInteger const kMonthsInSingleYear = 12;
 
@@ -63,27 +65,35 @@ static NSUInteger const kMonthsInSingleYear = 12;
     INOOperation *operation = [[INOOperation alloc] initWithMainManagedObjectContext:[appDelegate managedObjectContext]];
     
     BlockOperation block = ^id(NSManagedObjectContext *privateContext, CancelObservingBlock isCancelled) {
-        
         NSDate *beginningOfYear = [yearDate beginningOfYear];
         NSDate *endOfYear = [yearDate endOfYear];
         
         NSArray *records = [Record eventsFromDate:beginningOfYear toDate:endOfYear inContext:privateContext];
-        
         NSMutableDictionary *eventsForDates = [NSMutableDictionary dictionary];
+        BOOL hasZeroRecord = NO;
         for (Record *record in records) {
+            if (record.section == 0) {
+                hasZeroRecord = YES;
+                NSDate *date = record.date;
+                NSInteger year = [date fs_year];
+                NSInteger month = [date fs_month];
+                record.section = [NSNumber numberWithInteger:(year * 1000 + month)];
+                [privateContext refreshObject:record mergeChanges:YES];
+            }
             NSDate *searchKey = [record.date beginningOfDay];
             NSMutableArray *eventsForDay = [eventsForDates objectForKey:searchKey];
-            
             if (!eventsForDay) {
                 eventsForDay = [NSMutableArray array];
             }
-            
             [eventsForDay addObject:record];
             [eventsForDates setObject:eventsForDay forKey:searchKey];
             
             if (isCancelled()) {
                 return nil;
             }
+        }
+        if (hasZeroRecord == YES) {
+            [privateContext save:nil];
         }
         
         NSMutableArray *monthsImages = [NSMutableArray array];
@@ -116,7 +126,6 @@ static NSUInteger const kMonthsInSingleYear = 12;
     [operation setTag:cancelTag];
     
     [_queue addOperation:operation];
-    
 }
 
 - (void)suspendLoadingOperations {

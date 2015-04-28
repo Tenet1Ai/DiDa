@@ -348,12 +348,14 @@
     float centerLeft = halfGraphHeight;
     float sampleAdjustmentFactor = imageHeight / (normalizeMax - noiseFloor) / 2;
     
-    for (NSInteger intSample=0; intSample<sampleCount; intSample++) {
+    for (NSInteger intSample = 0; intSample < sampleCount; intSample++) {
         Float32 sample = *samples++;
         float pixels = (sample - noiseFloor) * sampleAdjustmentFactor;
-        CGContextMoveToPoint(context, intSample, centerLeft-pixels);
-        CGContextAddLineToPoint(context, intSample, centerLeft+pixels);
-        CGContextStrokePath(context);
+        if (!isnan(pixels)) {
+            CGContextMoveToPoint(context, intSample, centerLeft - pixels);
+            CGContextAddLineToPoint(context, intSample, centerLeft + pixels);
+            CGContextStrokePath(context);
+        }
     }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();

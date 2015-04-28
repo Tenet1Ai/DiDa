@@ -105,20 +105,8 @@
 	[recorder prepareToRecord];
 	recorder.meteringEnabled = YES;
     
-    error = nil;
-    NSDictionary *oldAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:&error];
-    DLog(@"error: %@", error);
-    NSMutableDictionary *newAttributes = nil;
-    if (oldAttributes) {
-        newAttributes = [[NSMutableDictionary alloc]initWithDictionary:oldAttributes];
-    } else {
-        newAttributes = [[NSMutableDictionary alloc] init];
-    }
-    [newAttributes setObject:NSFileProtectionNone forKey:NSFileProtectionKey];
-    [[NSFileManager defaultManager] setAttributes:newAttributes
-                                     ofItemAtPath:filePath
-                                            error:&error];
-    DLog(@"error: %@", error);
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate setFileProtectionNone:filePath];
 	
 	BOOL audioHWAvailable = audioSession.inputAvailable;
 	if (! audioHWAvailable) {
@@ -174,31 +162,6 @@
     [self addSoundMeterItem:[recorder averagePowerForChannel:0]];
 }
 
-- (void)switchAudioSessionCategory {
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    DLog(@"%@", audioSession.category);
-    if (appDelegate.outputDevice == 0) {
-        if (![audioSession.category isEqualToString:AVAudioSessionCategoryPlayback]) {
-            [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-            UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
-            AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
-            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
-            AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(audioRouteOverride), &audioRouteOverride);
-#endif
-        }
-    } else {
-        if (![audioSession.category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
-            [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
-            AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(audioRouteOverride), &audioRouteOverride);
-#endif
-        }
-    }
-}
-
 - (void)cancelRecording {
     if ([self.delegate respondsToSelector:@selector(voiceRecordCancelledByUser:)]) {
         [self.delegate voiceRecordCancelledByUser:self];
@@ -206,13 +169,15 @@
     
     [recorder stop];
     isRecording = [recorder isRecording];
-    [self switchAudioSessionCategory];
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate switchAudioSessionCategory];
 }
 
 - (void)commitRecording {
     [recorder stop];
     isRecording = [recorder isRecording];
-    [self switchAudioSessionCategory];
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate switchAudioSessionCategory];
     if (timer) {
         [timer invalidate];
         timer = nil;

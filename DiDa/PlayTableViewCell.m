@@ -9,6 +9,8 @@
 #import "PlayTableViewCell.h"
 #import "AppDelegate.h"
 
+#define kBlue [UIColor colorWithRed:16/255.0 green:109/255.0 blue:255/255.0 alpha:1.0]
+
 @implementation PlayTableViewCell
 @synthesize delegate;
 
@@ -30,15 +32,15 @@
 
 - (IBAction)touchDeleteButton:(id)sender {
 //    DLog(@"%@ %d", [sender class], self.tag);
-    [delegate touchedDeleteButton:self.tag title:memoLabel.text isInView:YES];
+    [delegate touchedDeleteButton:memoLabel.text isInView:YES];
 }
 
 - (IBAction)touchShareButton:(id)sender {
-    [delegate touchedShareButton:self.tag title:memoLabel.text];
+    [delegate touchedShareButton:memoLabel.text];
 }
 
 - (IBAction)touchDetailButton:(id)sender {
-    [delegate touchedDetailButton:self.tag title:memoLabel.text];
+    [delegate touchedDetailButton:memoLabel.text];
 }
 
 - (NSString *)stringFromTimeInterval:(NSTimeInterval)interval {
@@ -56,6 +58,12 @@
 }
 
 - (void)configureWithRecord:(Record *)record {
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    if (appDelegate.outputDevice == 0) {
+        [speakerButton setTintColor:kBlue];
+    } else {
+        [speakerButton setTintColor:[UIColor lightGrayColor]];
+    }
     UIImage *img = [UIImage imageNamed:@"mark"];
     [playSlider setThumbImage:img forState:UIControlStateNormal];
     pathString = record.path;
@@ -71,7 +79,7 @@
     memoLabel.text = record.memo;
     NSTimeZone *timezone = [NSTimeZone systemTimeZone];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-d HH:mm:ss"];
+    [formatter setDateFormat:@"d/MM/YYYY HH:mm:ss"];
     [formatter setTimeZone:timezone];
     NSString *correctDate = [formatter stringFromDate:record.date];
     dateLabel.text = correctDate;
@@ -86,7 +94,7 @@
 }
 
 - (IBAction)touchPlayButton:(id)sender {
-    [self.delegate touchedPlayButton:self.tag path:pathString sender:sender];
+    [self.delegate touchedPlayButton:pathString sender:sender];
     if (playButton.selected == YES) {
         playButton.selected = NO;
         if (timer) {
@@ -103,6 +111,18 @@
     }
 }
 
+- (IBAction)tapSpeakerButton:(id)sender {
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    if (appDelegate.outputDevice == 0) {
+        appDelegate.outputDevice = 1;
+        [speakerButton setTintColor:[UIColor lightGrayColor]];
+    } else {
+        appDelegate.outputDevice = 0;
+        [speakerButton setTintColor:kBlue];
+    }
+    [appDelegate switchAudioSessionCategory];
+}
+
 - (IBAction)sliderChanged:(id)sender {
     [delegate setCurrentTimeOfPlayer:playSlider.value];
     NSTimeInterval timeValue = audioDuration - playSlider.value;
@@ -116,21 +136,30 @@
 }
 
 - (void)updateSlider {
-    NSTimeInterval currentTime = [delegate getCurrentTimeOfPlayer];
-    BOOL isPlaying = [delegate isPlaying];
-    playSlider.value = currentTime;
-    NSTimeInterval timeValue = audioDuration - currentTime;
-    if (timeValue < 0) {
-        timeValue = 0.0;
-    }
-    NSString *endTimeString = [self stringFromTimeInterval:timeValue];
-    endLabel.text = [NSString stringWithFormat:@"-%@", endTimeString];
-    NSString *startTimeString = [self stringFromTimeInterval:currentTime];
-    startLabel.text = startTimeString;
-    if (isPlaying) {
-        playButton.selected = YES;
+    if (self.superview) {
+        if (delegate && [delegate performSelector:@selector(getCurrentTimeOfPlayer)]) {
+            NSTimeInterval currentTime = [delegate getCurrentTimeOfPlayer];
+            BOOL isPlaying = [delegate isPlaying];
+            playSlider.value = currentTime;
+            NSTimeInterval timeValue = audioDuration - currentTime;
+            if (timeValue < 0) {
+                timeValue = 0.0;
+            }
+            NSString *endTimeString = [self stringFromTimeInterval:timeValue];
+            endLabel.text = [NSString stringWithFormat:@"-%@", endTimeString];
+            NSString *startTimeString = [self stringFromTimeInterval:currentTime];
+            startLabel.text = startTimeString;
+            if (isPlaying) {
+                playButton.selected = YES;
+            } else {
+                playButton.selected = NO;
+            }
+        }
     } else {
-        playButton.selected = NO;
+        if (timer) {
+            [timer invalidate];
+            timer = nil;
+        }
     }
 }
 
