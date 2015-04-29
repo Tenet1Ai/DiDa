@@ -17,6 +17,12 @@ DMPasscode [D-32/DMPasscode](https://github.com/D-32/DMPasscode)
 
 POVoiceHUD [polatolu/POVoiceHUD](https://github.com/polatolu/POVoiceHUD)
 
+FSCalendar [f33chobits/FSCalendar](https://github.com/f33chobits/FSCalendar)
+
+JTCalendar [jonathantribouharet/JTCalendar](https://github.com/jonathantribouharet/JTCalendar)
+
+INOYearCalendar [Streetmage/INOYearCalendar](https://github.com/Streetmage/INOYearCalendar)
+
 ## Requirements
 
 - iOS 7.x, iOS 8.x
