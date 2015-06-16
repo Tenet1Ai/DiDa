@@ -3,9 +3,9 @@ With DiDa Memos, you will never miss any important meeting or events.
 
 ## Screenshots
 ![Example](http://iclass.cc/dida/00.png "Example View")
-![Example](http://iclass.cc/dida/11.png "Example View")
-![Example](http://iclass.cc/dida/22.png "Example View")
-![Example](http://iclass.cc/dida/33.png "Example View")
+![Example](http://iclass.cc/dida/01.png "Example View")
+![Example](http://iclass.cc/dida/02.png "Example View")
+![Example](http://iclass.cc/dida/03.png "Example View")
 
 # Download on App Store
 ![Download](http://iclass.cc/dida/d.png "Download View")
